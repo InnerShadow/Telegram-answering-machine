@@ -24,6 +24,6 @@ async def MonitoringByName(name):
 
         last_msg = client.get_messages(user, limit = 1)[0]
 
-        client.add_event_handler(message_handler, event = client.events.NewMessage(chats=[user]))
+        client.add_event_handler(message_handler, event = client.events.NewMessage(chats = [user]))
 
         await client.run_until_disconnected()
