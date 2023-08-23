@@ -1,4 +1,4 @@
-import time
+import asyncio
 
 from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
@@ -7,29 +7,23 @@ from telethon.sessions import StringSession
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
-def MonitoringByName(name):
+async def message_handler(event):
+    await asyncio.sleep(5)
+    sender_id = event.sender_id
+    if sender_id != event.client.uid:
+        await event.reply(event.text)
 
-    last_msg = ""
 
-    with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
+async def MonitoringByName(name):
 
-        client.start(GetPhoneNumber())
+    async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
+
+        await client.start(GetPhoneNumber())
         
-        user = client.get_entity(name)
+        user = await client.get_entity(name)
 
         last_msg = client.get_messages(user, limit = 1)[0]
 
-        while True:
-            
-            last_message = client.get_messages(user, limit = 1)[0]
+        client.add_event_handler(message_handler, event = client.events.NewMessage(chats=[user]))
 
-            sender_name = last_message.sender.username
-
-            print(last_msg.text, last_message.text, last_message != last_msg, sender_name, '\n', sep = '\n')
-
-            if last_message.text != last_msg.text:
-                last_msg = last_message
-
-                client.send_message(user, last_msg)
-
-            time.sleep(5)
+        await client.run_until_disconnected()

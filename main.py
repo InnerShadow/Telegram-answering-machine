@@ -1,7 +1,9 @@
+import asyncio
+
 from Telegram.MonitoringByName import MonitoringByName
 
 def __main__():
-    MonitoringByName('@Mazar_Nozol')
+    asyncio.run(MonitoringByName('@Mazar_Nozol'))
 
 
 if __name__ == '__main__':
