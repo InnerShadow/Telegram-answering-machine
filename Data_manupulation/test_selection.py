@@ -17,10 +17,16 @@ async def SaveConversationTXT(name):
 
     data = []
 
+    session_file = "session.session"
+
     async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
 
         #Get messages
-        await client.start(GetPhoneNumber())
+        try :
+            await client.start(session_file = session_file)
+        except Exception:
+            await client.start(GetPhoneNumber())
+
         user = await client.get_entity(name)
         data = await client.get_messages(user, limit = 1000)
 
@@ -59,5 +65,9 @@ async def SaveConversationTXT(name):
                 f.write(msg)
 
             f.close()
+
+        #Save session
+        with open(session_file, "w") as f:
+            f.write(client.session.save())
 
     
