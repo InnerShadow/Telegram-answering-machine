@@ -2,6 +2,7 @@ import asyncio
 
 from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
+from telethon.events import NewMessage
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
@@ -10,7 +11,8 @@ async def message_handler(event):
     #Get sleep for 5 seconds to avoid requests spamming
     await asyncio.sleep(5)
     sender_id = event.sender_id
-    if sender_id != event.client.uid:
+    self_id = await event.client.get_me()
+    if sender_id != self_id.id:
         await event.reply(event.text)
 
 
@@ -24,7 +26,8 @@ async def MonitoringByName(name):
         user = await client.get_entity(name)
 
         #Add message_handler to event_handler to track when you get new message
-        client.add_event_handler(message_handler, event = client.events.NewMessage(chats = [user]))
+        eveny_handler = NewMessage(from_users = [user.id])
+        client.add_event_handler(message_handler, eveny_handler)
 
         await client.run_until_disconnected()
 
