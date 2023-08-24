@@ -7,7 +7,7 @@ from telethon.events import NewMessage
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
 #Send message if it sends from a companion
-async def message_handler(event):
+async def message_handler(event, send_msg):
     #Get sleep for 5 seconds to avoid requests spamming
     await asyncio.sleep(5)
     sender_id = event.sender_id
@@ -19,6 +19,8 @@ async def message_handler(event):
 #Function to monitor person's activity in Telegram by his name.
 async def MonitoringByName(name):
 
+    send_msg = "Робот, роботб, робот"
+
     async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
 
         await client.start(GetPhoneNumber())
@@ -27,7 +29,7 @@ async def MonitoringByName(name):
 
         #Add message_handler to event_handler to track when you get new message
         eveny_handler = NewMessage(from_users = [user.id])
-        client.add_event_handler(message_handler, eveny_handler)
+        client.add_event_handler(lambda event : message_handler(event, send_msg), eveny_handler)
 
         await client.run_until_disconnected()
 
