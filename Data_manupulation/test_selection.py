@@ -6,7 +6,8 @@ from telethon.tl.types import MessageMediaDocument
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
-youtube_pattern = r"https://www\.youtube\.com/watch\?v=[\w-]+"
+youtube_pattern0 = r"https://www\.youtube\.com/watch\?v=[\w-]+"
+youtube_pattern1 = r"https://www\.youtu.be\.com/watch\?v=[\w-]+"
 
 tiktok_pattern = r"https://www\.tiktok\.com/\@[\w-]+/video/\d+"
 
@@ -21,12 +22,13 @@ async def SaveConversationTXT(name):
 
     async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
 
-        #Get messages
+        #Try to load session
         try :
             await client.start(session_file = session_file)
         except Exception:
             await client.start(GetPhoneNumber())
 
+        #Get messages
         user = await client.get_entity(name)
         data = await client.get_messages(user, limit = 1000)
 
@@ -45,11 +47,16 @@ async def SaveConversationTXT(name):
 
                 #Else check if companion send some links:
                 else:
-                    youtube_links = re.findall(youtube_pattern, data[i].text)
-                    tiktok_links = re.findall(tiktok_pattern, data[i].text)
-                    other_links = re.split(f"{youtube_pattern}|{tiktok_pattern}", data[i].text)
+                    youtube_links_len = 0
+                    youtube_links = re.findall(youtube_pattern0, data[i].text)
+                    youtube_links_len += len(youtube_links)
+                    youtube_links += re.findall(youtube_pattern1, data[i].text)
+                    youtube_links_len += len(youtube_links)
 
-                    if len(youtube_links) > 0:
+                    tiktok_links = re.findall(tiktok_pattern, data[i].text)
+                    other_links = re.split(f"{youtube_pattern0}|{tiktok_pattern}|{youtube_pattern1}", data[i].text)
+
+                    if youtube_links_len > 0:
                         msg += "Youtube link "
                     if len(tiktok_links) > 0:
                         msg += "Tiktock link "
