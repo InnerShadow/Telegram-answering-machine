@@ -1,4 +1,5 @@
 import asyncio
+import re
 
 from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
@@ -6,7 +7,13 @@ from telethon.tl.types import MessageMediaDocument
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
+youtube_pattern = r"https://www\.youtube\.com/watch\?v=[\w-]+"
+
+tiktok_pattern = r"https://www\.tiktok\.com/\@[\w-]+/video/\d+"
+
 async def SaveConversationTXT(name):
+
+    global youtube_pattern, tiktok_pattern
 
     data = []
 
@@ -31,7 +38,19 @@ async def SaveConversationTXT(name):
                         if data[i].media.document.mime_type == "video/mp4":
                             msg += "Video" + str(size)
                 else:
-                    msg += data[i].text
+
+                    youtube_links = re.findall(youtube_pattern, data[i].text)
+                    tiktok_links = re.findall(tiktok_pattern, data[i].text)
+                    other_links = re.split(f"{youtube_pattern}|{tiktok_pattern}", data[i].text)
+
+                    if len(youtube_links) > 0:
+                        msg += "Youtube link "
+                    if len(tiktok_links) > 0:
+                        msg += "Tiktock link "
+                    if len(other_links) > 0:
+                        msg += "Other link"
+                    else:
+                        msg += data[i].text
 
                 msg += " (" + data[i].sender.username + ")\n"
 
