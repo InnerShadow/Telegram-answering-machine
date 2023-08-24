@@ -19,7 +19,7 @@ async def message_handler(event, send_msg):
 #Function to monitor person's activity in Telegram by his name.
 async def MonitoringByName(name):
 
-    send_msg = "Робот, роботб, робот"
+    send_msg = "Робот, робот, робот"
 
     async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
 
