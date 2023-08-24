@@ -2,11 +2,11 @@ import asyncio
 
 from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
-from telethon.events import NewMessage
+from telethon.tl.types import MessageMediaDocument
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
-async def GetConversationByName(name):
+async def SaveConversationTXT(name):
 
     data = []
 
@@ -16,22 +16,27 @@ async def GetConversationByName(name):
         
         user = await client.get_entity(name)
 
-        print(1010)
-
-        data = await client.get_messages(user, limit = None)
-
-        print(1111)
+        data = await client.get_messages(user, limit = 1000)
 
         print(data)
 
-        print(1212)
-
-        with open('data.txt', 'w') as f:
+        with open('top1000.txt', 'w') as f:
             for i in range(len(data)):
-                f.write(str(data[i].text) + "(" + str(data[i].sender.username) + ")\n")
+                msg = ""
+                if data[i].media:
+                    if isinstance(data[i].media, MessageMediaDocument):
+                        size = data[i].media.document.size
+                        if data[i].media.document.mime_type == "audio/ogg":
+                            msg += "Audio" + str(size) 
+                        if data[i].media.document.mime_type == "video/mp4":
+                            msg += "Video" + str(size)
+                else:
+                    msg += data[i].text
+
+                msg += " (" + data[i].sender.username + ")\n"
+
+                f.write(msg)
 
             f.close()
-
-        print(1313)
 
     
