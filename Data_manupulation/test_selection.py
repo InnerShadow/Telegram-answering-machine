@@ -1,16 +1,14 @@
 import re
 import pickle
 
-from telethon.sync import TelegramClient
-from telethon.sessions import StringSession
 from telethon.tl.types import MessageMediaDocument
-
-from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
 youtube_pattern0 = r"https://www\.youtube\.com/watch\?v=[\w-]+"
 youtube_pattern1 = r"https://www\.youtu\.be/[\w-]+"
 
-tiktok_pattern = r"https://vm\.tiktok\.com/[\w-]"#
+tiktok_pattern = r"https://vm\.tiktok\.com/[\w-]+"
+
+other_links_patter = r"https://[\w-]+"
 
 #Try to classify message. it includs links, media etc.
 def message_preprocessing(data):
@@ -33,7 +31,7 @@ def message_preprocessing(data):
         youtube_links_len += len(youtube_links)
 
         tiktok_links = re.findall(tiktok_pattern, str(data.text))
-        other_links = re.split(f"{youtube_pattern0}|{tiktok_pattern}|{youtube_pattern1}", str(data.text))
+        other_links = re.findall(other_links_patter, str(data.text))
 
         if youtube_links_len > 0:
             msg += "Youtube link. "
@@ -41,6 +39,8 @@ def message_preprocessing(data):
             msg += "Tiktock link. "
         if len(other_links) > 0:
             msg += "Other link. "
+        if youtube_links_len != 0 or len(tiktok_links) != 0 or len(other_links) != 0:
+            return msg
             
     #Add text of the message
     msg += data.text
@@ -49,118 +49,92 @@ def message_preprocessing(data):
 
 
 #Save conversation into .txt if nedeed
-async def SaveConversationTXT(name):
+async def SaveConversationTXT(name, client):
 
     session_file = "session.session"
 
-    async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
+    #Get messages
+    user = await client.get_entity(name)
+    data = await client.get_messages(user, limit = 1000)
 
-        #Try to load session
-        try :
-            with open(session_file, 'rb') as f:
-                session = pickle.load(f)
-                client = TelegramClient(StringSession(session), GetAPIID(), GETAPI_Hash())
-                await client.start()
-        except Exception:
-            await client.start(GetPhoneNumber())
+    #Write1000 it into txt file
+    with open(str(name) + ".txt", 'w') as f:
+        for i in range(len(data)):
+            msg = message_preprocessing(data[i])
+                    
+            #Write down the auther
+            msg += " (" + data[i].sender.username + ")\n"
 
-            with open(session_file, 'wb') as f:
-                pickle.dump(client.session.save(), f)   
+            f.write(msg)
 
-        #Get messages
-        user = await client.get_entity(name)
-        data = await client.get_messages(user, limit = 1000)
-
-        #Write1000 it into txt file
-        with open(str(name) + ".txt", 'w') as f:
-            for i in range(len(data)):
-                msg = message_preprocessing(data[i])
-                        
-                #Write down the auther
-                msg += " (" + data[i].sender.username + ")\n"
-
-                f.write(msg)
-
-            f.close()
+        f.close()
 
 
 #Get first request message index
 def GetFirstRequest(data, self_id):
     ind = 0
-    for i in range(len(data) - 1, -1, -1):
-        if data[i].peer_id.user_id != self_id:
+    for i in range(len(data) - 1, 0, -1):
+        if data[i].sender_id != self_id:
             return i
 
 
 #Get training data to train model
-async def GetTrainDataByName(name):
+async def GetTrainDataByName(name, client):
 
-    session_file = "session.session"
+    self_id = (await client.get_me()).id
 
-    async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
+    #Get messages
+    user = await client.get_entity(name)
+    data = await client.get_messages(user, limit = 1000)
 
-        #Try to load session
-        try :
-            with open(session_file, 'rb') as f:
-                session = pickle.load(f)
-                client = TelegramClient(StringSession(session), GetAPIID(), GETAPI_Hash())
-                await client.start()
-        except Exception as e:
-            print(e)
-            await client.start(GetPhoneNumber())
+    #Do not use np.array to avoid coppy a lot of data
+    #X - request - you're companion message
+    X = []
+    #Y - response you're answer
+    Y = []
 
-        with open(session_file, 'wb') as f:
-            pickle.dump(client.session.save(), f)   
+    #Start with the first conversation message and ends with the lst one
+    #Beat data into requests-response 
+    i = GetFirstRequest(data, self_id)
+    while i >= 0:
+        request = ""
 
-        self_id = await client.get_me()
+        #Get k-th request
+        for j in range(i, 0, -1):
+            if data[j].sender_id != self_id:
+                request += str(message_preprocessing(data[j])) + ". "
+                i -= 1
+            else :
+                break
 
-        #Get messages
-        user = await client.get_entity(name)
-        data = await client.get_messages(user, limit = 1000)
+        X.append(request)
 
-        #Do not use np.array to avoid coppy a lot of data
-        #X - request - you're companion message
-        X = []
-        #Y - response you're answer
-        Y = []
+        response = ""
 
-        #Start with the first conversation message and ends with the lst one
-        #Beat data into requests-response 
-        for i in range(GetFirstRequest(data, self_id), -1, -1):
-            iterator = i
-            request = ""
+        #Get k-th response
+        for j in range(i, 0, -1):
+            if data[j].sender_id == self_id:
+                response += str(message_preprocessing(data[j])) + ". "
+                i -= 1
+            else :
+                break
 
-            #Get k-th request
-            for j in range(iterator, -1, -1):
-                if data[j].peer_id.user_id != self_id:
-                    request += str(message_preprocessing(data[j])) + ". "
-                    i += 1
-                else :
-                    break
+        Y.append(response)
 
-            X.append(request)
+        print(request, response, sep = "\n")
 
-            iterator = i
-            response = ""
+        i -= 1
 
-            #Get k-th response
-            for j in range(iterator, -1, -1):
-                if data[j].peer_id.user_id == self_id:
-                    response += str(message_preprocessing(data[j])) + ". "
-                    i += 1
-                else :
-                    break
+    #Save into txt (temporary solution)
+    with open("X.txt", 'w') as f:
+        for i in X:
+            f.write(i)
+            f.write("\n")
 
-            Y.append(response)
-
-        #Save into txt (temporary solution)
-        with open("X.txt", 'w') as f:
-            f.write(X)
-            f.close()
-
-        with open("Y.txt", 'w') as f:
-            f.write(Y)
-            f.close()
+    with open("Y.txt", 'w') as f:
+        for i in Y:
+            f.write(i)
+            f.write("\n")
 
     return X, Y
 

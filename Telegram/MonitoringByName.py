@@ -17,20 +17,16 @@ async def message_handler(event, send_msg):
 
 
 #Function to monitor person's activity in Telegram by his name.
-async def MonitoringByName(name):
+async def MonitoringByName(name, client):
 
     send_msg = "Робот, робот, робот"
-
-    async with TelegramClient(StringSession(), GetAPIID(), GETAPI_Hash()) as client:
-
-        await client.start(GetPhoneNumber())
         
-        user = await client.get_entity(name)
+    user = await client.get_entity(name)
 
-        #Add message_handler to event_handler to track when you get new message
-        eveny_handler = NewMessage(from_users = [user.id])
-        client.add_event_handler(lambda event : message_handler(event, send_msg), eveny_handler)
+    #Add message_handler to event_handler to track when you get new message
+    eveny_handler = NewMessage(from_users = [user.id])
+    client.add_event_handler(lambda event : message_handler(event, send_msg), eveny_handler)
 
-        await client.run_until_disconnected()
+    await client.run_until_disconnected()
 
 
