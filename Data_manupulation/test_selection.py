@@ -51,8 +51,6 @@ def message_preprocessing(data):
 #Save conversation into .txt if nedeed
 async def SaveConversationTXT(name, client):
 
-    session_file = "session.session"
-
     #Get messages
     user = await client.get_entity(name)
     data = await client.get_messages(user, limit = 1000)
@@ -96,11 +94,12 @@ async def GetTrainDataByName(name, client):
     #Start with the first conversation message and ends with the lst one
     #Beat data into requests-response 
     i = GetFirstRequest(data, self_id)
+    it = 0
     while i >= 0:
         request = ""
 
         #Get k-th request
-        for j in range(i, 0, -1):
+        for j in range(i, -1, -1):
             if data[j].sender_id != self_id:
                 request += str(message_preprocessing(data[j])) + ". "
                 i -= 1
@@ -112,7 +111,7 @@ async def GetTrainDataByName(name, client):
         response = ""
 
         #Get k-th response
-        for j in range(i, 0, -1):
+        for j in range(i, -1, -1):
             if data[j].sender_id == self_id:
                 response += str(message_preprocessing(data[j])) + ". "
                 i -= 1
@@ -121,9 +120,10 @@ async def GetTrainDataByName(name, client):
 
         Y.append(response)
 
-        print(request, response, sep = "\n")
+        print(str(it) +  ": (" + request + ") -- [", response + "]")
 
-        i -= 1
+        #i -= 1
+        it += 1
 
     #Save into txt (temporary solution)
     with open("X.txt", 'w') as f:
