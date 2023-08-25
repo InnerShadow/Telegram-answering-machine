@@ -24,7 +24,7 @@ async def __main__():
 
     #asyncio.run(MonitoringByName('@Mazar_Nozol'))
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
-    await GetTrainDataByName('@Mazar_Nozol', client)
+    await GetTrainDataByName('@Mazar_Nozol', client, 1000)
 
 
 if __name__ == '__main__':

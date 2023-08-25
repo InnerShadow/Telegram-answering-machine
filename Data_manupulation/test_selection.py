@@ -77,13 +77,13 @@ def GetFirstRequest(data, self_id):
 
 
 #Get training data to train model
-async def GetTrainDataByName(name, client):
+async def GetTrainDataByName(name, client, limit = None):
 
     self_id = (await client.get_me()).id
 
     #Get messages
     user = await client.get_entity(name)
-    data = await client.get_messages(user, limit = 1000)
+    data = await client.get_messages(user, limit = limit)
 
     #Do not use np.array to avoid coppy a lot of data
     #X - request - you're companion message
