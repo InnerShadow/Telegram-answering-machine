@@ -9,6 +9,7 @@ tiktok_pattern = r"https://vm\.tiktok\.com/[\w-]+"
 
 other_links_patter = r"https://[\w-]+"
 
+
 #Try to classify message. it includs links, media etc.
 def message_preprocessing(data):
     msg = ""
@@ -42,34 +43,25 @@ def message_preprocessing(data):
             return msg
             
     #Add text of the message
-    msg += data.text
+    msg += str(data.text)
 
     return msg
 
 
 #Save conversation into .txt if nedeed
-async def SaveConversationTXT(name, client):
+def SaveConversationTXT(name, X, Y):
 
-    #Get messages
-    user = await client.get_entity(name)
-    data = await client.get_messages(user, limit = 1000)
+    with open(str(name) + "X.txt", 'w') as f:
+        for i in range(len(X)):
+            f.write(X[i] + "\n")
 
-    #Write1000 it into txt file
-    with open(str(name) + ".txt", 'w') as f:
-        for i in range(len(data)):
-            msg = message_preprocessing(data[i])
-                    
-            #Write down the auther
-            msg += " (" + data[i].sender.username + ")\n"
-
-            f.write(msg)
-
-        f.close()
+    with open(str(name) + "Y.txt", 'w') as f:
+        for i in range(len(Y)):
+            f.write(Y[i] + "\n")
 
 
 #Get first request message index
 def GetFirstRequest(data, self_id):
-    ind = 0
     for i in range(len(data) - 1, 0, -1):
         if data[i].sender_id != self_id:
             return i
@@ -119,24 +111,9 @@ async def GetTrainDataByName(name, client, limit = None):
 
         Y.append(response)
 
-        print(str(it) +  ": (" + request + ") -- [", response + "]")
+        #print(str(it) +  ": (" + request + ") -- [", response + "]")
 
-        #i -= 1
         it += 1
 
-    #Save into txt (temporary solution)
-    with open("X.txt", 'w') as f:
-        for i in X:
-            f.write(i)
-            f.write("\n")
-
-    with open("Y.txt", 'w') as f:
-        for i in Y:
-            f.write(i)
-            f.write("\n")
-
     return X, Y
-
-
-
 
