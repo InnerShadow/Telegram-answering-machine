@@ -29,9 +29,9 @@ async def __main__():
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
 
     name = "@Mazar_Nozol"
-    maxWordsCount = 500
+    maxWordsCount = 2000
 
-    X, Y = await (GetTrainDataByName(name, client, 500))
+    X, Y = await (GetTrainDataByName(name, client, 20000))
     
     tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
     model = CreateRNN(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 200)

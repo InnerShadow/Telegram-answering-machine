@@ -37,21 +37,21 @@ def load_RNN_model(name):
 
 def CreateRNN(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, batch_size = 64, epochs = 50):
 
-    X = tokenizer.texts_to_sequences(X)
-    Y = tokenizer.texts_to_sequences(Y)
+    X_sequences = tokenizer.texts_to_sequences(X)
+    Y_sequences = tokenizer.texts_to_sequences(Y)
 
-    qa_pairs = [(X_seq, Y_seq) for X_seq, Y_seq in zip(X, Y)]
+    qa_pairs = [(X_seq, Y_seq) for X_seq, Y_seq in zip(X_sequences, Y_sequences)]
 
-    train_pairs, test_pairs = train_test_split(qa_pairs, test_size = 0.2)
+    train_pairs, test_pairs = train_test_split(qa_pairs, test_size=0.2)
 
-    X = pad_sequences([pair[0] for pair in train_pairs], maxlen = sequences_len, padding = 'post')
-    Y = pad_sequences([pair[1] for pair in train_pairs], maxlen = sequences_len, padding = 'post')
+    X_train_padded = pad_sequences([pair[0] for pair in train_pairs], maxlen=sequences_len, padding='post')
+    Y_train_padded = pad_sequences([pair[1] for pair in train_pairs], maxlen=sequences_len, padding='post')
 
-    X = pad_sequences([pair[0] for pair in test_pairs], maxlen = sequences_len, padding = 'post')
-    Y = pad_sequences([pair[1] for pair in test_pairs], maxlen = sequences_len, padding = 'post')
+    X_test_padded = pad_sequences([pair[0] for pair in test_pairs], maxlen=sequences_len, padding='post')
+    Y_test_padded = pad_sequences([pair[1] for pair in test_pairs], maxlen=sequences_len, padding='post')
 
-    Y = to_categorical(Y, num_classes = maxWordsCount)
-    Y = to_categorical(Y, num_classes = maxWordsCount)
+    Y_train_padded_categorical = to_categorical(Y_train_padded, num_classes=maxWordsCount)
+    Y_test_padded_categorical = to_categorical(Y_test_padded, num_classes=maxWordsCount)
 
     model = Sequential()
     model.add(Embedding(maxWordsCount, 512, input_length = sequences_len))
@@ -65,7 +65,9 @@ def CreateRNN(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, 
 
     model.summary()
 
-    model.fit(X, Y, epochs = epochs, batch_size = batch_size, validation_data = (X, Y))
+    model.fit(X_train_padded, Y_train_padded_categorical, epochs = 10, batch_size = 32, validation_data = (X_test_padded, Y_test_padded_categorical))
+
+    loss, accuracy = model.evaluate(X_test_padded, Y_test_padded_categorical, verbose=0)
 
     save_RNN_model(name, model)
 
