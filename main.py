@@ -5,6 +5,7 @@ from telethon.sessions import StringSession
 
 from Telegram.MonitoringByName import MonitoringByName
 from Data_manupulation.test_selection import SaveConversationTXT, GetTrainDataByName
+from Data_manupulation.Words_level import setStertEndMarks
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
@@ -20,6 +21,8 @@ async def __main__():
         except Exception:
             password = input("Enter password: ")
             client = await client.sign_in(password = password)
+
+        await client.connect()
 
 
     #asyncio.run(MonitoringByName('@Mazar_Nozol'))

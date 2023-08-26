@@ -1,5 +1,4 @@
 import re
-import pickle
 
 from telethon.tl.types import MessageMediaDocument
 
@@ -137,4 +136,7 @@ async def GetTrainDataByName(name, client, limit = None):
             f.write("\n")
 
     return X, Y
+
+
+
 
