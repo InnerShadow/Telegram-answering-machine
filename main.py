@@ -9,6 +9,8 @@ from Data_manupulation.Words_level import setStertEndMarks
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
+from Model.RNN_model import CreateRNN
+
 async def __main__():
 
     client = TelegramClient(GetPhoneNumber(), GetAPIID(), GETAPI_Hash())
@@ -27,7 +29,14 @@ async def __main__():
 
     #asyncio.run(MonitoringByName('@Mazar_Nozol'))
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
-    await GetTrainDataByName('@Mazar_Nozol', client, 1000)
+
+    name = "@Mazar_Nozol"
+
+    X, Y = await GetTrainDataByName(name, client, 1000)
+
+    X, Y = setStertEndMarks(X), setStertEndMarks(Y)
+    
+    CreateRNN(name, X, Y)
 
 
 if __name__ == '__main__':
