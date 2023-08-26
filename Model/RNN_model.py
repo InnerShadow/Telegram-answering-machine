@@ -9,9 +9,6 @@ from keras.preprocessing.sequence import pad_sequences
 from sklearn.model_selection import train_test_split
 from keras.utils import to_categorical
 
-from Model.Tokenizer import get_Tokinazer
-from Data_manupulation.test_selection import GetTrainDataByName
-
 def Get_RNN_model_answer(model, tokenizer, msg, sequences_len = 100):
 
     new_questions = msg
