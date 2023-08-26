@@ -54,18 +54,18 @@ def CreateRNN(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, 
     Y_test_padded_categorical = to_categorical(Y_test_padded, num_classes=maxWordsCount)
 
     model = Sequential()
-    model.add(Embedding(maxWordsCount, 512, input_length = sequences_len))
+    model.add(Embedding(maxWordsCount, 1025, input_length = sequences_len))
+    model.add(GRU(512, return_sequences = True))
+    model.add(GRU(256, return_sequences = True))
     model.add(GRU(128, return_sequences = True))
-    model.add(GRU(64, return_sequences = True))
-    model.add(GRU(32, return_sequences = True))
-    model.add(GRU(64))
+    model.add(Dense(512))
     model.add(Dense(maxWordsCount, activation = 'softmax'))
 
     model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
 
     model.summary()
 
-    model.fit(X_train_padded, Y_train_padded_categorical, epochs = 10, batch_size = 32, validation_data = (X_test_padded, Y_test_padded_categorical))
+    model.fit(X_train_padded, Y_train_padded_categorical, epochs = epochs, batch_size = batch_size, validation_data = (X_test_padded, Y_test_padded_categorical))
 
     loss, accuracy = model.evaluate(X_test_padded, Y_test_padded_categorical, verbose=0)
 

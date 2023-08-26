@@ -29,15 +29,15 @@ async def __main__():
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
 
     name = "@Mazar_Nozol"
-    maxWordsCount = 2000
+    maxWordsCount = 2500
 
-    X, Y = await (GetTrainDataByName(name, client, 20000))
+    X, Y = await (GetTrainDataByName(name, client, 10000))
     
     tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
-    model = CreateRNN(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 200)
+    model = CreateRNN(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 150)
     #model, tokenizer = load_RNN_model(name)
 
-    print(Get_RNN_model_answer(model, tokenizer, "Мне показалось, что не сработало"))
+    print("Answ: ", Get_RNN_model_answer(model, tokenizer, "Мне показалось, что не сработало"))
 
 
 if __name__ == '__main__':
