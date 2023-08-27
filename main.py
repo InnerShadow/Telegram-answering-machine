@@ -30,14 +30,15 @@ async def __main__():
 
     name = "@Mazar_Nozol"
     maxWordsCount = 126
+    sequences_len = 126
 
-    X, Y = await (GetTrainDataByName(name, client, 2000))
+    X, Y = await (GetTrainDataByName(name, client, 10000))
     
     tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount, char_level = True)
-    model = CreateRNN_char_edit(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 150, sequences_len = 1026)
-    #model, tokenizer = load_RNN_model(name)
+    model = CreateRNN_char_edit(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 300, sequences_len = sequences_len)
+    #model = load_RNN_model(name)
 
-    print("Answ: ", Get_RNN_model_answer(model, tokenizer, "Мне показалось, что не сработало"))
+    print("Answ: ", Get_RNN_model_answer(model, tokenizer, "Мне показалось, что не сработало", sequences_len = sequences_len))
 
 
 if __name__ == '__main__':
