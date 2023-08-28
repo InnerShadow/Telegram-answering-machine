@@ -8,7 +8,7 @@ from Data_manupulation.test_selection import SaveConversationTXT, GetTrainDataBy
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
 from Model.RNN_model import load_RNN_model, RNN_word_continue, RNN_word_edit_QA_model
-from Model.Tokenizer import get_Tokinazer
+from Model.Tokenizer import get_Tokinazer, save_tokinazer, load_tokinazer
 from Data_manupulation.Words_level import Word_level_answer
 
 from keras.preprocessing.sequence import pad_sequences
@@ -31,17 +31,22 @@ async def __main__():
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
 
     name = "@Mazar_Nozol"
-    maxWordsCount = 5000
+    maxWordsCount = 500
     sequences_len = 50
 
-    X, Y = await (GetTrainDataByName(name, client, 5000))
+    X, Y = await (GetTrainDataByName(name, client, 2000))
     
-    tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
+    
+    try:
+        load_tokinazer(name)
+    except Exception:
+        tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
+        save_tokinazer(name, tokenizer)
 
     text = "но вот это божественно"
 
-    #model = RNN_word_edit_QA_model(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 50, sequences_len = sequences_len, batch_size = 128)
-    model = load_RNN_model(name)
+    model = RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 50, sequences_len = sequences_len, batch_size = 64)
+    #model = load_RNN_model(name)
     
     print("Answ: ", Word_level_answer(model, tokenizer, text, sequences_len = sequences_len))
 

@@ -22,18 +22,6 @@ def load_RNN_model(name):
 
 def RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, batch_size = 64, epochs = 50):
 
-    texts = ""
-    for i in range(len(X)):
-        texts += X[i] + " - " + Y[i] + " \n "
-
-    data = tokenizer.texts_to_sequences([texts])
-    res = np.array(data[0])
-
-    n = res.shape[0] - sequences_len
-
-    X = np.array([res[i:i + sequences_len] for i in range(n)])
-    Y = to_categorical(res[sequences_len:], num_classes = maxWordsCount)
-
     model = Sequential()
     model.add(Embedding(maxWordsCount, 1024, input_length = sequences_len))
     model.add(LSTM(512, return_sequences = True))
@@ -46,7 +34,23 @@ def RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len
 
     model.summary()
 
-    model.fit(X, Y, epochs = epochs, batch_size = batch_size)
+    for i in range(epochs):
+        print("epoch " + str(i) + " from " + str(epochs))
+        texts = ""
+        for j in range(batch_size):
+            index = np.random.randint(0, len(X))
+            texts += X[index] + " - " + Y[index] + " \n "
+
+        
+        data = tokenizer.texts_to_sequences([texts])
+        res = np.array(data[0])
+
+        n = res.shape[0] - sequences_len
+
+        X_train = np.array([res[k:k + sequences_len] for k in range(n)])
+        Y_train = to_categorical(res[sequences_len:], num_classes = maxWordsCount)
+
+        model.fit(X_train, Y_train, batch_size = batch_size)
 
     save_RNN_model(name, model)
 
