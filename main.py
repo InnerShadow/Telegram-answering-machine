@@ -7,7 +7,7 @@ from Data_manupulation.test_selection import SaveConversationTXT, GetTrainDataBy
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
-from Model.RNN_model import load_RNN_model, CreateRNN_word_edit_2
+from Model.RNN_model import load_RNN_model, RNN_word_continue, RNN_word_edit_QA_model
 from Model.Tokenizer import get_Tokinazer
 from Data_manupulation.Words_level import Word_level_answer
 
@@ -34,14 +34,14 @@ async def __main__():
     maxWordsCount = 5000
     sequences_len = 50
 
-    X, Y = await (GetTrainDataByName(name, client, 2000))
+    X, Y = await (GetTrainDataByName(name, client, 5000))
     
     tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
 
-    text = "мне показалось что не сработало"
+    text = "но вот это божественно"
 
-    model = CreateRNN_word_edit_2(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 200, sequences_len = sequences_len)
-    #model = load_RNN_model(name)
+    #model = RNN_word_edit_QA_model(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 50, sequences_len = sequences_len, batch_size = 128)
+    model = load_RNN_model(name)
     
     print("Answ: ", Word_level_answer(model, tokenizer, text, sequences_len = sequences_len))
 

@@ -20,51 +20,46 @@ def load_RNN_model(name):
     return model
 
 
-def CreateRNN_word_edit(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, batch_size = 64, epochs = 50):
+def RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, batch_size = 64, epochs = 50):
 
-    X_sequences = tokenizer.texts_to_sequences(X)
-    Y_sequences = tokenizer.texts_to_sequences(Y)
+    texts = ""
+    for i in range(len(X)):
+        texts += X[i] + " - " + Y[i] + " \n "
 
-    qa_pairs = [(X_seq, Y_seq) for X_seq, Y_seq in zip(X_sequences, Y_sequences)]
+    data = tokenizer.texts_to_sequences([texts])
+    res = np.array(data[0])
 
-    train_pairs, test_pairs = train_test_split(qa_pairs, test_size = 0.2)
+    n = res.shape[0] - sequences_len
 
-    X_train_padded = pad_sequences([pair[0] for pair in train_pairs], maxlen=sequences_len, padding='post')
-    Y_train_padded = pad_sequences([pair[1] for pair in train_pairs], maxlen=sequences_len, padding='post')
-
-    X_test_padded = pad_sequences([pair[0] for pair in test_pairs], maxlen=sequences_len, padding='post')
-    Y_test_padded = pad_sequences([pair[1] for pair in test_pairs], maxlen=sequences_len, padding='post')
-
-    Y_train_padded_categorical = to_categorical(Y_train_padded, num_classes=maxWordsCount)
-    Y_test_padded_categorical = to_categorical(Y_test_padded, num_classes=maxWordsCount)
+    X = np.array([res[i:i + sequences_len] for i in range(n)])
+    Y = to_categorical(res[sequences_len:], num_classes = maxWordsCount)
 
     model = Sequential()
-    model.add(Embedding(maxWordsCount, 1025, input_length = sequences_len))
-    model.add(GRU(512, return_sequences = True))
+    model.add(Embedding(maxWordsCount, 1024, input_length = sequences_len))
+    model.add(LSTM(512, return_sequences = True))
     model.add(GRU(256, return_sequences = True))
     model.add(GRU(128, return_sequences = True))
-    model.add(Dense(512))
+    model.add(GRU(64))
     model.add(Dense(maxWordsCount, activation = 'softmax'))
 
     model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
 
     model.summary()
 
-    model.fit(X_train_padded, Y_train_padded_categorical, epochs = epochs, batch_size = batch_size, validation_data = (X_test_padded, Y_test_padded_categorical))
-
-    loss, accuracy = model.evaluate(X_test_padded, Y_test_padded_categorical, verbose=0)
+    model.fit(X, Y, epochs = epochs, batch_size = batch_size)
 
     save_RNN_model(name, model)
 
     return model
 
     
-def CreateRNN_word_edit_2(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, batch_size = 64, epochs = 50):
+def RNN_word_edit_QA_model(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len = 100, batch_size = 64, epochs = 50):
 
     data = word_level_prerpocessing(X, Y, tokenizer, sequences_len)
 
     model = Sequential()
-    model.add(Embedding(maxWordsCount, 512, input_length = sequences_len))
+    model.add(Embedding(maxWordsCount, 1024, input_length = sequences_len))
+    model.add(LSTM(512, return_sequences = True))
     model.add(GRU(256, return_sequences = True))
     model.add(GRU(128))
     model.add(Dense(maxWordsCount, activation = 'softmax'))
@@ -77,15 +72,16 @@ def CreateRNN_word_edit_2(name, X, Y, tokenizer, maxWordsCount = 5000, sequences
 
     for i in range(epochs):
         for j in range(batch_size):
+            print("Batch: " + str(j + 1) + " from " + str(batch_size) + ", epochs: " + str(i + 1) + " from " + str(epochs))
             indx = np.random.randint(0, len(data) - 1)
             res = np.array(data[indx])
 
             n = res.shape[0] - sequences_len
-            
+
             X = np.array([res[i:i + sequences_len] for i in range(n)])
             Y = to_categorical(res[sequences_len:], num_classes = maxWordsCount)
 
-            model.fit(X, Y)
+            model.fit(X, Y, batch_size)
 
 
     save_RNN_model(name, model)
