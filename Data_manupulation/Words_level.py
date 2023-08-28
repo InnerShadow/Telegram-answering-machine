@@ -1,28 +1,74 @@
+import numpy as np
 
-#Set marks </start> & </end> to better NN training
-def setStertEndMarks(vec, maxWords):
-    for i in range(len(vec)):
-        vec[i] = "</start> " + vec[i]
+def Word_level_answer(model, tokenizer, msg, sequences_len = 100, answer_len = 100):
 
-        if len(vec[i].split()) > maxWords - 1:
-            splits = vec[i].split()
-            vec[i] = ""
-            for j in range(maxWords - 1):
-                vec[i] += splits[j] + " "
+    words = msg.split()
 
-        vec[i] = vec[i] + " </end>"
-
-    return vec
-
-
-def diableStarEndMarks(vec):
     res = ""
-    splits = vec[i].split()
-    
-    for i in range(len(splits)):
-        if splits[i] != "</start>":
-            res += splits[i]
-        if splits[i] == "</end>":
-            break
 
+    if len(words) > sequences_len:
+        for i in range(sequences_len):
+            res += " " + words[i]
+    else:
+        res = msg
+	
+    data = tokenizer.texts_to_sequences([res])[0]
+
+    if len(words) < sequences_len:
+        while len(data) < sequences_len:
+            data = [0] + data
+
+    res = ""
+			
+    for i in range(answer_len):
+        x = data[i : i + sequences_len]
+        inp = np.expand_dims(x, axis = 0)
+
+        pred = model.predict(inp)
+        indx = pred.argmax(axis = 1)[0]
+        data.append(indx)
+
+        res += " " + tokenizer.index_word[indx]
+    
     return res
+
+
+def word_level_prerpocessing(X, Y, tokenizer, sequences_len):
+
+    res = []
+
+    for i in range(len(X)):
+        X_pad = ""
+        words = X[i].split()
+
+        if len(words) > sequences_len:
+            for i in range(sequences_len):
+                X_pad += " " + words[i]
+        else:
+            X_pad = X[i]
+        
+        X_data = tokenizer.texts_to_sequences([X_pad])[0]
+
+        if len(words) < sequences_len:
+            while len(X_data) < sequences_len:
+                X_data = [0] + X_data
+
+        Y_pad = ""
+        words = Y[i].split()
+
+        if len(words) > sequences_len:
+            for i in range(sequences_len):
+                Y_pad += " " + words[i]
+        else:
+            Y_pad = X[i]
+        
+        Y_data = tokenizer.texts_to_sequences([Y_pad])[0]
+
+        if len(words) < sequences_len:
+            while len(Y_data) < sequences_len:
+                Y_data = Y_data + [0]
+
+        res.append(X_data + Y_data)
+
+    return res 
+

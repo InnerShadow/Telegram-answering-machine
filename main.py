@@ -4,12 +4,12 @@ from telethon.sync import TelegramClient
 
 from Telegram.MonitoringByName import MonitoringByName
 from Data_manupulation.test_selection import SaveConversationTXT, GetTrainDataByName
-from Data_manupulation.Words_level import setStertEndMarks
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
-from Model.RNN_model import load_RNN_model, Get_RNN_model_answer, CreateRNN_word_edit_2
+from Model.RNN_model import load_RNN_model, CreateRNN_word_edit_2
 from Model.Tokenizer import get_Tokinazer
+from Data_manupulation.Words_level import Word_level_answer
 
 from keras.preprocessing.sequence import pad_sequences
 
@@ -34,7 +34,7 @@ async def __main__():
     maxWordsCount = 5000
     sequences_len = 50
 
-    X, Y = await (GetTrainDataByName(name, client, 5000))
+    X, Y = await (GetTrainDataByName(name, client, 2000))
     
     tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
 
@@ -43,7 +43,7 @@ async def __main__():
     model = CreateRNN_word_edit_2(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 200, sequences_len = sequences_len)
     #model = load_RNN_model(name)
     
-    print("Answ: ", Get_RNN_model_answer(model, tokenizer, text, sequences_len = sequences_len))
+    print("Answ: ", Word_level_answer(model, tokenizer, text, sequences_len = sequences_len))
 
 
 if __name__ == '__main__':
