@@ -5,8 +5,6 @@ import numpy as np
 
 from keras.layers import Dense, Embedding, LSTM, GRU
 from keras.models import Sequential, load_model
-from keras.preprocessing.sequence import pad_sequences
-from sklearn.model_selection import train_test_split
 from keras.utils import to_categorical
 
 from Data_manupulation.Words_level import word_level_prerpocessing
