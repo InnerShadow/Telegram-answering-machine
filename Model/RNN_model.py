@@ -28,7 +28,7 @@ def sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len
                 if j >= len(X):
                     break
                 
-                texts += X[index] + " - " + Y[index] + " \n "
+                texts += X[j] + " - " + Y[j] + " \n "
 
         
             data = tokenizer.texts_to_sequences([texts])

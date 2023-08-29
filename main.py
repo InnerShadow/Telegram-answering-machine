@@ -41,7 +41,7 @@ async def __main__():
         tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
         save_tokinazer(name, tokenizer)
 
-    text = "меня нет потом мы чтобы хз короче".lower()
+    text = "Но пить пиво веселее Чем кодить Имхо".lower()
 
     model = RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 25, sequences_len = sequences_len, batch_size = 32)
     #model = load_RNN_model(name)
