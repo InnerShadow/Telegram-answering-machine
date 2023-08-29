@@ -36,16 +36,15 @@ async def __main__():
 
     X, Y = await (GetTrainDataByName(name, client, 2000))
     
-    
     try:
-        load_tokinazer(name)
+        tokenizer = load_tokinazer(name)
     except Exception:
         tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
         save_tokinazer(name, tokenizer)
 
     text = "но вот это божественно"
 
-    model = RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 50, sequences_len = sequences_len, batch_size = 64)
+    model = RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 75, sequences_len = sequences_len, batch_size = 64)
     #model = load_RNN_model(name)
     
     print("Answ: ", Word_level_answer(model, tokenizer, text, sequences_len = sequences_len))
