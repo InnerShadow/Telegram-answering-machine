@@ -21,9 +21,9 @@ def load_RNN_model(name):
 def sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount):
     for i in range(epochs):
         print("epoch " + str(i) + " from " + str(epochs))
-        texts = ""
         index = 0
         for k in range(int(len(X) / batch_size)):
+            texts = ""
             for j in range(index, index + batch_size):
                 if j >= len(X):
                     break
@@ -35,6 +35,9 @@ def sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len
             res = np.array(data[0])
 
             n = res.shape[0] - sequences_len
+
+            if n <= 0:
+                continue
 
             X_train = np.array([res[k:k + sequences_len] for k in range(n)])
             Y_train = to_categorical(res[sequences_len:], num_classes = maxWordsCount)
@@ -51,7 +54,6 @@ def random_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequen
         print("epoch " + str(i) + " from " + str(epochs))
         texts = ""
         index = np.random.randint(0, len(X) - 1)
-        print("index: ", index)
         for j in range(index, index + batch_size):
             if j >= len(X):
                 break
@@ -63,6 +65,9 @@ def random_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequen
         res = np.array(data[0])
 
         n = res.shape[0] - sequences_len
+
+        if n <= 0:
+            continue
 
         X_train = np.array([res[k:k + sequences_len] for k in range(n)])
         Y_train = to_categorical(res[sequences_len:], num_classes = maxWordsCount)
@@ -87,6 +92,9 @@ def random_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, 
 
         n = res.shape[0] - sequences_len
 
+        if n <= 0:
+                continue
+
         X_train = np.array([res[k:k + sequences_len] for k in range(n)])
         Y_train = to_categorical(res[sequences_len:], num_classes = maxWordsCount)
 
@@ -109,8 +117,9 @@ def RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = 5000, sequences_len
 
     model.summary()
 
-    model = random_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
-    model = random_RNN_train(model, X, Y, tokenizer, int(batch_size / 2), int(epochs / 2), sequences_len, maxWordsCount)
+    model = sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
+    #model = random_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
+    #model = random_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
 
     save_RNN_model(name, model)
 

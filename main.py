@@ -31,20 +31,19 @@ async def __main__():
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
 
     name = "@Mazar_Nozol"
-    maxWordsCount = 500
-    sequences_len = 50
-
-    X, Y = await (GetTrainDataByName(name, client, 2000))
+    maxWordsCount = 1000
+    sequences_len = 25
     
     try:
         tokenizer = load_tokinazer(name)
     except Exception:
+        X, Y = await (GetTrainDataByName(name, client, 2000))
         tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
         save_tokinazer(name, tokenizer)
 
-    text = "но вот это божественно"
+    text = "меня нет потом мы чтобы хз короче".lower()
 
-    model = RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 75, sequences_len = sequences_len, batch_size = 64)
+    model = RNN_word_continue(name, X, Y, tokenizer, maxWordsCount = maxWordsCount, epochs = 25, sequences_len = sequences_len, batch_size = 32)
     #model = load_RNN_model(name)
     
     print("Answ: ", Word_level_answer(model, tokenizer, text, sequences_len = sequences_len))
@@ -53,3 +52,4 @@ async def __main__():
 if __name__ == '__main__':
     asyncio.run(__main__())
 
+# TODO: Tokenazer jeson load
