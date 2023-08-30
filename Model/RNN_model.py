@@ -130,8 +130,8 @@ def Get_RNN_word_continue(maxWordsCount = 5000, sequences_len = 100):
     model.add(Embedding(maxWordsCount, 512, input_length = sequences_len))
     model.add(LSTM(256, return_sequences = True))
     model.add(GRU(128, return_sequences = True))
-    model.add(GRU(64, return_sequences = True))
-    model.add(LSTM(32))
+    model.add(GRU(64))
+    model.add(Dense(32, activation = 'relu'))
     model.add(Dense(maxWordsCount, activation = 'softmax'))
 
     model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
