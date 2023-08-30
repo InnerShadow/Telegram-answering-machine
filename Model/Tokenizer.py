@@ -3,12 +3,12 @@ import pickle
 from keras.preprocessing.text import Tokenizer
 
 def save_tokinazer(name, tokinazer):
-    with open(str(name) + '_tokenizer.pickle', 'wb') as handle:
+    with open(str(name[1:]) + '_tokenizer.pickle', 'wb') as handle:
         pickle.dump(tokinazer, handle, protocol = pickle.HIGHEST_PROTOCOL)
 
 
 def load_tokinazer(name):
-    with open(str(name) + '_tokenizer.pickle', 'rb') as handle:
+    with open(str(name[1:]) + '_tokenizer.pickle', 'rb') as handle:
         tokenizer = pickle.load(handle)
 
     return tokenizer
