@@ -27,11 +27,11 @@ async def __main__():
             client = await client.sign_in(password = password)
 
 
-    #asyncio.run(MonitoringByName('@Mazar_Nozol'))
+    #
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
 
     name = "@Mazar_Nozol"
-    maxWordsCount = 1000
+    maxWordsCount = 10000
     sequences_len = 25
     batch_size = 64
     epochs = 50
@@ -43,13 +43,15 @@ async def __main__():
         tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
         #save_tokinazer(name, tokenizer)
 
-    text = "Но пить пиво веселее Чем кодить Имхо".lower()
+    text = "А то он испугался".lower()
 
-    model = Get_RNN_word_continue(maxWordsCount = maxWordsCount)
-    model = full_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
-    #model = load_RNN_model(name)
-    
-    print("Answ: ", Word_level_answer(model, tokenizer, text, sequences_len = sequences_len))
+    #model = Get_RNN_word_continue(maxWordsCount = maxWordsCount)
+    #model = full_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
+    model = load_RNN_model(name)
+
+    print(Word_level_answer(model, tokenizer, text, sequences_len, len(text) * 2))
+
+    asyncio.run(await MonitoringByName(name, client, model, tokenizer, sequences_len))
 
 
 if __name__ == '__main__':

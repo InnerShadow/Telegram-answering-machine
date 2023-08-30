@@ -28,7 +28,7 @@ def Word_level_answer(model, tokenizer, msg, sequences_len = 100, answer_len = 1
         indx = pred.argmax(axis = 1)[0]
         data.append(indx)
 
-        if indx != 0:
+        if indx != 0 and indx < len(tokenizer.index_word):
             res += " " + tokenizer.index_word[indx]
     
     return res
