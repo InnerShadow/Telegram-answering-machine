@@ -32,7 +32,7 @@ async def __main__():
 
     name = "@Mazar_Nozol"
     maxWordsCount = 10000
-    sequences_len = 25
+    sequences_len = 15
     batch_size = 64
     epochs = 50
     
