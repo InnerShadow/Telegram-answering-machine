@@ -3,11 +3,10 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import numpy as np
 
-from keras.layers import Dense, Embedding, LSTM, GRU
+from keras.models import Model
+from keras.layers import Dense, Embedding, LSTM, GRU, Input, Attention
 from keras.models import Sequential, load_model
 from keras.utils import to_categorical
-
-from Data_manupulation.Words_level import word_level_prerpocessing
 
 from keras.preprocessing.sequence import pad_sequences
 
@@ -18,33 +17,6 @@ def save_RNN_model(name, model):
 
 def load_RNN_model(name):
     model = load_model("Data/RNN_" + str(name[1:]) + ".h5")
-    return model
-
-
-def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount):
-
-    for i in range(epochs):
-        index = 0
-        for j in range(int(len(X) / batch_size)):
-            Q = []
-            A = []
-            for k in range(index, index + batch_size):
-
-                if k >= len(X):
-                    break
-
-                Q.append(X[k])
-                A.append(Y[k])
-
-            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
-            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len, padding = 'post')
-
-            Y_categorical = to_categorical(data_Y, num_classes = maxWordsCount)
-
-            index += batch_size
-
-            model.fit(data_X, Y_categorical)
-
     return model
 
 
@@ -168,18 +140,4 @@ def Get_RNN_word_continue(maxWordsCount = 5000, sequences_len = 100):
 
     return model
 
-
-def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100):
-
-    model = Sequential()
-    model.add(Embedding(maxWordsCount, 256, input_length = sequences_len))
-    model.add(LSTM(128, return_sequences = True))
-    model.add(GRU(64, return_sequences = True))
-    model.add(Dense(maxWordsCount, activation = 'softmax'))
-
-    model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
-
-    model.summary()
-
-    return model
 

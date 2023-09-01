@@ -7,6 +7,7 @@ from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 from Telegram.MonitoringByName import MonitoringByName
 from Data_manupulation.test_selection import SaveConversationTXT, GetTrainDataByName
 
+from Model.QA_model import *
 from Model.RNN_model import load_RNN_model, Get_RNN_word_continue, full_sequence_RNN_train, QA_model_train, Get_RNN_QA
 from Model.Tokenizer import get_Tokinazer, save_tokinazer, load_tokinazer
 from Data_manupulation.Words_level import Word_level_answer
@@ -28,7 +29,7 @@ async def __main__():
             await client.connect()
 
     name = "@Mazar_Nozol"
-    maxWordsCount = 10000
+    maxWordsCount = 2000
     sequences_len = 15
     batch_size = 64
     epochs = 50
