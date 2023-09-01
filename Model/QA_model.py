@@ -8,11 +8,16 @@ from keras.preprocessing.sequence import pad_sequences
 
 
 def save_QA_model(name, model):
-    model.save("Data/QA_" + str(name[1:]) + ".h5")
+    model.save("Data/QA_" + str(name) + ".h5")
 
 
 def load_QA_model(name):
-    model = load_model("Data/QA_" + str(name[1:]) + ".h5")
+    model = load_model("Data/QA_" + str(name) + ".h5")
+    return model
+
+
+def full_path_load_QA_model(name):
+    model = load_model(name)
     return model
 
 

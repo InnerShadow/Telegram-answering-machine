@@ -26,4 +26,3 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
 
     await client.run_until_disconnected()
 
-
