@@ -7,11 +7,9 @@ from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 from Telegram.MonitoringByName import MonitoringByName
 from Data_manupulation.test_selection import SaveConversationTXT, GetTrainDataByName
 
-from Model.RNN_model import load_RNN_model, Get_RNN_word_continue, full_sequence_RNN_train
+from Model.RNN_model import load_RNN_model, Get_RNN_word_continue, full_sequence_RNN_train, QA_model_train, Get_RNN_QA
 from Model.Tokenizer import get_Tokinazer, save_tokinazer, load_tokinazer
 from Data_manupulation.Words_level import Word_level_answer
-
-from keras.preprocessing.sequence import pad_sequences
 
 async def __main__():
 
@@ -26,7 +24,8 @@ async def __main__():
             password = input("Enter password: ")
             client = await client.sign_in(password = password)
 
-    #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
+            client = TelegramClient(GetPhoneNumber(), GetAPIID(), GETAPI_Hash())
+            await client.connect()
 
     name = "@Mazar_Nozol"
     maxWordsCount = 10000
@@ -43,9 +42,9 @@ async def __main__():
 
     text = "А то он испугался".lower()
 
-    #model = Get_RNN_word_continue(maxWordsCount = maxWordsCount)
-    #model = full_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
-    model = load_RNN_model(name)
+    model = Get_RNN_QA(maxWordsCount, sequences_len)
+    model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
+    #model = load_RNN_model(name)
 
     print(Word_level_answer(model, tokenizer, text, sequences_len, len(text) * 2))
 

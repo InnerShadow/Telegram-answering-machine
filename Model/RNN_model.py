@@ -9,6 +9,9 @@ from keras.utils import to_categorical
 
 from Data_manupulation.Words_level import word_level_prerpocessing
 
+from keras.preprocessing.sequence import pad_sequences
+
+
 def save_RNN_model(name, model):
     model.save("Data/RNN_" + str(name[1:]) + ".h5")
 
@@ -16,6 +19,29 @@ def save_RNN_model(name, model):
 def load_RNN_model(name):
     model = load_model("Data/RNN_" + str(name[1:]) + ".h5")
     return model
+
+
+def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount):
+
+    for i in range(epochs):
+        index = 0
+        for j in range(int(len(X) / batch_size)):
+            Q = []
+            A = []
+            for k in range(index, index + batch_size):
+
+                if k >= len(X):
+                    break
+
+                Q.append(X[k])
+                A.append(Y[k])
+
+            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
+            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len, padding = 'post')
+
+            index += batch_size
+
+            model.fit(data_X, data_Y)
 
 
 def full_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount):
@@ -127,11 +153,9 @@ def random_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, 
 def Get_RNN_word_continue(maxWordsCount = 5000, sequences_len = 100):
 
     model = Sequential()
-    model.add(Embedding(maxWordsCount, 512, input_length = sequences_len))
-    model.add(LSTM(256, return_sequences = True))
-    model.add(GRU(128, return_sequences = True))
+    model.add(Embedding(maxWordsCount, 256, input_length = sequences_len))
+    model.add(LSTM(128, return_sequences = True))
     model.add(GRU(64))
-    model.add(Dense(32, activation = 'relu'))
     model.add(Dense(maxWordsCount, activation = 'softmax'))
 
     model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
@@ -140,3 +164,17 @@ def Get_RNN_word_continue(maxWordsCount = 5000, sequences_len = 100):
 
     return model
 
+
+def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100):
+
+    model = Sequential()
+    model.add(Embedding(maxWordsCount, 256, input_length = sequences_len))
+    model.add(LSTM(128, return_sequences = True))
+    model.add(GRU(64))
+    model.add(Dense((sequences_len, maxWordsCount), activation = 'softmax'))
+
+    model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
+
+    model.summary()
+
+    return model
