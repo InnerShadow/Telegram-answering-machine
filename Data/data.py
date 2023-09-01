@@ -12,12 +12,12 @@ def GetPhoneNumber():
 
 def GetAPIID():
     try:
-        with open ("Data/apid.txt", 'r') as f:
+        with open ("Data/apiid.txt", 'r') as f:
             apiid = f.readline()
     except Exception:
-        apid = input("Enter apid: ")
-        with open ("Data/apid.txt", 'w') as f:
-            f.write(apid)
+        apiid = input("Enter apiid: ")
+        with open ("Data/apiid.txt", 'w') as f:
+            f.write(apiid)
     return apiid
 
 
