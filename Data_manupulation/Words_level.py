@@ -1,6 +1,24 @@
 import numpy as np
 
-def Word_level_answer(model, tokenizer, msg, sequences_len = 100, answer_len = 100):
+from keras.preprocessing.sequence import pad_sequences
+
+def Word_level_QA_answer(model, tokenizer, msg, sequences_len = 100, answer_len = 100):
+
+    input_seq = tokenizer.texts_to_sequences([msg])
+    input_seq = pad_sequences(input_seq, maxlen = sequences_len)
+
+    predicted_probabilities = model.predict([input_seq, input_seq])
+
+    res = ""
+
+    for i in predicted_probabilities[0]:
+        if np.argmax(i) != 0 and np.argmax(i) < len(tokenizer.index_word):
+            res += tokenizer.index_word[np.argmax(i)] + " "
+
+    return res
+
+
+def Word_level_RNN_answer(model, tokenizer, msg, sequences_len = 100, answer_len = 100):
 
     words = msg.split()
 
