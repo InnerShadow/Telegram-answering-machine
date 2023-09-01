@@ -110,9 +110,7 @@ async def GetTrainDataByName(name, client, limit = None):
                 break
 
         Y.append(response)
-
-        #print(str(it) +  ": (" + request + ") -- [", response + "]")
-
+        
         it += 1
 
     return X, Y

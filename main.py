@@ -2,10 +2,10 @@ import asyncio
 
 from telethon.sync import TelegramClient
 
+from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
+
 from Telegram.MonitoringByName import MonitoringByName
 from Data_manupulation.test_selection import SaveConversationTXT, GetTrainDataByName
-
-from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
 from Model.RNN_model import load_RNN_model, Get_RNN_word_continue, full_sequence_RNN_train
 from Model.Tokenizer import get_Tokinazer, save_tokinazer, load_tokinazer
@@ -26,8 +26,6 @@ async def __main__():
             password = input("Enter password: ")
             client = await client.sign_in(password = password)
 
-
-    #
     #asyncio.run(SaveConversationTXT('@Mazar_Nozol'))
 
     name = "@Mazar_Nozol"

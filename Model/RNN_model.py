@@ -10,11 +10,11 @@ from keras.utils import to_categorical
 from Data_manupulation.Words_level import word_level_prerpocessing
 
 def save_RNN_model(name, model):
-    model.save("RNN_" + str(name[1:]) + ".h5")
+    model.save("Data/RNN_" + str(name[1:]) + ".h5")
 
 
 def load_RNN_model(name):
-    model = load_model("RNN_" + str(name[1:]) + ".h5")
+    model = load_model("Data/RNN_" + str(name[1:]) + ".h5")
     return model
 
 
