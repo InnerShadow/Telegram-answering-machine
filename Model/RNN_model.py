@@ -39,9 +39,13 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
             data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
             data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len, padding = 'post')
 
+            Y_categorical = to_categorical(data_Y, num_classes = maxWordsCount)
+
             index += batch_size
 
-            model.fit(data_X, data_Y)
+            model.fit(data_X, Y_categorical)
+
+    return model
 
 
 def full_sequence_RNN_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount):
@@ -170,8 +174,8 @@ def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100):
     model = Sequential()
     model.add(Embedding(maxWordsCount, 256, input_length = sequences_len))
     model.add(LSTM(128, return_sequences = True))
-    model.add(GRU(64))
-    model.add(Dense((sequences_len, maxWordsCount), activation = 'softmax'))
+    model.add(GRU(64, return_sequences = True))
+    model.add(Dense(maxWordsCount, activation = 'softmax'))
 
     model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
 

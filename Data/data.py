@@ -15,7 +15,7 @@ def GetAPIID():
         with open ("Data/apiid.txt", 'r') as f:
             apiid = f.readline()
     except Exception:
-        apiid = input("Enter apiid: ")
+        apiid = input("Enter api id: ")
         with open ("Data/apiid.txt", 'w') as f:
             f.write(apiid)
     return apiid
@@ -26,7 +26,7 @@ def GETAPI_Hash():
         with open ("Data/apihash.txt", 'r') as f:
             apihash = f.readline()
     except Exception:
-        apihash = input("Enter apihash: ")
+        apihash = input("Enter api hash: ")
         with open ("Data/apihash.txt", 'w') as f:
             f.write(apihash)
     return apihash
