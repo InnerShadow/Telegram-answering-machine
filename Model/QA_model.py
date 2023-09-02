@@ -1,7 +1,8 @@
+import numpy as np
 
 from keras.models import Model
-from keras.layers import Dense, Embedding, LSTM, GRU, Input, Attention
-from keras.models import Sequential, load_model
+from keras.layers import Dense, Embedding, LSTM, GRU, Input
+from keras.models import load_model
 from keras.utils import to_categorical
 
 from keras.preprocessing.sequence import pad_sequences
@@ -24,6 +25,8 @@ def full_path_load_QA_model(name):
 def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount):
     for i in range(epochs):
         index = 0
+        loss_values = []
+        accuracy_values = []
         print("epoch " + str(i) + " from " + str(epochs))
         for j in range(int(len(X) / batch_size)):
             Q = []
@@ -42,7 +45,12 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
             index += batch_size
 
-            model.fit([data_X, data_X], Y_categorical, batch_size = 1)
+            history = model.fit([data_X, data_X], Y_categorical, batch_size = 1)
+
+            loss_values.append(history.history['loss'])
+            accuracy_values.append(history.history['accuracy'])
+
+            print("Mean loss: " + str(np.sum(loss_values) / len(loss_values)) + " mean accuracy: " + str(np.sum(accuracy_values) / len(accuracy_values)) + str("\n"))
 
     return model
 

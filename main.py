@@ -40,13 +40,13 @@ async def test():
     epochs = 100
     
     try:
-        tokenizer = load_tokinazer(name)
+        tokenizer = load_tokinazer(name[1:])
     except Exception:
         X, Y = await (GetTrainDataByName(name, client, 2000))
         tokenizer = get_Tokinazer(X, Y, maxWordsCount = maxWordsCount)
         #save_tokinazer(name, tokenizer)
 
-    text = "А то он испугался".lower()
+    text = "А нашел полезного для них человека".lower()
 
     #model = Get_RNN_QA(maxWordsCount, sequences_len)
     #model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount)
@@ -212,6 +212,7 @@ async def __main__():
     
 
 if __name__ == '__main__':
-    asyncio.run(__main__())
+    asyncio.run(test())
 
 # TODO: Tokenazer jeson load
+# TODO: MAke colarization where need

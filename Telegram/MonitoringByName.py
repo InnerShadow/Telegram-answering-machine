@@ -2,7 +2,7 @@ import asyncio
 
 from telethon.events import NewMessage
 
-from Data_manupulation.Words_level import Word_level_RNN_answer, Word_level_QA_answer
+from Data_manupulation.Words_level import Word_level_QA_answer
 from Data_manupulation.test_selection import message_preprocessing
 
 #Send message if it sends from a companion
