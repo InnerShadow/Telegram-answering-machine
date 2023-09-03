@@ -180,10 +180,10 @@ async def main_handler(client, command = None):
         command = main_menu()
     match command:
         case "Victim munu":
-            state = await victim_hanfler(client, victim_menu())
+            await victim_hanfler(client, victim_menu())
             await main_handler(client)
         case "Models menu":
-            state = await models_handler(client, models_menu())
+            await models_handler(client, models_menu())
             await main_handler(client)
         case "Exit":
             exit()
