@@ -120,13 +120,14 @@ async def models_handler(client, command = None):
                 print("\nStart loading data. This can take a while!\n")
                 X, Y = await GetTrainDataByName(train_victim, client)
                 print("\nData has been loaded!\n")
-            try:
-                num_messages = int(num_messages)
-            except (TypeError, ValueError):
-                print("\nPlease enter number of messages!\n")
-                await models_handler(client, command)
-                return 
-            X, Y = await GetTrainDataByName(train_victim, client, num_messages)
+            else :
+                try:
+                    num_messages = int(num_messages)
+                except (TypeError, ValueError):
+                    print("\nPlease enter number of messages!\n")
+                    await models_handler(client, command)
+                    return 
+                X, Y = await GetTrainDataByName(train_victim, client, num_messages)
             try:
                 maxWordsCount = int(input("\nEnter size of vocabulary: "))
             except (TypeError, ValueError):
