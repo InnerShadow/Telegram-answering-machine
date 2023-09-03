@@ -71,14 +71,14 @@ def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100, latent_dim = 256):
     encoder_states = [state_h, state_c]
 
     decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
-    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = encoder_states)
+    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state=encoder_states)
 
-    encoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
-    encoder_outputs, state_h, state_c = encoder_gru(encoder_outputs)
-    encoder_states = [state_h, state_c]
+    encoder_gru = GRU(latent_dim, return_sequences = True, return_state = True)
+    encoder_outputs, state_h = encoder_gru(encoder_outputs)
+    encoder_states = [state_h]
 
     decoder_gru = GRU(latent_dim, return_sequences = True, return_state = True)
-    decoder_outputs, _, _ = decoder_gru(decoder_outputs, initial_state = encoder_states)
+    decoder_outputs, _ = decoder_gru(decoder_outputs, initial_state = encoder_states)
 
     decoder_dense = Dense(num_tokens, activation = 'softmax')
     decoder_outputs = decoder_dense(decoder_outputs)
@@ -89,3 +89,4 @@ def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100, latent_dim = 256):
 
     model.summary()
     return model
+

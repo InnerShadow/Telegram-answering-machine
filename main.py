@@ -6,6 +6,7 @@ import asyncio
 from telethon.sync import TelegramClient
 
 from Users_interfece.interface import *
+from Users_interfece.main_handler import *
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
@@ -57,7 +58,7 @@ async def test():
     asyncio.run(await MonitoringByName(name, client, model, tokenizer, sequences_len))
 
 
-async def __main__():
+async def test2():
     first_launch()
 
     phone, apiid, apihash = application_api()
@@ -71,8 +72,6 @@ async def __main__():
     model = None
     tokenizer = None
     models = []
-
-    #TODO: Make it changeble 
     sequences_len = 20
 
     while True:
@@ -209,10 +208,20 @@ async def __main__():
                         command = 0
             case 3:
                 exit()
+
+
+async def __main__():
+    first_launch()
+
+    phone, apiid, apihash = application_api()
+
+    client = await log_in(phone, apiid, apihash)
+
+    await main_handler(client, main_menu())
     
 
 if __name__ == '__main__':
-    asyncio.run(test())
+    asyncio.run(__main__())
 
 # TODO: Tokenazer jeson load
 # TODO: MAke colarization where need

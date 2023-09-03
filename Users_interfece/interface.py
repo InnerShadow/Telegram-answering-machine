@@ -15,34 +15,68 @@ def first_launch():
 
 def main_menu():
     print("\n1: Victims. \n 2: Models. \n 3: Exit \n")
-    state = input("\nSelect modul: ")
-    if int(state) > 2:
+    state = int(input("\nSelect modul: "))
+    if state > 3 or state == 0:
+        print("\nYou should select existable modul!\n")
         return main_menu()
-    return int(state)
-
+    match state:
+        case 1:
+            return "Victim munu"
+        case 2:
+            return "Models menu"
+        case 3:
+            return "Exit"
+    
 
 def victim_menu():
     print("\n1: Show all victims. \n 2: Select victim by id. \n 3: Get new victim. \n 4: Start ignoring. \n 5: Back to main menu\n")
-    state = input("\nSelect modul: ")
-    if int(state) > 5:
+    state = int(input("\nSelect modul: "))
+    if state > 5 or state == 0:
+        print("\nYou should select existable action!\n")
         return victim_menu()
-    return int(state)
+    match state:
+        case 1:
+            return("Victim show all")
+        case 2:
+            return("Victim select")
+        case 3:
+            return("Victim new")
+        case 4:
+            return("Victim do ignore")
+        case 5:
+            return("Victim back")
 
 
 def selected_victim_menu():
-    print("\n1: Set model by id. \n 2: Display info \n 3: Back to vectum menu\n")
-    state = input("\nSelect modul: ")
-    if int(state) > 3:
+    print("\n1: Set model by id. \n 2: Display info \n 3: Back to victim menu\n")
+    state = int(input("\nSelect modul: "))
+    if state > 3 or state == 0:
+        print("\nYou should select existable action!\n")
         return selected_victim_menu()
-    return int(state)
+    match state:
+        case 1:
+            return "Selected victim set"
+        case 2:
+            return "Selected victim info"
+        case 3:
+            return "Selected victim back"
 
 
 def models_menu():
     print("\n1: Show all models \n 2: Get model info by id \n 3: Train new model \n 4: Back to main menu\n")
-    state = input("\nSelect modul: ")
-    if int(state) > 4:
+    state = int(input("\nSelect modul: "))
+    if state > 4 or state == 0:
+        print("\nYou should select existable action!\n")
         return models_menu()
-    return int(state)
+    match state:
+        case 1: 
+            return("Models show")
+        case 2:
+            return("Models info")
+        case 3:
+            return("Models train")
+        case 4:
+            return("Models back")
 
 
 async def log_in(phone, apiid, apihash):
