@@ -148,9 +148,16 @@ async def models_handler(client, command = None):
                     await models_handler(client, command)
                     return 
 
+            try:
+                latent_dim = int(input("\nEnter hidden LSTM layer neurons: "))
+            except (TypeError, ValueError):
+                print("\nYou should enter number of hidden LSTM layer neurons!\n")
+                await models_handler(client, command)
+                return 
+
             tokenizer = get_Tokinazer(X, Y, maxWordsCount, lower, False)
             save_tokinazer(train_victim[1:], tokenizer)
-            model = Get_RNN_QA(int(maxWordsCount), 20)
+            model = Get_RNN_QA(int(maxWordsCount), latent_dim)
             try:
                 epochs = int(input("\nEnter number of epochs: "))
             except (TypeError, ValueError):
@@ -164,9 +171,16 @@ async def models_handler(client, command = None):
                 print("\nYou should enter batch size!\n")
                 await models_handler(client, command)
                 return 
+            
+            try:
+                messages_per_pack = int(input("\nEnter messages per pack: "))
+            except (TypeError, ValueError):
+                print("\nYou should enter number messeages per pack!\n")
+                await models_handler(client, command)
+                return 
 
             print("\nStart training model!\n")
-            model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, 20, maxWordsCount)
+            model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, 20, maxWordsCount, messages_per_pack)
             print("\nModel has been traind!\n")
             save_QA_model(train_victim[1:], model)
             await models_handler(client)

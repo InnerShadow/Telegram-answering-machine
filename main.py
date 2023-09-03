@@ -12,6 +12,8 @@ async def __main__():
     phone, apiid, apihash = application_api()
 
     client = await log_in(phone, apiid, apihash)
+    if client == None:
+        return 
 
     await main_handler(client, main_menu())
     

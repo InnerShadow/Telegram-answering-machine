@@ -14,7 +14,7 @@ def first_launch():
         
 
 def main_menu():
-    print("\n1: Victims. \n 2: Models. \n 3: Exit \n")
+    print("\n1: Victims. \n2: Models. \n 3:Exit \n")
     state = int(input("\nSelect modul: "))
     if state > 3 or state == 0:
         print("\nYou should select existable modul!\n")
@@ -29,8 +29,12 @@ def main_menu():
     
 
 def victim_menu():
-    print("\n1: Show all victims. \n 2: Select victim by id. \n 3: Get new victim. \n 4: Start ignoring. \n 5: Back to main menu\n")
-    state = int(input("\nSelect modul: "))
+    print("\n1: Show all victims. \n2: Select victim by id. \n3: Get new victim. \n4: Start ignoring. \n5: Back to main menu\n")
+    try:
+        state = int(input("\nSelect modul: "))
+    except (TypeError, ValueError):
+        print("\nYou should select existable action!\n")
+        return victim_menu()
     if state > 5 or state == 0:
         print("\nYou should select existable action!\n")
         return victim_menu()
@@ -48,8 +52,12 @@ def victim_menu():
 
 
 def selected_victim_menu():
-    print("\n1: Set model by id. \n 2: Display info \n 3: Back to victim menu\n")
-    state = int(input("\nSelect modul: "))
+    print("\n1: Set model by id. \n2: Display info \n3: Back to victim menu\n")
+    try:
+        state = int(input("\nSelect modul: "))
+    except (TypeError, ValueError):
+        print("\nYou should select existable action!\n")
+        return victim_menu()
     if state > 3 or state == 0:
         print("\nYou should select existable action!\n")
         return selected_victim_menu()
@@ -63,8 +71,12 @@ def selected_victim_menu():
 
 
 def models_menu():
-    print("\n1: Show all models \n 2: Get model info by id \n 3: Train new model \n 4: Back to main menu\n")
-    state = int(input("\nSelect modul: "))
+    print("\n1: Show all models \n2: Get model info by id \n3: Train new model \n4: Back to main menu\n")
+    try:
+        state = int(input("\nSelect modul: "))
+    except (TypeError, ValueError):
+        print("\nYou should select existable action!\n")
+        return victim_menu()
     if state > 4 or state == 0:
         print("\nYou should select existable action!\n")
         return models_menu()
@@ -83,15 +95,18 @@ async def log_in(phone, apiid, apihash):
     print("\nTry to connect to telegram: \n")
     client = TelegramClient(phone, apiid, apihash)
     await client.connect()
-
-    if not await client.is_user_authorized():
-        print("\nCannot find previous session, enter following data: \n")
-        await client.send_code_request(phone)
-        try :
-            await client.sign_in(GetPhoneNumber(), code = input('\nEnter the code: \n'))
-        except Exception:
-            password = input("\nEnter password: \n")
-            client = await client.sign_in(password = password)
+    try:
+        if not await client.is_user_authorized():
+            print("\nCannot find previous session, enter following data: \n")
+            await client.send_code_request(phone)
+            try :
+                await client.sign_in(GetPhoneNumber(), code = input('\nEnter the code: \n'))
+            except Exception:
+                password = input("\nEnter password: \n")
+                client = await client.sign_in(password = password)
+    except Exception:
+        print("\nCannot login Telegram!\n")
+        return None
 
     print("\nConnected succsessfull!\n")
 
@@ -124,3 +139,4 @@ def get_all_models(Show = True):
         print("\n")
 
     return models
+

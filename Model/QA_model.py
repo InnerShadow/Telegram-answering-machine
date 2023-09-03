@@ -22,16 +22,16 @@ def full_path_load_QA_model(name):
     return model
 
 
-def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount):
+def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack):
     for i in range(epochs):
         index = 0
         loss_values = []
         accuracy_values = []
         print("epoch " + str(i) + " from " + str(epochs))
-        for j in range(int(len(X) / batch_size)):
+        for j in range(int(len(X) / messages_per_pack)):
             Q = []
             A = []
-            for k in range(index, index + batch_size):
+            for k in range(index, index + messages_per_pack):
                 if k >= len(X):
                     break
 
@@ -39,13 +39,13 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 A.append(Y[k])
 
             data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
-            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len, padding='post')
+            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
 
             Y_categorical = to_categorical(data_Y, num_classes=maxWordsCount)
 
             index += batch_size
 
-            history = model.fit([data_X, data_X], Y_categorical, batch_size = 1)
+            history = model.fit([data_X, data_X], Y_categorical, batch_size = batch_size)
 
             loss_values.append(history.history['loss'])
             accuracy_values.append(history.history['accuracy'])
@@ -55,7 +55,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
     return model
 
 
-def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100, latent_dim = 256):
+def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256):
     num_tokens = maxWordsCount
 
     shared_embedding_layer = Embedding(num_tokens, latent_dim)
