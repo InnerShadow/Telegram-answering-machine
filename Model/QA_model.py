@@ -55,8 +55,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
     return model
 
 
-def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100):
-    latent_dim = 128
+def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100, latent_dim = 256):
     num_tokens = maxWordsCount
 
     shared_embedding_layer = Embedding(num_tokens, latent_dim)
@@ -67,19 +66,26 @@ def Get_RNN_QA(maxWordsCount = 5000, sequences_len = 100):
     encoder_embedding = shared_embedding_layer(encoder_inputs)
     decoder_embedding = shared_embedding_layer(decoder_inputs)
 
-    encoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
+    encoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     encoder_outputs, state_h, state_c = encoder_lstm(encoder_embedding)
     encoder_states = [state_h, state_c]
 
-    decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
-    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state=encoder_states)
+    decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
+    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = encoder_states)
 
-    decoder_dense = Dense(num_tokens, activation='softmax')
+    encoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
+    encoder_outputs, state_h, state_c = encoder_gru(encoder_outputs)
+    encoder_states = [state_h, state_c]
+
+    decoder_gru = GRU(latent_dim, return_sequences = True, return_state = True)
+    decoder_outputs, _, _ = decoder_gru(decoder_outputs, initial_state = encoder_states)
+
+    decoder_dense = Dense(num_tokens, activation = 'softmax')
     decoder_outputs = decoder_dense(decoder_outputs)
 
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
     return model
