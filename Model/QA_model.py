@@ -22,7 +22,7 @@ def full_path_load_QA_model(name):
     return model
 
 
-def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack):
+def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack, DoMaxPackLen = False):
     for i in range(epochs):
         index = 0
         loss_values = []
@@ -38,13 +38,17 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 Q.append(X[k])
                 A.append(Y[k])
 
-            maxLen = max(
-                max(map(len, A)),
-                max(map(len, Q))
-            )
+            #TODO: Test maxLen
+            if DoMaxPackLen:
+                maxLen = max(
+                    max(map(len, A)),
+                    max(map(len, Q))
+                )
+                sequences_len = maxLen
 
-            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = maxLen)
-            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = maxLen)
+            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
+            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
+            
 
             Y_categorical = to_categorical(data_Y, num_classes=maxWordsCount)
 
