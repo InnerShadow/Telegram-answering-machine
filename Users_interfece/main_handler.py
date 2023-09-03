@@ -66,14 +66,14 @@ async def victim_hanfler(client, command = None, victim = None):
             await victim_hanfler(client, victim = victim)
             return 
         case "Victim do ignore":
-            if victim == "":
+            if victim == None:
                 print("\nPlease, select the victim!\n")
                 await victim_hanfler(client)
                 return 
             model_name = ""
             tokinazer_name = ""
             with open(str(victim), 'r') as f:
-                model_name = f.readline()
+                model_name = f.readline()[:len(model_name) - 1]
                 tokinazer_name = f.readline()
             if model_name == "" or tokinazer_name == "":
                 print("\nVictim configuration should not be empty! Set the model to ignore victim!\n")
@@ -187,3 +187,4 @@ async def main_handler(client, command = None):
             await main_handler(client)
         case "Exit":
             exit()
+

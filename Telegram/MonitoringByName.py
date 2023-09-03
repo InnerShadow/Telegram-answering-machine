@@ -18,11 +18,13 @@ async def message_handler(event, model, tokinazer, sequences_len):
 #Function to monitor person's activity in Telegram by his name.
 async def MonitoringByName(name, client, model, tokenizer, sequences_len):
         
-    user = await client.get_entity(name)
+    user = await client.get_entity(name[5:len(name) - 4])
 
     #Add message_handler to event_handler to track when you get new message
     eveny_handler = NewMessage(from_users = [user.id])
     client.add_event_handler(lambda event : message_handler(event, model, tokenizer, sequences_len), eveny_handler)
+
+    print("\n" + name[5:len(name) - 4] + " ignoring succsefully!\n")
 
     await client.run_until_disconnected()
 
