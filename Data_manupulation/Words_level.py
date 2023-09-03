@@ -5,7 +5,8 @@ from keras.preprocessing.sequence import pad_sequences
 def Word_level_QA_answer(model, tokenizer, msg, sequences_len = 100, answer_len = 100):
 
     input_seq = tokenizer.texts_to_sequences([msg])
-    input_seq = pad_sequences(input_seq, maxlen = sequences_len)
+    #try remove pad_sequences need to test how it will be works
+    #input_seq = pad_sequences(input_seq, maxlen = sequences_len)
 
     predicted_probabilities = model.predict([input_seq, input_seq])
 

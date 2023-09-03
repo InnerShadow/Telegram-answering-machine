@@ -38,8 +38,13 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 Q.append(X[k])
                 A.append(Y[k])
 
-            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
-            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
+            maxLen = max(
+                max(map(len, A)),
+                max(map(len, Q))
+            )
+
+            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = maxLen)
+            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = maxLen)
 
             Y_categorical = to_categorical(data_Y, num_classes=maxWordsCount)
 
