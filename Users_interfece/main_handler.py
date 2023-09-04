@@ -6,6 +6,7 @@ from Users_interfece.interface import *
 from Telegram.MonitoringByName import *
 from Data_manupulation.test_selection import *
 
+
 def selected_victim_handler(victim, command = None):
     if command == None:
         command = selected_victim_menu()
@@ -112,10 +113,10 @@ async def models_handler(client, command = None):
             train_victim = input("\nEnter person and model will train base on your conversation (like @My_frind): ")
             if train_victim[0] != "@":
                 print("\nYou should enter link like @My_frind\n")
-                await models_handler(client, command)
+                await models_handler(client, command, train_victim)
                 return 
             num_messages = input("\nEnter number of messages that model will use as train data \n"
-                                "or enter 'None' to use all conversation as training data: ")
+                        "or enter 'None' to use all conversation as training data: ")
             if num_messages == "None":
                 print("\nStart loading data. This can take a while!\n")
                 X, Y = await GetTrainDataByName(train_victim, client)
@@ -164,7 +165,7 @@ async def models_handler(client, command = None):
                 print("\nYou should enter number of epochs!\n")
                 await models_handler(client, model)
                 return 
-           
+            
             try:
                 batch_size = int(input("\nEnter batch size: "))
             except (TypeError, ValueError):
@@ -178,13 +179,86 @@ async def models_handler(client, command = None):
                 print("\nYou should enter number messeages per pack!\n")
                 await models_handler(client, command)
                 return 
+            
+            try:
+                sequences_len = int(input("\nEnter sequences length: "))
+            except (TypeError, ValueError):
+                print("\nYou should enter sequences length!\n")
+                await models_handler(client, command)
+                return 
 
             print("\nStart training model!\n")
-            model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, 20, maxWordsCount, messages_per_pack)
+            model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
+            print("\nModel has been traind!\n")
+            save_QA_model(train_victim[1:], model)
+            await models_handler(client)
+            with open(train_victim[1:] + "_model_configuration.txt", 'w') as f:
+                f.write(str(maxWordsCount) + "\n")
+                f.write(str(sequences_len) + "\n")
+            return
+        case "Models learn more":
+            models = get_all_models()
+            try:
+                model_id = int(input("\nSelect model by id acording the list: "))
+            except (TypeError, ValueError):
+                print("\nYou should select existable model!\n")
+                models_handler(client)
+                return
+            model = full_path_load_QA_model(models[int(model_id) - 1])
+            tokenizer = full_path_load_tokinazer(get_Tokinazer_by_model(models[int(model_id) - 1]))
+
+            train_victim = input("\nEnter person and model will train base on your conversation (like @My_frind): ")
+            if train_victim[0] != "@":
+                print("\nYou should enter link like @My_frind\n")
+                await models_handler(client, command, train_victim)
+                return 
+            num_messages = input("\nEnter number of messages that model will use as train data \n"
+                        "or enter 'None' to use all conversation as training data: ")
+            if num_messages == "None":
+                print("\nStart loading data. This can take a while!\n")
+                X, Y = await GetTrainDataByName(train_victim, client)
+                print("\nData has been loaded!\n")
+            else :
+                try:
+                    num_messages = int(num_messages)
+                except (TypeError, ValueError):
+                    print("\nPlease enter number of messages!\n")
+                    await models_handler(client, command)
+                    return 
+                X, Y = await GetTrainDataByName(train_victim, client, num_messages)
+
+            try:
+                epochs = int(input("\nEnter number of epochs: "))
+            except (TypeError, ValueError):
+                print("\nYou should enter number of epochs!\n")
+                await models_handler(client, model)
+                return 
+            
+            try:
+                batch_size = int(input("\nEnter batch size: "))
+            except (TypeError, ValueError):
+                print("\nYou should enter batch size!\n")
+                await models_handler(client, command)
+                return 
+            
+            try:
+                messages_per_pack = int(input("\nEnter messages per pack: "))
+            except (TypeError, ValueError):
+                print("\nYou should enter number messeages per pack!\n")
+                await models_handler(client, command)
+                return 
+            
+            with open(train_victim[1:] + "_model_configuration.txt", 'r') as f:
+                maxWordsCount = int(f.readline())
+                sequences_len = int(f.readline())
+
+            print("\nStart training model!\n")
+            model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
             print("\nModel has been traind!\n")
             save_QA_model(train_victim[1:], model)
             await models_handler(client)
             return
+            
         case "Models back":
             return 
     return 

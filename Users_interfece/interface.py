@@ -71,7 +71,7 @@ def selected_victim_menu():
 
 
 def models_menu():
-    print("\n1: Show all models \n2: Get model info by id \n3: Train new model \n4: Back to main menu\n")
+    print("\n1: Show all models \n2: Get model info by id \n3: Train new model \n4: Learn more for model \n5: Back to main menu\n")
     try:
         state = int(input("\nSelect modul: "))
     except (TypeError, ValueError):
@@ -87,7 +87,9 @@ def models_menu():
             return("Models info")
         case 3:
             return("Models train")
-        case 4:
+        case 4: 
+            return("Models learn more")
+        case 5:
             return("Models back")
 
 
