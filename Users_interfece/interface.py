@@ -14,7 +14,9 @@ def first_launch():
         
 
 def main_menu():
-    print("\n1: Victims. \n2: Models. \n3: Exit \n")
+    print("\n1: Victims."
+          "\n2: Models."
+          "\n3: Exit\n")
     state = int(input("\nSelect modul: "))
     if state > 3 or state == 0:
         print("\nYou should select existable modul!\n")
@@ -30,7 +32,11 @@ def main_menu():
     
 
 def victim_menu():
-    print("\n1: Show all victims. \n2: Select victim by id. \n3: Get new victim. \n4: Start ignoring. \n5: Back to main menu\n")
+    print("\n1: Show all victims." 
+          "\n2: Select victim by id."
+          "\n3: Get new victim."
+          "\n4: Start ignoring."
+          "\n5: Back to main menu\n")
     try:
         state = int(input("\nSelect modul: "))
     except (TypeError, ValueError):
@@ -54,7 +60,9 @@ def victim_menu():
 
 
 def selected_victim_menu():
-    print("\n1: Set model by id. \n2: Display info \n3: Back to victim menu\n")
+    print("\n1: Set model by id."
+          "\n2: Display info"
+          "\n3: Back to victim menu\n")
     try:
         state = int(input("\nSelect modul: "))
     except (TypeError, ValueError):
@@ -74,7 +82,11 @@ def selected_victim_menu():
 
 
 def models_menu():
-    print("\n1: Show all models \n2: Get model info by id \n3: Train new model \n4: Learn more for model \n5: Back to main menu\n")
+    print("\n1: Show all models"
+          "\n2: Get model info by id"
+          "\n3: Train new model"
+          "\n4: Learn more for model"
+          "\n5: Back to main menu\n")
     try:
         state = int(input("\nSelect modul: "))
     except (TypeError, ValueError):
