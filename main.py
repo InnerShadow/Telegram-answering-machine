@@ -22,3 +22,5 @@ if __name__ == '__main__':
     asyncio.run(__main__())
 
 # TODO: MAke colarization where need
+# TODO: Make comments!
+# TODO: Make ignoring in diffrent thread

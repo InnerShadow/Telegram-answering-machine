@@ -10,7 +10,7 @@ def first_launch():
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
         print("\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
-              "and get api hash and api id to continue using this application.\n")
+              "and get api hash & api id to continue using this application.\n")
         
 
 def main_menu():
@@ -19,6 +19,7 @@ def main_menu():
     if state > 3 or state == 0:
         print("\nYou should select existable modul!\n")
         return main_menu()
+    
     match state:
         case 1:
             return "Victim munu"
@@ -38,6 +39,7 @@ def victim_menu():
     if state > 5 or state == 0:
         print("\nYou should select existable action!\n")
         return victim_menu()
+    
     match state:
         case 1:
             return("Victim show all")
@@ -61,6 +63,7 @@ def selected_victim_menu():
     if state > 3 or state == 0:
         print("\nYou should select existable action!\n")
         return selected_victim_menu()
+    
     match state:
         case 1:
             return "Selected victim set"
@@ -77,9 +80,10 @@ def models_menu():
     except (TypeError, ValueError):
         print("\nYou should select existable action!\n")
         return victim_menu()
-    if state > 4 or state == 0:
+    if state > 5 or state == 0:
         print("\nYou should select existable action!\n")
         return models_menu()
+    
     match state:
         case 1: 
             return("Models show")

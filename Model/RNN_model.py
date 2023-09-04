@@ -4,12 +4,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import numpy as np
 
 from keras.models import Model
-from keras.layers import Dense, Embedding, LSTM, GRU, Input, Attention
+from keras.layers import Dense, Embedding, LSTM, GRU
 from keras.models import Sequential, load_model
 from keras.utils import to_categorical
-
-from keras.preprocessing.sequence import pad_sequences
-
 
 def save_RNN_model(name, model):
     model.save("Data/RNN_" + str(name[1:]) + ".h5")
