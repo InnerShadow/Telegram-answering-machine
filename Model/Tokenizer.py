@@ -31,6 +31,7 @@ def get_Tokinazer(X, Y, maxWordsCount = 5000, lower = True, char_level = False):
     tokenizer.fit_on_texts(X + Y)
     return tokenizer
 
+
 def get_Tokinazer_by_model(model_name):
     return model_name[:len(model_name) - 3] + "_tokenizer.json"
 

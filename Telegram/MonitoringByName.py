@@ -12,7 +12,7 @@ async def message_handler(event, model, tokinazer, sequences_len):
     sender_id = event.sender_id
     self_id = await event.client.get_me()
     if sender_id != self_id.id:
-        await event.reply(Word_level_QA_answer(model, tokinazer, str(message_preprocessing(event)), sequences_len, len(event.text.split()) * 2))
+        await event.reply(Word_level_QA_answer(model, tokinazer, str(message_preprocessing(event)), sequences_len))
 
 
 #Function to monitor person's activity in Telegram by his name.

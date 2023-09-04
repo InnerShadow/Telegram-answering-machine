@@ -21,5 +21,4 @@ async def __main__():
 if __name__ == '__main__':
     asyncio.run(__main__())
 
-# TODO: Tokenazer jeson load
 # TODO: MAke colarization where need
