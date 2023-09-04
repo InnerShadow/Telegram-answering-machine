@@ -14,7 +14,7 @@ def first_launch():
         
 
 def main_menu():
-    print("\n1: Victims. \n2: Models. \n 3:Exit \n")
+    print("\n1: Victims. \n2: Models. \n3: Exit \n")
     state = int(input("\nSelect modul: "))
     if state > 3 or state == 0:
         print("\nYou should select existable modul!\n")
