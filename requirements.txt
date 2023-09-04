@@ -1,0 +1,5 @@
+telethon
+keras
+numpy
+tensorflow
+tf-nightly
