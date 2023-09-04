@@ -20,14 +20,13 @@ def selected_victim_handler(victim, command = None):
                 return 
             print("\n" + models[model_id - 1] + " has been selected!\n")
             with open(str(victim), 'w') as f:
-                #TODO: rewrite data
                 f.write(str(models[int(model_id) - 1]) + "\n")
-                f.write(str(models[int(model_id) - 1])[:len(str(models[int(model_id) - 1])) - 3] + "_tokenizer.pickle")
+                f.write(str(models[int(model_id) - 1])[:len(str(models[int(model_id) - 1])) - 3] + "_tokenizer.json")
             selected_victim_handler(victim)
             return 
         case "Selected victim info":
             with open(str(victim), 'r') as f:
-                print("\nModel: " + f.readline() + "\n Tokinazer: " + f.readline() + "\n")
+                print("\nModel: " + f.readline() + "\nTokinazer: " + f.readline() + "\n")
             selected_victim_handler(victim)
             return 
         case "Selected victim back":
@@ -82,7 +81,15 @@ async def victim_hanfler(client, command = None, victim = None):
                 return 
             model = full_path_load_QA_model(model_name)
             tokenizer = full_path_load_tokinazer(tokinazer_name)
-            asyncio.run(await MonitoringByName(victim, client, model, tokenizer, 20))
+            try:
+                with open(victim[5:len(victim) - 3] + "_model_configuration.txt", 'r') as f:
+                    maxWordsCount = int(f.readline())
+                    sequences_len = int(f.readline())
+            except Exception:
+                print("\nModel configuration cannot be empty!\n")
+                await victim_hanfler(client)
+                return
+            asyncio.run(await MonitoringByName(victim, client, model, tokenizer, sequences_len))
             await victim_hanfler(client)
             return 
         case "Victim back":
@@ -204,8 +211,11 @@ async def models_handler(client, command = None):
                 print("\nYou should select existable model!\n")
                 models_handler(client)
                 return
+            print("\n" + str(models[int(model_id) - 1]) + " has been selected!\n")
             model = full_path_load_QA_model(models[int(model_id) - 1])
             tokenizer = full_path_load_tokinazer(get_Tokinazer_by_model(models[int(model_id) - 1]))
+
+            model.summary()
 
             train_victim = input("\nEnter person and model will train base on your conversation (like @My_frind): ")
             if train_victim[0] != "@":

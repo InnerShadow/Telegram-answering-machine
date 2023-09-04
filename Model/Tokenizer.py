@@ -1,22 +1,27 @@
 import pickle
+import io
+import json
 
-from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import Tokenizer, tokenizer_from_json
 
 def save_tokinazer(name, tokinazer):
-    with open("Data/" + str(name) + '_tokenizer.pickle', 'wb') as handle:
-        pickle.dump(tokinazer, handle, protocol = pickle.HIGHEST_PROTOCOL)
+    tokenizer_json = tokinazer.to_json()
+    with io.open("Data/" + str(name) + '_tokenizer.json', 'w', encoding = 'utf-8') as f:
+        f.write(json.dumps(tokenizer_json, ensure_ascii = False))
 
 
 def load_tokinazer(name):
-    with open("Data/" + str(name) + '_tokenizer.pickle', 'rb') as handle:
-        tokenizer = pickle.load(handle)
+    with open("Data/" + str(name) + '_tokenizer.json') as f:
+        data = json.load(f)
+        tokenizer = tokenizer_from_json(data)
 
     return tokenizer
 
 
 def full_path_load_tokinazer(name):
-    with open(name, 'rb') as handle:
-        tokenizer = pickle.load(handle)
+    with open(name) as f:
+        data = json.load(f)
+        tokenizer = tokenizer_from_json(data)
 
     return tokenizer
 
@@ -28,4 +33,5 @@ def get_Tokinazer(X, Y, maxWordsCount = 5000, lower = True, char_level = False):
     return tokenizer
 
 def get_Tokinazer_by_model(model_name):
-    return model_name[:len(model_name) - 3] + "_tokenizer.pickle"
+    return model_name[:len(model_name) - 3] + "_tokenizer.json"
+
