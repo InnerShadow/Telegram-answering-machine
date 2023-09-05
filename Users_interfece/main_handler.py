@@ -68,7 +68,7 @@ async def victim_hanfler(client, command = None, victim = None):
                 await victim_hanfler(command)
                 return 
 
-            victim = "Data/" + victim 
+            victim = "Data/" + victim + ".txt"
             with open(str(victim), 'w') as f:
                 f.write(" ")
             
@@ -93,9 +93,9 @@ async def victim_hanfler(client, command = None, victim = None):
             
             model = full_path_load_QA_model(model_name)
             tokenizer = full_path_load_tokinazer(tokinazer_name)
-
+            
             try:
-                with open(victim[5:len(victim) - 3] + "_model_configuration.txt", 'r') as f:
+                with open("Data/" + victim[6:len(victim) - 4] + "_model_configuration.txt", 'r') as f:
                     maxWordsCount = int(f.readline())
                     sequences_len = int(f.readline())
             except Exception:
@@ -220,7 +220,7 @@ async def models_handler(client, command = None):
             print("\nModel has been traind!\n")
             save_QA_model(train_victim[1:], model)
 
-            with open(train_victim[1:] + "_model_configuration.txt", 'w') as f:
+            with open("Data/" + train_victim[1:] + "_model_configuration.txt", 'w') as f:
                 f.write(str(maxWordsCount) + "\n")
                 f.write(str(sequences_len) + "\n")
             
@@ -282,7 +282,7 @@ async def models_handler(client, command = None):
                 await models_handler(client, command)
                 return 
             
-            with open(train_victim[1:] + "_model_configuration.txt", 'r') as f:
+            with open("Data/" + train_victim[1:] + "_model_configuration.txt", 'r') as f:
                 maxWordsCount = int(f.readline())
                 sequences_len = int(f.readline())
 
