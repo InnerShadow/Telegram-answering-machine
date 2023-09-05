@@ -93,7 +93,7 @@ async def victim_hanfler(client, command = None, victim = None):
             
             model = full_path_load_QA_model(model_name)
             tokenizer = full_path_load_tokinazer(tokinazer_name)
-            
+
             try:
                 with open("Data/" + victim[6:len(victim) - 4] + "_model_configuration.txt", 'r') as f:
                     maxWordsCount = int(f.readline())
@@ -131,6 +131,13 @@ async def models_handler(client, command = None):
             
             model = full_path_load_QA_model(models[int(selected_model_id) - 1])
             model.summary()
+
+            model_name = models[int(selected_model_id) - 1]
+            with open("Data/" + model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
+                maxWordsCount = int(f.readline())
+                sequences_len = int(f.readline())
+
+            print("\nmaxWordsCount: " + str(maxWordsCount) + ", sequences_len: " + str(sequences_len) + "\n")
             
             await models_handler(client)
             return 
@@ -239,6 +246,13 @@ async def models_handler(client, command = None):
             tokenizer = full_path_load_tokinazer(get_Tokinazer_by_model(models[int(model_id) - 1]))
 
             model.summary()
+
+            model_name = models[int(model_id) - 1]
+            with open("Data/" + model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
+                maxWordsCount = int(f.readline())
+                sequences_len = int(f.readline())
+
+            print("\nmaxWordsCount: " + str(maxWordsCount) + ", sequences_len: " + str(sequences_len) + "\n")
 
             train_victim = input("\nEnter person and model will train base on your conversation (like @My_frind): ")
             if train_victim[0] != "@":

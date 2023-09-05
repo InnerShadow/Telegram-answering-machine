@@ -25,4 +25,3 @@ if __name__ == '__main__':
 # TODO: Make comments!
 # TODO: Make ignoring in diffrent thread
 # TODO: Make help options
-# TODO: Show model_configuration.txt wuth model.summary()
