@@ -11,6 +11,7 @@ from Users_interfece.helpers import *
 def selected_victim_handler(victim, command = None):
     if command == None:
         command = selected_victim_menu()
+
     match command:
         case "Selected victim set":
             models = get_all_models()
@@ -48,12 +49,14 @@ def selected_victim_handler(victim, command = None):
 async def victim_handler(client, command = None, victim = None):
     if command == None:
         command = victim_menu()
+
     match command:
         case "Victim show all":
             get_all_victiums()
 
             await victim_handler(client)
             return 
+        
         case "Victim select":
             victims = get_all_victiums()
 
@@ -69,6 +72,7 @@ async def victim_handler(client, command = None, victim = None):
 
             await victim_handler(client, victim = victim)
             return 
+        
         case "Victim new":
             victim = input("\nEnter telegram link of victim as @My_frind: ")
             if victim[0] != "@":
@@ -82,6 +86,7 @@ async def victim_handler(client, command = None, victim = None):
             
             await victim_handler(client, victim = victim)
             return 
+        
         case "Victim do ignore":
             if victim == None:
                 print("\nPlease, select the victim!\n")
@@ -129,12 +134,14 @@ async def victim_handler(client, command = None, victim = None):
 async def models_handler(client, command = None):
     if command == None:
         command = models_menu()
+
     match command:
         case "Models show":
             get_all_models()
 
             await models_handler(client)
             return 
+        
         case "Models info":
             models = get_all_models()
 
@@ -156,6 +163,7 @@ async def models_handler(client, command = None):
             
             await models_handler(client)
             return 
+        
         case "Models train":
             train_victim = input("\nEnter person and model will train base on your conversation (like @My_frind): ")
             if train_victim[0] != "@":
@@ -248,6 +256,7 @@ async def models_handler(client, command = None):
             
             await models_handler(client)
             return
+        
         case "Models learn more":
             models = get_all_models()
             try:
@@ -336,19 +345,24 @@ async def models_handler(client, command = None):
 async def main_handler(client, command = None):
     if command == None:
         command = main_menu()
+
     match command:
         case "Victim munu":
             await victim_handler(client, victim_menu())
             await main_handler(client)
+            return
 
         case "Models menu":
             await models_handler(client, models_menu())
             await main_handler(client)
+            return
 
         case "Main help":
             main_helper()
             await main_handler(client)
+            return
 
         case "Exit":
+            print("\nHave a good day!\n")
             exit()
 
