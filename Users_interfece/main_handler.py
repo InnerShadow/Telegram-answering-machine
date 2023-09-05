@@ -5,6 +5,7 @@ from Model.Tokenizer import *
 from Users_interfece.interface import *
 from Telegram.MonitoringByName import *
 from Data_manupulation.test_selection import *
+from Users_interfece.helpers import *
 
 
 def selected_victim_handler(victim, command = None):
@@ -26,25 +27,32 @@ def selected_victim_handler(victim, command = None):
 
             selected_victim_handler(victim)
             return 
+        
         case "Selected victim info":
             with open(str(victim), 'r') as f:
                 print("\nModel: " + f.readline() + "\nTokinazer: " + f.readline() + "\n")
             
             selected_victim_handler(victim)
             return 
+        
+        case "Selected victim help":
+            selected_victim_help()
+            selected_victim_handler(victim)
+            return
+
         case "Selected victim back":
             return 
     return 
 
 
-async def victim_hanfler(client, command = None, victim = None):
+async def victim_handler(client, command = None, victim = None):
     if command == None:
         command = victim_menu()
     match command:
         case "Victim show all":
             get_all_victiums()
 
-            await victim_hanfler(client)
+            await victim_handler(client)
             return 
         case "Victim select":
             victims = get_all_victiums()
@@ -52,32 +60,32 @@ async def victim_hanfler(client, command = None, victim = None):
             victim_id = int(input("\nSelect victim by id: "))
             if victim_id > len(victims):
                 print("\nYou should select existable victim\n")
-                await victim_hanfler(client, command)
+                await victim_handler(client, command)
                 return 
             
             victim = victims[victim_id - 1]
             print("\n" + victim + " has been selected!\n")
             selected_victim_handler(victim)
 
-            await victim_hanfler(client, victim = victim)
+            await victim_handler(client, victim = victim)
             return 
         case "Victim new":
             victim = input("\nEnter telegram link of victim as @My_frind: ")
             if victim[0] != "@":
                 print("\nYou should enter link like @My_frind\n")
-                await victim_hanfler(command)
+                await victim_handler(command)
                 return 
 
             victim = "Data/" + victim + ".txt"
             with open(str(victim), 'w') as f:
                 f.write(" ")
             
-            await victim_hanfler(client, victim = victim)
+            await victim_handler(client, victim = victim)
             return 
         case "Victim do ignore":
             if victim == None:
                 print("\nPlease, select the victim!\n")
-                await victim_hanfler(client)
+                await victim_handler(client)
                 return 
             
             model_name = ""
@@ -88,7 +96,7 @@ async def victim_hanfler(client, command = None, victim = None):
             
             if model_name == "" or tokinazer_name == "":
                 print("\nVictim configuration should not be empty! Set the model to ignore victim!\n")
-                await victim_hanfler(client)
+                await victim_handler(client)
                 return 
             
             model = full_path_load_QA_model(model_name)
@@ -100,14 +108,21 @@ async def victim_hanfler(client, command = None, victim = None):
                     sequences_len = int(f.readline())
             except Exception:
                 print("\nModel configuration cannot be empty!\n")
-                await victim_hanfler(client)
+                await victim_handler(client)
                 return
             
             asyncio.run(await MonitoringByName(victim, client, model, tokenizer, sequences_len))
-            await victim_hanfler(client)
+            await victim_handler(client)
             return 
+
         case "Victim back":
             return 
+        
+        case "Victim help":
+            victim_helper()
+            await victim_handler(client)
+            return
+
     return 
 
 
@@ -309,6 +324,12 @@ async def models_handler(client, command = None):
             
         case "Models back":
             return 
+        
+        case "Models help":
+            models_helper()
+            await models_handler(client)
+            return
+
     return 
 
 
@@ -317,11 +338,15 @@ async def main_handler(client, command = None):
         command = main_menu()
     match command:
         case "Victim munu":
-            await victim_hanfler(client, victim_menu())
+            await victim_handler(client, victim_menu())
             await main_handler(client)
 
         case "Models menu":
             await models_handler(client, models_menu())
+            await main_handler(client)
+
+        case "Main help":
+            main_helper()
             await main_handler(client)
 
         case "Exit":

@@ -25,3 +25,5 @@ if __name__ == '__main__':
 # TODO: Make comments!
 # TODO: Make ignoring in diffrent thread
 # TODO: Make help options
+# TODO: Make auto-load ignoring 
+# TODO: Make better parametrs recomendation

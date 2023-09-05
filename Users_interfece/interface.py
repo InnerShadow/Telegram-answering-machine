@@ -6,7 +6,9 @@ from telethon.sync import TelegramClient
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
 def first_launch():
-    print(os.getcwd())
+    print("\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
+          "\nThis mean that neural network that was train base your previous conversation will send messengers to person you don't want to talk right now!"
+          "\nEnjoy the calm!\n")
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
         print("\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
@@ -16,19 +18,25 @@ def first_launch():
 def main_menu():
     print("\n1: Victims."
           "\n2: Models."
-          "\n3: Exit\n")
+          "\n3: Exit"
+          "\n4: Help\n")
     state = int(input("\nSelect modul: "))
-    if state > 3 or state == 0:
+    if state > 4 or state == 0:
         print("\nYou should select existable modul!\n")
         return main_menu()
     
     match state:
         case 1:
             return "Victim munu"
+        
         case 2:
             return "Models menu"
+        
         case 3:
             return "Exit"
+        
+        case 4:
+            return "Main help"
     
 
 def victim_menu():
@@ -36,49 +44,63 @@ def victim_menu():
           "\n2: Select victim by id."
           "\n3: Get new victim."
           "\n4: Start ignoring."
-          "\n5: Back to main menu\n")
+          "\n5: Back to main menu"
+          "\n6: Help\n")
     try:
         state = int(input("\nSelect modul: "))
     except (TypeError, ValueError):
         print("\nYou should select existable action!\n")
         return victim_menu()
-    if state > 5 or state == 0:
+    if state > 6 or state == 0:
         print("\nYou should select existable action!\n")
         return victim_menu()
     
     match state:
         case 1:
-            return("Victim show all")
+            return "Victim show all"
+        
         case 2:
-            return("Victim select")
+            return "Victim select"
+        
         case 3:
-            return("Victim new")
+            return "Victim new"
+        
         case 4:
-            return("Victim do ignore")
+            return "Victim do ignore"
+        
         case 5:
-            return("Victim back")
+            return "Victim back"
+        
+        case 6:
+            return "Victim help"
 
 
 def selected_victim_menu():
     print("\n1: Set model by id."
           "\n2: Display info"
-          "\n3: Back to victim menu\n")
+          "\n3: Back to victim menu"
+          "\n4: Help\n")
     try:
         state = int(input("\nSelect modul: "))
     except (TypeError, ValueError):
         print("\nYou should select existable action!\n")
         return victim_menu()
-    if state > 3 or state == 0:
+    if state > 4 or state == 0:
         print("\nYou should select existable action!\n")
         return selected_victim_menu()
     
     match state:
         case 1:
             return "Selected victim set"
+        
         case 2:
             return "Selected victim info"
+        
         case 3:
             return "Selected victim back"
+        
+        case 4: 
+            return "Selected victim help"
 
 
 def models_menu():
@@ -86,27 +108,35 @@ def models_menu():
           "\n2: Get model info by id"
           "\n3: Train new model"
           "\n4: Learn more for model"
-          "\n5: Back to main menu\n")
+          "\n5: Back to main menu"
+          "\n6: Help")
     try:
         state = int(input("\nSelect modul: "))
     except (TypeError, ValueError):
         print("\nYou should select existable action!\n")
         return victim_menu()
-    if state > 5 or state == 0:
+    if state > 6 or state == 0:
         print("\nYou should select existable action!\n")
         return models_menu()
     
     match state:
         case 1: 
-            return("Models show")
+            return "Models show"
+        
         case 2:
-            return("Models info")
+            return "Models info"
+        
         case 3:
-            return("Models train")
+            return "Models train"
+        
         case 4: 
-            return("Models learn more")
+            return "Models learn more"
+        
         case 5:
-            return("Models back")
+            return "Models back"
+        
+        case 6: 
+            return "Models help"
 
 
 async def log_in(phone, apiid, apihash):
