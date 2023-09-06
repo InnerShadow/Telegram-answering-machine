@@ -85,7 +85,6 @@ async def GetTrainDataByName(name, client, limit = None):
     #Start with the first conversation message and ends with the lst one
     #Beat data into requests-response 
     i = GetFirstRequest(data, self_id)
-    it = 0
     while i >= 0:
         request = ""
 
@@ -110,8 +109,6 @@ async def GetTrainDataByName(name, client, limit = None):
                 break
 
         Y.append(response)
-        
-        it += 1
 
     return X, Y
 

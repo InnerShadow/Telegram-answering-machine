@@ -25,7 +25,7 @@ def main_menu():
           "\n4: Help\n")
     state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     if state > 4 or state == 0:
-        print(Fore.LIGHTWHITE_EX + "\nYou should select existable modul!\n")
+        print(Fore.LIGHTRED_EX + "\nYou should select existable modul!\n")
         return main_menu()
     
     print(Style.RESET_ALL)
@@ -54,10 +54,10 @@ def victim_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTWHITE_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return victim_menu()
     if state > 6 or state == 0:
-        print(Fore.LIGHTWHITE_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return victim_menu()
     
     print(Style.RESET_ALL)
@@ -90,10 +90,10 @@ def selected_victim_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTWHITE_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return victim_menu()
     if state > 4 or state == 0:
-        print(Fore.LIGHTWHITE_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return selected_victim_menu()
     
     print(Style.RESET_ALL)
@@ -122,10 +122,10 @@ def models_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTWHITE_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return victim_menu()
     if state > 6 or state == 0:
-        print(Fore.LIGHTWHITE_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return models_menu()
     
     print(Style.RESET_ALL)
@@ -164,7 +164,7 @@ async def log_in(phone, apiid, apihash):
                 password = input(Fore.LIGHTWHITE_EX + "\nEnter password: \n")
                 client = await client.sign_in(password = password)
     except Exception:
-        print(Fore.LIGHTWHITE_EX + "\nCannot login Telegram!\n")
+        print(Fore.LIGHTRED_EX + "\nCannot login Telegram!\n")
         return None
 
     print(Fore.LIGHTGREEN_EX + "\nConnected succsessfull!\n")
