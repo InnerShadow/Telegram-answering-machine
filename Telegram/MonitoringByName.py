@@ -5,6 +5,7 @@ from telethon.events import NewMessage
 from Data_manupulation.Words_level import Word_level_QA_answer
 from Data_manupulation.test_selection import message_preprocessing
 
+
 #Send message if it sends from a companion
 async def message_handler(event, model, tokinazer, sequences_len):
     #Get sleep for 5 seconds to avoid requests spamming

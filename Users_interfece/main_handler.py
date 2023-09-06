@@ -1,4 +1,5 @@
 import asyncio
+import concurrent.futures
 
 from Model.QA_model import *
 from Model.Tokenizer import *
@@ -26,7 +27,7 @@ def selected_victim_handler(victim, command = None):
                 print(Style.RESET_ALL)
                 return 
             
-            print(Fore.LIGHTLIGHTGREEN_EX_EX + "\n" + models[model_id - 1][5:len(models[model_id - 1]) - 3] + " model has been selected!\n")
+            print(Fore.LIGHTGREEN_EX + "\n" + models[model_id - 1][5:len(models[model_id - 1]) - 3] + " model has been selected!\n")
             with open(str(victim), 'w') as f:
                 f.write(str(models[int(model_id) - 1]) + "\n")
                 f.write(str(models[int(model_id) - 1])[:len(str(models[int(model_id) - 1])) - 3] + "_tokenizer.json")
@@ -38,7 +39,9 @@ def selected_victim_handler(victim, command = None):
         
         case "Selected victim info":
             with open(str(victim), 'r') as f:
-                print(Fore.LIGHTGREEN_EX + "\nModel: " + f.readline() + "\nTokinazer: " + f.readline() + "\n")
+                model_name = f.readline()
+                tokinazer_name = f.readline()
+                print(Fore.LIGHTGREEN_EX + "\nModel: " + model_name[5:len(model_name) - 3] + "\nTokinazer: " + tokinazer_name[5:len(tokinazer_name) - 5] + "\n")
 
             print(Style.RESET_ALL)
             
@@ -124,7 +127,7 @@ async def victim_handler(client, command = None, victim = None):
             tokenizer = full_path_load_tokinazer(tokinazer_name)
 
             try:
-                with open("Data/" + model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
+                with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
                     maxWordsCount = int(f.readline())
                     sequences_len = int(f.readline())
             except Exception:
@@ -133,7 +136,7 @@ async def victim_handler(client, command = None, victim = None):
                 await victim_handler(client)
                 return
             
-            asyncio.run(await MonitoringByName(victim, client, model, tokenizer, sequences_len))
+            await MonitoringByName(victim, client, model, tokenizer, sequences_len)
             await victim_handler(client)
             return 
 
