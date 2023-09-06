@@ -6,6 +6,7 @@ from Users_interfece.interface import *
 from Telegram.MonitoringByName import *
 from Data_manupulation.test_selection import *
 from Users_interfece.helpers import *
+from tqdm import tqdm
 
 from colorama import Fore, Style
 
@@ -21,7 +22,7 @@ def selected_victim_handler(victim, command = None):
             models = get_all_models()
             model_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect model by id: "))
             if model_id > len(models):
-                print(Fore.RED + "\nSelect existable model!\n")
+                print(Fore.LIGHTWHITE_EX + "\nSelect existable model!\n")
                 selected_victim_handler(victim)
                 print(Style.RESET_ALL)
                 return 
@@ -74,7 +75,7 @@ async def victim_handler(client, command = None, victim = None):
 
             victim_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect victim by id: "))
             if victim_id > len(victims):
-                print(Fore.RED + "\nYou should select existable victim\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should select existable victim\n")
                 print(Style.RESET_ALL)
                 await victim_handler(client, command)
                 return 
@@ -89,7 +90,7 @@ async def victim_handler(client, command = None, victim = None):
         case "Victim new":
             victim = input(Fore.LIGHTWHITE_EX + "\nEnter telegram link of victim as @My_frind: ")
             if victim[0] != "@":
-                print(Fore.RED + "\nYou should enter link like @My_frind\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter link like @My_frind\n")
                 print(Style.RESET_ALL)
                 await victim_handler(command)
                 return 
@@ -103,7 +104,7 @@ async def victim_handler(client, command = None, victim = None):
         
         case "Victim do ignore":
             if victim == None:
-                print(Fore.RED + "\nPlease, select the victim!\n")
+                print(Fore.LIGHTWHITE_EX + "\nPlease, select the victim!\n")
                 print(Style.RESET_ALL)
                 await victim_handler(client)
                 return 
@@ -115,7 +116,7 @@ async def victim_handler(client, command = None, victim = None):
                 tokinazer_name = f.readline()
             
             if model_name == "" or tokinazer_name == "":
-                print(Fore.RED + "\nVictim configuration should not be empty! Set the model to ignore victim!\n")
+                print(Fore.LIGHTLIGHTWHITE_EX_EX + "\nVictim configuration should not be empty! Set the model to ignore victim!\n")
                 print(Style.RESET_ALL)
                 await victim_handler(client)
                 return 
@@ -128,7 +129,7 @@ async def victim_handler(client, command = None, victim = None):
                     maxWordsCount = int(f.readline())
                     sequences_len = int(f.readline())
             except Exception:
-                print(Fore.RED + "\nModel configuration cannot be empty!\n")
+                print(Fore.LIGHTWHITE_EX + "\nModel configuration cannot be empty!\n")
                 print(Style.RESET_ALL)
                 await victim_handler(client)
                 return
@@ -166,7 +167,7 @@ async def models_handler(client, command = None):
 
             selected_model_id = int(input(Fore.LIGHTWHITE_EX + "\nEnter model id: "))
             if selected_model_id > len(models):
-                print(Fore.RED + "\n" + str(selected_model_id) + " model does not exist!\n")
+                print(Fore.LIGHTWHITE_EX + "\n" + str(selected_model_id) + " model does not exist!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client)
                 return 
@@ -188,7 +189,7 @@ async def models_handler(client, command = None):
         case "Models train":
             train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_frind): ")
             if train_victim[0] != "@":
-                print(Fore.RED + "\nYou should enter link like @My_frind\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter link like @My_frind\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command, train_victim)
                 return 
@@ -204,7 +205,7 @@ async def models_handler(client, command = None):
                 try:
                     num_messages = int(num_messages)
                 except (TypeError, ValueError):
-                    print(Fore.RED + "\nPlease enter number of messages!\n")
+                    print(Fore.LIGHTWHITE_EX + "\nPlease enter number of messages!\n")
                     print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
@@ -217,7 +218,7 @@ async def models_handler(client, command = None):
             try:
                 maxWordsCount = int(input(Fore.LIGHTWHITE_EX + "\nEnter size of vocabulary: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter size of vocabulary!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter size of vocabulary!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command)
             
@@ -228,12 +229,12 @@ async def models_handler(client, command = None):
                 elif lower == 0:
                     lower = False
                 else:
-                    print(Fore.RED + "\nYou should enter 1 or 0 to set register!\n")
+                    print(Fore.LIGHTWHITE_EX + "\nYou should enter 1 or 0 to set register!\n")
                     print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
             except (TypeError, ValueError):
-                    print(Fore.RED + "\nYou should enter 1 or 0 to set register!\n")
+                    print(Fore.LIGHTWHITE_EX + "\nYou should enter 1 or 0 to set register!\n")
                     print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
@@ -241,7 +242,7 @@ async def models_handler(client, command = None):
             try:
                 latent_dim = int(input(Fore.LIGHTWHITE_EX + "\nEnter hidden LSTM layer neurons: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter number of hidden LSTM layer neurons!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter number of hidden LSTM layer neurons!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
@@ -252,7 +253,7 @@ async def models_handler(client, command = None):
             try:
                 epochs = int(input(Fore.LIGHTWHITE_EX + "\nEnter number of epochs: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter number of epochs!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter number of epochs!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, model)
                 return 
@@ -260,7 +261,7 @@ async def models_handler(client, command = None):
             try:
                 batch_size = int(input(Fore.LIGHTWHITE_EX + "\nEnter batch size: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter batch size!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter batch size!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
@@ -268,7 +269,7 @@ async def models_handler(client, command = None):
             try:
                 messages_per_pack = int(input(Fore.LIGHTWHITE_EX + "\nEnter messages per pack: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter number messeages per pack!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter number messeages per pack!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
@@ -276,7 +277,7 @@ async def models_handler(client, command = None):
             try:
                 sequences_len = int(input(Fore.LIGHTWHITE_EX + "\nEnter sequences length: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter sequences length!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter sequences length!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
@@ -299,7 +300,7 @@ async def models_handler(client, command = None):
             try:
                 model_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect model by id acording the list: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should select existable model!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should select existable model!\n")
                 print(Style.RESET_ALL)
                 models_handler(client)
                 return
@@ -320,7 +321,7 @@ async def models_handler(client, command = None):
 
             train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_frind): ")
             if train_victim[0] != "@":
-                print(Fore.RED + "\nYou should enter link like @My_frind\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter link like @My_frind\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command, train_victim)
                 return 
@@ -336,7 +337,7 @@ async def models_handler(client, command = None):
                 try:
                     num_messages = int(num_messages)
                 except (TypeError, ValueError):
-                    print(Fore.RED + "\nPlease enter number of messages!\n")
+                    print(Fore.LIGHTWHITE_EX + "\nPlease enter number of messages!\n")
                     print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
@@ -345,7 +346,7 @@ async def models_handler(client, command = None):
             try:
                 epochs = int(input(Fore.LIGHTWHITE_EX + "\nEnter number of epochs: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter number of epochs!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter number of epochs!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, model)
                 return 
@@ -353,7 +354,7 @@ async def models_handler(client, command = None):
             try:
                 batch_size = int(input(Fore.LIGHTWHITE_EX + "\nEnter batch size: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter batch size!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter batch size!\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
@@ -361,7 +362,7 @@ async def models_handler(client, command = None):
             try:
                 messages_per_pack = int(input(Fore.LIGHTWHITE_EX + "\nEnter messages per pack: "))
             except (TypeError, ValueError):
-                print(Fore.RED + "\nYou should enter number messeages per pack!\n")
+                print(Fore.LIGHTWHITE_EX + "\nYou should enter number messeages per pack!\n")
                 await models_handler(client, command)
                 return 
             
