@@ -21,7 +21,7 @@ def selected_victim_handler(victim, command = None):
                 selected_victim_handler(victim)
                 return 
             
-            print("\n" + models[model_id - 1] + " has been selected!\n")
+            print("\n" + models[model_id - 1][5:len(models[model_id - 1]) - 3] + " model has been selected!\n")
             with open(str(victim), 'w') as f:
                 f.write(str(models[int(model_id) - 1]) + "\n")
                 f.write(str(models[int(model_id) - 1])[:len(str(models[int(model_id) - 1])) - 3] + "_tokenizer.json")
@@ -67,7 +67,7 @@ async def victim_handler(client, command = None, victim = None):
                 return 
             
             victim = victims[victim_id - 1]
-            print("\n" + victim + " has been selected!\n")
+            print("\n" + victim[5:len(victim) - 4] + " has been selected as victim!\n")
             selected_victim_handler(victim)
 
             await victim_handler(client, victim = victim)
@@ -184,7 +184,10 @@ async def models_handler(client, command = None):
                     print("\nPlease enter number of messages!\n")
                     await models_handler(client, command)
                     return 
+                
+            print("\nStart loading data. This can take a while!\n") 
             X, Y = await GetTrainDataByName(train_victim, client, num_messages)
+            print("\nData has been loaded!\n")
 
             try:
                 maxWordsCount = int(input("\nEnter size of vocabulary: "))

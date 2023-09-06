@@ -27,4 +27,3 @@ if __name__ == '__main__':
 # TODO: Make ignoring in diffrent thread
 # TODO: Make auto-load ignoring 
 # TODO: Make better parametrs recomendation
-# TODO: Make better display info it mean dismiss full math, leave just names of files 

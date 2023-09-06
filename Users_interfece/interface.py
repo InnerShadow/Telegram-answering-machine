@@ -173,7 +173,7 @@ def get_all_victiums(Show = True):
     victiums = glob.glob(os.path.join("Data/", "@*.txt"))
     if(Show):
         for i in range(len(victiums)):
-            print(str(i + 1) + " : " + str(victiums[i]))
+            print(str(i + 1) + " : " + str(victiums[i])[5:len(victiums[i]) - 4])
         print("\n")
 
     return victiums
@@ -183,7 +183,7 @@ def get_all_models(Show = True):
     models = glob.glob(os.path.join("Data/", "*.h5"))
     if(Show):
         for i in range(len(models)):
-            print(str(i + 1) + " : " + str(models[i]))
+            print(str(i + 1) + " : " + str(models[i])[5:len(models[i]) - 3])
         print("\n")
 
     return models
