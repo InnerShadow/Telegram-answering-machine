@@ -65,9 +65,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256):
-    num_tokens = maxWordsCount
-
-    shared_embedding_layer = Embedding(num_tokens, latent_dim)
+    shared_embedding_layer = Embedding(maxWordsCount, latent_dim)
 
     encoder_inputs = Input(shape = (None, ))
     decoder_inputs = Input(shape = (None, ))
@@ -82,14 +80,7 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256):
     decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state=encoder_states)
 
-    encoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
-    encoder_outputs, state_h = encoder_gru(encoder_outputs)
-    encoder_states = [state_h]
-
-    decoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
-    decoder_outputs, _ = decoder_gru(decoder_outputs, initial_state = encoder_states)
-
-    decoder_dense = Dense(num_tokens, activation = 'softmax')
+    decoder_dense = Dense(maxWordsCount, activation = 'softmax')
     decoder_outputs = decoder_dense(decoder_outputs)
 
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)

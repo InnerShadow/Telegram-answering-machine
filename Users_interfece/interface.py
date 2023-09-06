@@ -7,7 +7,7 @@ from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
 def first_launch():
     print("\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
-          "\nThis mean that neural network that was train base your previous conversation will send messengers to person you don't want to talk right now!"
+          "\nThis mean that neural network that was train base your previous conversation will generate messengers to person you don't want to talk right now!"
           "\nEnjoy the calm!\n")
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:

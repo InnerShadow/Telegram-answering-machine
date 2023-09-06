@@ -108,7 +108,7 @@ async def victim_handler(client, command = None, victim = None):
             tokenizer = full_path_load_tokinazer(tokinazer_name)
 
             try:
-                with open("Data/" + victim[6:len(victim) - 4] + "_model_configuration.txt", 'r') as f:
+                with open("Data/" + model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
                     maxWordsCount = int(f.readline())
                     sequences_len = int(f.readline())
             except Exception:
