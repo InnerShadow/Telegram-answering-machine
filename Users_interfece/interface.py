@@ -2,28 +2,33 @@ import os
 import glob
 
 from telethon.sync import TelegramClient
+from colorama import Fore, Style
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
 def first_launch():
-    print("\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
+    print(Fore.GREEN + "\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
           "\nThis mean that neural network that was train base your previous conversation will generate messengers to person you don't want to talk right now!"
           "\nEnjoy the calm!\n")
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
-        print("\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
+        print(Fore.YELLOW + "\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
               "and get api hash & api id to continue using this application.\n")
+        
+    print(Style.RESET_ALL)
         
 
 def main_menu():
-    print("\n1: Victims."
+    print(Fore.GREEN + "\n1: Victims."
           "\n2: Models."
           "\n3: Exit"
           "\n4: Help\n")
-    state = int(input("\nSelect modul: "))
+    state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     if state > 4 or state == 0:
-        print("\nYou should select existable modul!\n")
+        print(Fore.RED + "\nYou should select existable modul!\n")
         return main_menu()
+    
+    print(Style.RESET_ALL)
     
     match state:
         case 1:
@@ -40,20 +45,22 @@ def main_menu():
     
 
 def victim_menu():
-    print("\n1: Show all victims." 
+    print(Fore.GREEN + "\n1: Show all victims." 
           "\n2: Select victim by id."
           "\n3: Get new victim."
           "\n4: Start ignoring."
           "\n5: Back to main menu"
           "\n6: Help\n")
     try:
-        state = int(input("\nSelect modul: "))
+        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print("\nYou should select existable action!\n")
+        print(Fore.RED + "\nYou should select existable action!\n")
         return victim_menu()
     if state > 6 or state == 0:
-        print("\nYou should select existable action!\n")
+        print(Fore.RED + "\nYou should select existable action!\n")
         return victim_menu()
+    
+    print(Style.RESET_ALL)
     
     match state:
         case 1:
@@ -76,18 +83,20 @@ def victim_menu():
 
 
 def selected_victim_menu():
-    print("\n1: Set model by id."
+    print(Fore.GREEN + "\n1: Set model by id."
           "\n2: Display info"
           "\n3: Back to victim menu"
           "\n4: Help\n")
     try:
-        state = int(input("\nSelect modul: "))
+        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print("\nYou should select existable action!\n")
+        print(Fore.RED + "\nYou should select existable action!\n")
         return victim_menu()
     if state > 4 or state == 0:
-        print("\nYou should select existable action!\n")
+        print(Fore.RED + "\nYou should select existable action!\n")
         return selected_victim_menu()
+    
+    print(Style.RESET_ALL)
     
     match state:
         case 1:
@@ -104,20 +113,22 @@ def selected_victim_menu():
 
 
 def models_menu():
-    print("\n1: Show all models"
+    print(Fore.GREEN + "\n1: Show all models"
           "\n2: Get model info by id"
           "\n3: Train new model"
           "\n4: Learn more for model"
           "\n5: Back to main menu"
           "\n6: Help")
     try:
-        state = int(input("\nSelect modul: "))
+        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print("\nYou should select existable action!\n")
+        print(Fore.RED + "\nYou should select existable action!\n")
         return victim_menu()
     if state > 6 or state == 0:
-        print("\nYou should select existable action!\n")
+        print(Fore.RED + "\nYou should select existable action!\n")
         return models_menu()
+    
+    print(Style.RESET_ALL)
     
     match state:
         case 1: 
@@ -140,23 +151,25 @@ def models_menu():
 
 
 async def log_in(phone, apiid, apihash):
-    print("\nTry to connect to telegram: \n")
+    print(Fore.YELLOW + "\nTry to connect to telegram: \n")
     client = TelegramClient(phone, apiid, apihash)
     await client.connect()
     try:
         if not await client.is_user_authorized():
-            print("\nCannot find previous session, enter following data: \n")
+            print(Fore.YELLOW + "\nCannot find previous session, enter following data: \n")
             await client.send_code_request(phone)
             try :
-                await client.sign_in(GetPhoneNumber(), code = input('\nEnter the code: \n'))
+                await client.sign_in(GetPhoneNumber(), code = input(Fore.LIGHTWHITE_EX + '\nEnter the code: \n'))
             except Exception:
-                password = input("\nEnter password: \n")
+                password = input(Fore.LIGHTWHITE_EX + "\nEnter password: \n")
                 client = await client.sign_in(password = password)
     except Exception:
-        print("\nCannot login Telegram!\n")
+        print(Fore.RED + "\nCannot login Telegram!\n")
         return None
 
-    print("\nConnected succsessfull!\n")
+    print(Fore.LIGHTGREEN_EX + "\nConnected succsessfull!\n")
+
+    print(Style.RESET_ALL)
 
     return client
 

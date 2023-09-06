@@ -3,3 +3,4 @@ telethon
 keras
 tensorflow
 tf-nightly
+colorama

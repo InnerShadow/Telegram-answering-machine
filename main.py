@@ -5,8 +5,11 @@ import asyncio
 
 from Users_interfece.interface import first_launch, application_api, main_menu, log_in
 from Users_interfece.main_handler import main_handler
+from colorama import init
 
 async def __main__():
+    init()
+
     first_launch()
 
     phone, apiid, apihash = application_api()
@@ -22,7 +25,6 @@ if __name__ == '__main__':
     asyncio.run(__main__())
 
 
-# TODO: MAke colarization where need
 # TODO: Make comments!
 # TODO: Make ignoring in diffrent thread
 # TODO: Make auto-load ignoring 

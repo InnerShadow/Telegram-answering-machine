@@ -1,10 +1,12 @@
 
+from colorama import Fore
+
 def GetPhoneNumber():
     try:
         with open ("Data/phone.txt", 'r') as f:
             phone = f.readline()
     except Exception:
-        phone = input("Enter phone: ")
+        phone = input(Fore.LIGHTWHITE_EX + "Enter phone: ")
         with open ("Data/phone.txt", 'w') as f:
             f.write(phone)
     return phone
@@ -15,7 +17,7 @@ def GetAPIID():
         with open ("Data/apiid.txt", 'r') as f:
             apiid = f.readline()
     except Exception:
-        apiid = input("Enter api id: ")
+        apiid = input(Fore.LIGHTWHITE_EX + "Enter api id: ")
         with open ("Data/apiid.txt", 'w') as f:
             f.write(apiid)
     return apiid
@@ -27,7 +29,7 @@ def GETAPI_Hash():
             apihash = f.readline()
     except Exception:
         apihash = input("Enter api hash: ")
-        with open ("Data/apihash.txt", 'w') as f:
+        with open (Fore.LIGHTWHITE_EX + "Data/apihash.txt", 'w') as f:
             f.write(apihash)
     return apihash
 
