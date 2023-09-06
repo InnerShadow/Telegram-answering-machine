@@ -87,9 +87,9 @@ async def victim_handler(client, command = None, victim = None):
             return 
         
         case "Victim new":
-            victim = input(Fore.LIGHTWHITE_EX + "\nEnter telegram link of victim as @My_frind: ")
+            victim = input(Fore.LIGHTWHITE_EX + "\nEnter telegram link of victim as @My_friend: ")
             if victim[0] != "@":
-                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_frind\n")
+                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
                 print(Style.RESET_ALL)
                 await victim_handler(command)
                 return 
@@ -186,9 +186,9 @@ async def models_handler(client, command = None):
             return 
         
         case "Models train":
-            train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_frind): ")
+            train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_friend): ")
             if train_victim[0] != "@":
-                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_frind\n")
+                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
@@ -318,9 +318,9 @@ async def models_handler(client, command = None):
             print(Fore.YELLOW + "\nmaxWordsCount: " + str(maxWordsCount) + ", sequences_len: " + str(sequences_len) + "\n")
             print(Style.RESET_ALL)
 
-            train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_frind): ")
+            train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_friend): ")
             if train_victim[0] != "@":
-                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_frind\n")
+                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
                 print(Style.RESET_ALL)
                 await models_handler(client, command, train_victim)
                 return 
