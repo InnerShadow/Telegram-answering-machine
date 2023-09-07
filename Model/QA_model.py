@@ -50,7 +50,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
             data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
             
 
-            Y_categorical = to_categorical(data_Y, num_classes=maxWordsCount)
+            Y_categorical = to_categorical(data_Y, num_classes = maxWordsCount)
 
             index += batch_size
 

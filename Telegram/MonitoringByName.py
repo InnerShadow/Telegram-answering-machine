@@ -1,4 +1,5 @@
 import asyncio
+from colorama import Fore
 
 from telethon.events import NewMessage
 
@@ -23,10 +24,9 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
 
     #Add message_handler to event_handler to track when you get new message
     eveny_handler = NewMessage(from_users = [user.id])
-    #TODO: Do not ignor? why?
     client.add_event_handler(lambda event : message_handler(event, model, tokenizer, sequences_len), eveny_handler)
 
-    print("\n" + name[5:len(name) - 4] + " ignoring succsefully!\n")
+    print(Fore.LIGHTGREEN_EX + "\n" + name[5:len(name) - 4] + " ignoring succsefully!\n")
 
     await client.run_until_disconnected()
 
