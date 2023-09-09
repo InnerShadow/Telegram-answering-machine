@@ -415,7 +415,7 @@ async def models_handler(client, command = None):
 
             #Get data from model configuration
             model_name = models[int(model_id) - 1]
-            with open("Data/" + model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
+            with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
                 maxWordsCount = int(f.readline())
                 sequences_len = int(f.readline())
 

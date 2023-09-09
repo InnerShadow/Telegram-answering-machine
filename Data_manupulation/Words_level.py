@@ -18,3 +18,4 @@ def Word_level_QA_answer(model, tokenizer, msg, sequences_len = 100):
             res += tokenizer.index_word[np.argmax(i)] + " "
 
     return res
+

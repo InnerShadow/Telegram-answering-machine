@@ -34,4 +34,3 @@ if __name__ == '__main__':
 # TODO: Make auto-load ignoring 
 # TODO: Make better parametrs recomendation
 # TODO: Back to better configuration
-# TODO: Show graphics
