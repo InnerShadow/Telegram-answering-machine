@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 from keras.models import Model
 from keras.layers import Dense, Embedding, LSTM, GRU, Input
@@ -26,6 +27,8 @@ def full_path_load_QA_model(name):
 
 #Train Qa model step by step
 def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack, DoMaxPackLen = False):
+    #Save loss for graphics
+    global_loss = []
     #For by num of epochs
     for i in range(epochs):
         #Reser index value
@@ -72,6 +75,11 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
             accuracy_values.append(history.history['accuracy'])
 
         print("Mean loss: " + str(np.sum(loss_values) / len(loss_values)) + " mean accuracy: " + str(np.sum(accuracy_values) / len(accuracy_values)) + str("\n"))
+        global_loss.append((np.sum(loss_values) / len(loss_values)))
+
+    #Show graphs
+    plt.plot(global_loss)
+    plt.show()
 
     return model
 
