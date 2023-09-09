@@ -88,5 +88,6 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256):
     model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
+
     return model
 
