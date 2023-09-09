@@ -1,6 +1,7 @@
 
 from colorama import Fore, Style
 
+#Main menu helper
 def main_helper():
     print(Fore.YELLOW + "\nThis is main menu. This has 2 main modules:"
         "\n1) 'Victim menu', that has all manipulations with victims like create new victim or link model with victim and other;"
@@ -9,6 +10,7 @@ def main_helper():
     print(Style.RESET_ALL)
     
 
+#Victim menu helper
 def victim_helper():
     print(Fore.YELLOW + "\nThis is victim menu. It contains next options:"
         "\n1) 'Show all victims' simply shows all possible victims. It includes victims with empty configuration!"
@@ -20,6 +22,7 @@ def victim_helper():
     print(Style.RESET_ALL)
     
 
+#Selected vicitm menu helper
 def selected_victim_help():
     print(Fore.YELLOW + "\nThis is 'selected victim' menu. It provides:"
           "\n1) 'Set model by id' will connect selected victim with model by id. This option will fill victim configuration, that need in ignoring option;"
@@ -28,6 +31,7 @@ def selected_victim_help():
     print(Style.RESET_ALL)
     
 
+#Models helper 
 def models_helper():
     print(Fore.YELLOW + "\nThis is models menu. It contains next options:"
           "\n1) 'Show all models' option simply show all trained models;"

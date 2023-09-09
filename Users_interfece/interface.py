@@ -6,18 +6,23 @@ from colorama import Fore, Style
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
+#Gove helpul information to user
 def first_launch():
+    #Hello message
     print(Fore.GREEN + "\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
           "\nThis mean that neural network that was train base your previous conversation will generate messengers to person you don't want to talk right now!"
           "\nEnjoy the calm!\n")
+    
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
+        #Firts launch helper
         print(Fore.YELLOW + "\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
               "and get api hash & api id to continue using this application.\n")
         
     print(Style.RESET_ALL)
         
 
+#Main choise manu
 def main_menu():
     print(Fore.GREEN + "\n1: Victims."
           "\n2: Models."
@@ -44,6 +49,7 @@ def main_menu():
             return "Main help"
     
 
+#Victim choise menu
 def victim_menu():
     print(Fore.GREEN + "\n1: Show all victims." 
           "\n2: Select victim by id."
@@ -82,6 +88,7 @@ def victim_menu():
             return "Victim help"
 
 
+#Selected victim choise menu
 def selected_victim_menu():
     print(Fore.GREEN + "\n1: Set model by id."
           "\n2: Display info"
@@ -112,6 +119,7 @@ def selected_victim_menu():
             return "Selected victim help"
 
 
+#Model choise menu
 def models_menu():
     print(Fore.GREEN + "\n1: Show all models"
           "\n2: Get model info by id"
@@ -150,10 +158,14 @@ def models_menu():
             return "Models help"
 
 
+#Do log in telegram
 async def log_in(phone, apiid, apihash):
     print(Fore.YELLOW + "\nTry to connect to telegram: \n")
+    #Try to connect to telegram base on prev session
     client = TelegramClient(phone, apiid, apihash)
     await client.connect()
+
+    #If cannot connect ask users telegram data 
     try:
         if not await client.is_user_authorized():
             print(Fore.YELLOW + "\nCannot find previous session, enter following data: \n")
@@ -174,6 +186,7 @@ async def log_in(phone, apiid, apihash):
     return client
 
 
+#Get main Telegram application params
 def application_api():
     phone =  GetPhoneNumber()
     apiid = GetAPIID()
@@ -182,6 +195,7 @@ def application_api():
     return phone, apiid, apihash
 
 
+#Shows all victims
 def get_all_victiums(Show = True):
     victiums = glob.glob(os.path.join("Data/", "@*.txt"))
     if(Show):
@@ -192,6 +206,7 @@ def get_all_victiums(Show = True):
     return victiums
 
 
+#Show all models
 def get_all_models(Show = True):
     models = glob.glob(os.path.join("Data/", "*.h5"))
     if(Show):

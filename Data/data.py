@@ -1,6 +1,7 @@
 
 from colorama import Fore
 
+#Get phone number or create .txt file with phone number
 def GetPhoneNumber():
     try:
         with open ("Data/phone.txt", 'r') as f:
@@ -12,6 +13,7 @@ def GetPhoneNumber():
     return phone
 
 
+#Get api id or create .txt file with api id
 def GetAPIID():
     try:
         with open ("Data/apiid.txt", 'r') as f:
@@ -23,6 +25,7 @@ def GetAPIID():
     return apiid
 
 
+#Get api hash or create .txt file with api hash
 def GETAPI_Hash():
     try:
         with open ("Data/apihash.txt", 'r') as f:
