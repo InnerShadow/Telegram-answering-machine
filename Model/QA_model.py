@@ -26,7 +26,7 @@ def full_path_load_QA_model(name):
 
 
 #Train Qa model step by step
-def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack, DoMaxPackLen = False):
+def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack):
     #Save loss for graphics
     global_loss = []
     #For by num of epochs
@@ -48,14 +48,6 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 #Fill Question & Answer lists
                 Q.append(X[k])
                 A.append(Y[k])
-
-            #Test option
-            if DoMaxPackLen:
-                maxLen = max(
-                    max(map(len, A)),
-                    max(map(len, Q))
-                )
-                sequences_len = maxLen
 
             #Convert messeges to numbers sequences
             data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len, padding = 'post')
