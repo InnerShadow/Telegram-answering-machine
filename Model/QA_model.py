@@ -58,14 +58,14 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 sequences_len = maxLen
 
             #Convert messeges to numbers sequences
-            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
-            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
+            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len, padding = 'post')
+            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len, padding = 'post')
             
             #Get one-hot encoding vector to Y (Answer's) list
             Y_categorical = to_categorical(data_Y, num_classes = maxWordsCount)
 
             #Increase index
-            index += batch_size
+            index += messages_per_pack
             
             #Get loss & accuracy and train model by cuurent pack of messeges
             history = model.fit([data_X, data_X], Y_categorical, batch_size = batch_size)
@@ -85,51 +85,38 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 #Creates seq2seq NN
-def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256):
-    #Get Embending layer
-    shared_embedding_layer = Embedding(maxWordsCount, latent_dim)
+def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256, sequences_len = 20):
+    #Get input layer
+    encoder_inputs = Input(shape = (sequences_len, ))
+    encoder_embedding = Embedding(maxWordsCount, latent_dim)(encoder_inputs)
 
-    #Encoder & decoder inputs
-    encoder_inputs = Input(shape = (None, ))
-    decoder_inputs = Input(shape = (None, ))
-
-    #Get embending loyers
-    encoder_embedding = shared_embedding_layer(encoder_inputs)
-    decoder_embedding = shared_embedding_layer(decoder_inputs)
-
-    #Create Encoder with latent_dim hidden layer neurons
-    encoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
+    #Get Encoder
+    encoder_lstm = LSTM(latent_dim, return_state=True)
     encoder_outputs, state_h, state_c = encoder_lstm(encoder_embedding)
-    encoder_outputs = Dropout(0.2)(encoder_outputs)
-    encoder_outputs = BatchNormalization()(encoder_outputs)
     encoder_states = [state_h, state_c]
 
-    #Create Decoder with latent_dim hidden layer neurons
+    #BN & DropOut 
+    encoder_outputs = BatchNormalization()(encoder_outputs)
+    encoder_outputs = Dropout(0.3)(encoder_outputs)
+
+    #Get Decoder
+    decoder_inputs = Input(shape = (sequences_len, ))
+    decoder_embedding = Embedding(maxWordsCount, latent_dim)(decoder_inputs)
     decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = encoder_states)
-    decoder_outputs = Dropout(0.2)(decoder_outputs)
+
+    #BN & DropOut 
     decoder_outputs = BatchNormalization()(decoder_outputs)
+    decoder_outputs = Dropout(0.3)(decoder_outputs)
 
-    #Add GRU layer to encoder
-    encoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
-    encoder_gru_outputs, encoder_gru_state = encoder_gru(encoder_outputs)
-    encoder_gru_outputs = Dropout(0.2)(encoder_gru_outputs)
-    encoder_gru_outputs = BatchNormalization()(encoder_gru_outputs)
-
-    #Add GRU layer for decoder
-    decoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
-    decoder_gru_outputs, _ = decoder_gru(decoder_outputs, initial_state=encoder_gru_state)
-    decoder_gru_outputs = Dropout(0.2)(decoder_gru_outputs)
-    decoder_gru_outputs = BatchNormalization()(decoder_gru_outputs)
-
-    #Get Output Dance layer with maxWordsCount neurons
+    #Output layer
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')
-    decoder_outputs = decoder_dense(decoder_gru_outputs)
+    decoder_outputs = decoder_dense(decoder_outputs)
 
-    #Connect encoder & decoder
+    #Connect encoder & coder
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
-    #Compilate model & set optimizer & loss function
+    #Compile model
     model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
