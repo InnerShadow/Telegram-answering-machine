@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from keras.models import Model
-from keras.layers import Dense, Embedding, LSTM, Input
+from keras.layers import Dense, Embedding, LSTM, Input, Dropout, BatchNormalization, GRU
 from keras.models import load_model
 from keras.utils import to_categorical
 
@@ -100,15 +100,31 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256):
     #Create Encoder with latent_dim hidden layer neurons
     encoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     encoder_outputs, state_h, state_c = encoder_lstm(encoder_embedding)
+    encoder_outputs = Dropout(0.2)(encoder_outputs)
+    encoder_outputs = BatchNormalization()(encoder_outputs)
     encoder_states = [state_h, state_c]
 
     #Create Decoder with latent_dim hidden layer neurons
     decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
-    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state=encoder_states)
+    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = encoder_states)
+    decoder_outputs = Dropout(0.2)(decoder_outputs)
+    decoder_outputs = BatchNormalization()(decoder_outputs)
+
+    #Add GRU layer to encoder
+    encoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
+    encoder_gru_outputs, encoder_gru_state = encoder_gru(encoder_outputs)
+    encoder_gru_outputs = Dropout(0.2)(encoder_gru_outputs)
+    encoder_gru_outputs = BatchNormalization()(encoder_gru_outputs)
+
+    #Add GRU layer for decoder
+    decoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
+    decoder_gru_outputs, _ = decoder_gru(decoder_outputs, initial_state=encoder_gru_state)
+    decoder_gru_outputs = Dropout(0.2)(decoder_gru_outputs)
+    decoder_gru_outputs = BatchNormalization()(decoder_gru_outputs)
 
     #Get Output Dance layer with maxWordsCount neurons
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')
-    decoder_outputs = decoder_dense(decoder_outputs)
+    decoder_outputs = decoder_dense(decoder_gru_outputs)
 
     #Connect encoder & decoder
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
