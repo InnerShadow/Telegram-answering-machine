@@ -77,7 +77,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 #Creates seq2seq NN
-def Get_RNN_QA(maxWordsCount=5000, latent_dim=256, sequences_len=20):
+def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256, sequences_len = 20):
 
     #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len,))
@@ -117,15 +117,15 @@ def Get_RNN_QA(maxWordsCount=5000, latent_dim=256, sequences_len=20):
     decoder_outputs = Dropout(0.2)(decoder_outputs)
 
     #GRU Decoder Layer 
-    decoder_gru = GRU(int(latent_dim / 2), return_sequences=True, return_state=True)
-    decoder_outputs, _ = decoder_gru(decoder_outputs, initial_state=encoder_state)
+    decoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
+    decoder_outputs, _ = decoder_gru(decoder_outputs, initial_state = encoder_state)
     
     #Add BatchNormalization & Dropout for better training
     decoder_outputs = BatchNormalization()(decoder_outputs)
     decoder_outputs = Dropout(0.2)(decoder_outputs)
 
     #Decoder output
-    decoder_dense = Dense(maxWordsCount, activation='softmax')
+    decoder_dense = Dense(maxWordsCount, activation = 'softmax')
     decoder_outputs = decoder_dense(decoder_outputs)
 
     #Conncect decoder & encoder
