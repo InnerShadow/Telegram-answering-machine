@@ -311,7 +311,7 @@ async def models_handler(client, command = None):
             #Create model & tokinazer
             tokenizer = get_Tokinazer(X, Y, maxWordsCount, lower, False)
             save_tokinazer(train_victim[1:], tokenizer)
-            model = Get_RNN_QA(int(maxWordsCount), latent_dim)
+            model = Get_RNN_QA(int(maxWordsCount), latent_dim, sequences_len)
 
             #Try to get number of epochs
             try:
