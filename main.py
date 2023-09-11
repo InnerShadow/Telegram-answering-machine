@@ -33,5 +33,3 @@ if __name__ == '__main__':
 # TODO: Make ignoring in diffrent thread
 # TODO: Make auto-load ignoring 
 # TODO: Make better parametrs recomendation
-# TODO: Back to better configuration
-# TODO: Make 10% padding in train data

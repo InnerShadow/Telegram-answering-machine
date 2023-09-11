@@ -3,11 +3,11 @@ import json
 
 from keras.preprocessing.text import Tokenizer, tokenizer_from_json
 
-#Do save tokinazer with pre-coded name
+#Save tokinazer with pre-coded name
 def save_tokinazer(name, tokinazer):
     tokenizer_json = tokinazer.to_json()
     with io.open("Data/" + str(name) + '_tokenizer.json', 'w', encoding = 'utf-8') as f:
-        f.write(json.dumps(tokenizer_json, ensure_ascii = False))
+        json.dump(tokenizer_json, f, ensure_ascii = True, indent = 4)
 
 
 #Load tokinazer just by users name
