@@ -395,14 +395,14 @@ async def models_handler(client, command = None):
                 #If input is not integer
                 print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
                 print(Style.RESET_ALL)
-                models_handler(client)
+                await models_handler(client)
                 return
             
             #If index out of range back to models menu
-            if model_id > len(models) - 1:
+            if model_id > len(models):
                 print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
                 print(Style.RESET_ALL)
-                models_handler(client)
+                await models_handler(client)
                 return
 
             #Upload model & tokinazer
