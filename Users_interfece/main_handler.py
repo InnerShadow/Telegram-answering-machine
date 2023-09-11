@@ -299,19 +299,19 @@ async def models_handler(client, command = None):
                 await models_handler(client, command)
                 return 
             
-            #Try to get messeges per pack
+            #Try to get sequences_len 
             try:
-                messages_per_pack = int(input(Fore.LIGHTWHITE_EX + "\nEnter messages per pack: "))
+                sequences_len = int(input(Fore.LIGHTWHITE_EX + "\nEnter sequences length: "))
             except (TypeError, ValueError):
                 #If input is not int back to models menu
-                print(Fore.LIGHTRED_EX + "\nYou should enter number messeages per pack!\n")
+                print(Fore.LIGHTRED_EX + "\nYou should enter sequences length!\n")
                 await models_handler(client, command)
                 return 
             
             #Create model & tokinazer
             tokenizer = get_Tokinazer(X, Y, maxWordsCount, lower, False)
             save_tokinazer(train_victim[1:], tokenizer)
-            model = Get_RNN_QA(int(maxWordsCount), latent_dim, messages_per_pack)
+            model = Get_RNN_QA(int(maxWordsCount), latent_dim)
 
             #Try to get number of epochs
             try:
@@ -331,12 +331,12 @@ async def models_handler(client, command = None):
                 await models_handler(client, command)
                 return 
             
-            #Try to get sequences_len 
+            #Try to get messeges per pack
             try:
-                sequences_len = int(input(Fore.LIGHTWHITE_EX + "\nEnter sequences length: "))
+                messages_per_pack = int(input(Fore.LIGHTWHITE_EX + "\nEnter messages per pack: "))
             except (TypeError, ValueError):
                 #If input is not int back to models menu
-                print(Fore.LIGHTRED_EX + "\nYou should enter sequences length!\n")
+                print(Fore.LIGHTRED_EX + "\nYou should enter number messeages per pack!\n")
                 await models_handler(client, command)
                 return 
 
