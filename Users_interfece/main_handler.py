@@ -340,7 +340,7 @@ async def models_handler(client, command = None):
                 await models_handler(client, command)
                 return 
 
-            #do train model 
+            #Do train model 
             print(Fore.LIGHTGREEN_EX + "\nStart training model!\n")
             model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
             print(Fore.LIGHTGREEN_EX + "\nModel has been traind!\n")

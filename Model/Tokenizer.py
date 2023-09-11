@@ -7,7 +7,7 @@ from keras.preprocessing.text import Tokenizer, tokenizer_from_json
 def save_tokinazer(name, tokinazer):
     tokenizer_json = tokinazer.to_json()
     with io.open("Data/" + str(name) + '_tokenizer.json', 'w', encoding = 'utf-8') as f:
-        json.dump(tokenizer_json, f, ensure_ascii = True, indent = 4)
+        f.write(json.dumps(tokenizer_json, ensure_ascii = False))
 
 
 #Load tokinazer just by users name
