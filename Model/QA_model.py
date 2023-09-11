@@ -41,7 +41,15 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
             #Reset Question & Answer lists
             Q = []
             A = []
-            for k in range(index, index + messages_per_pack):
+
+            #Make pad to get up to 10% of 'messages_per_pack' to catch pad number of messages from prev pack for better trainig.
+            pad = np.random.randint(0, int(0.1 * messages_per_pack))
+
+            for k in range(index - pad, index + messages_per_pack):
+                
+                if k < 0:
+                    continue
+
                 if k >= len(X):
                     break
                 
