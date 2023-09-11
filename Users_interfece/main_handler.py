@@ -26,7 +26,6 @@ def selected_victim_handler(victim, command = None):
             if model_id > len(models):
                 print(Fore.LIGHTRED_EX + "\nSelect existable model!\n")
                 selected_victim_handler(victim)
-                print(Style.RESET_ALL)
                 return 
             
             #Successful selection 
@@ -34,8 +33,6 @@ def selected_victim_handler(victim, command = None):
             with open(str(victim), 'w') as f:
                 f.write(str(models[int(model_id) - 1]) + "\n")
                 f.write(str(models[int(model_id) - 1])[:len(str(models[int(model_id) - 1])) - 3] + "_tokenizer.json")
-
-            print(Style.RESET_ALL)
 
             #Back to selected_victim_handler with no command
             selected_victim_handler(victim)
@@ -48,8 +45,6 @@ def selected_victim_handler(victim, command = None):
                 tokinazer_name = f.readline()
                 print(Fore.LIGHTGREEN_EX + "\nModel: " + model_name[5:len(model_name) - 3] + "\nTokinazer: " + tokinazer_name[5:len(tokinazer_name) - 5] + "\n")
 
-            print(Style.RESET_ALL)
-            
             #Back to selected_victim_handler with no command
             selected_victim_handler(victim)
             return 
@@ -97,14 +92,12 @@ async def victim_handler(client, command = None, victim = None):
             #Selected index out of range
             if victim_id > len(victims):
                 print(Fore.LIGHTRED_EX + "\nYou should select existable victim\n")
-                print(Style.RESET_ALL)
                 await victim_handler(client)
                 return 
             
             #Successful selection
             victim = victims[victim_id - 1]
             print(Fore.LIGHTGREEN_EX + "\n" + victim[5:len(victim) - 4] + " has been selected as victim!\n")
-            print(Style.RESET_ALL)
 
             #Go to selected_victim_handler
             selected_victim_handler(victim)
@@ -122,7 +115,6 @@ async def victim_handler(client, command = None, victim = None):
             if victim[0] != "@":
                 #If not back to victim_handler
                 print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
-                print(Style.RESET_ALL)
                 await victim_handler(command)
                 return 
 
@@ -140,7 +132,6 @@ async def victim_handler(client, command = None, victim = None):
             #If victim do not selected back to victim_handler
             if victim == None:
                 print(Fore.LIGHTRED_EX + "\nPlease, select the victim!\n")
-                print(Style.RESET_ALL)
                 await victim_handler(client)
                 return 
             
@@ -154,7 +145,6 @@ async def victim_handler(client, command = None, victim = None):
             #Check if victim configuration if empty
             if model_name == "" or tokinazer_name == "":
                 print(Fore.LIGHTRED_EX + "\nVictim configuration should not be empty! Set the model to ignore victim!\n")
-                print(Style.RESET_ALL)
                 await victim_handler(client)
                 return 
             
@@ -170,7 +160,6 @@ async def victim_handler(client, command = None, victim = None):
             except Exception:
                 #If model confuguration empty - back to victim_handler
                 print(Fore.LIGHTRED_EX + "\nModel configuration cannot be empty!\n")
-                print(Style.RESET_ALL)
                 await victim_handler(client)
                 return
             
@@ -193,8 +182,6 @@ async def victim_handler(client, command = None, victim = None):
 
 #Models handler provides manipulations with models 
 async def models_handler(client, command = None):
-    print(Style.RESET_ALL)
-
     #If last command finished ask again
     if command == None:
         command = models_menu()
@@ -220,7 +207,6 @@ async def models_handler(client, command = None):
             #Selected index out of range
             if selected_model_id > len(models):
                 print(Fore.LIGHTRED_EX + "\n" + str(selected_model_id) + " model does not exist!\n")
-                print(Style.RESET_ALL)
 
                 #Back to models menu
                 await models_handler(client)
@@ -237,7 +223,6 @@ async def models_handler(client, command = None):
                 sequences_len = int(f.readline())
 
             print(Fore.YELLOW + "\nmaxWordsCount: " + str(maxWordsCount) + ", sequences_len: " + str(sequences_len) + "\n")
-            print(Style.RESET_ALL)
             
             #Back to models_menu_handler
             await models_handler(client)
@@ -250,7 +235,7 @@ async def models_handler(client, command = None):
             if train_victim[0] != "@":
                 #Victims name should starts with '@'
                 print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
-                print(Style.RESET_ALL)
+
                 #Back to models_handler
                 await models_handler(client, command)
                 return 
@@ -263,7 +248,7 @@ async def models_handler(client, command = None):
                 print(Fore.YELLOW + "\nStart loading data. This can take a while!\n")
                 X, Y = await GetTrainDataByName(train_victim, client)
                 print(Fore.LIGHTGREEN_EX + "\nData has been loaded!\n")
-                print(Style.RESET_ALL)
+
             else :
                 try:
                     #Try to convert num_messages into int
@@ -271,7 +256,6 @@ async def models_handler(client, command = None):
                 except (TypeError, ValueError):
                     #Catch exception if cannot convert and back to models_handler 
                     print(Fore.LIGHTRED_EX + "\nPlease enter number of messages!\n")
-                    print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
                 
@@ -279,7 +263,6 @@ async def models_handler(client, command = None):
             print(Fore.YELLOW + "\nStart loading data. This can take a while!\n") 
             X, Y = await GetTrainDataByName(train_victim, client, num_messages)
             print(Fore.LIGHTGREEN_EX + "\nData has been loaded!\n")
-            print(Style.RESET_ALL)
 
             #Try to get vocabulary size
             try:
@@ -287,7 +270,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If cannot covert to int back to models_handler
                 print(Fore.LIGHTRED_EX + "\nYou should enter size of vocabulary!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, command)
             
             #Get 'lower' param
@@ -300,13 +282,11 @@ async def models_handler(client, command = None):
                 else:
                     #If input not 0 or 1 back to models_handler
                     print(Fore.LIGHTRED_EX + "\nYou should enter 1 or 0 to set register!\n")
-                    print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
             except (TypeError, ValueError):
                     #If input not int
                     print(Fore.LIGHTRED_EX + "\nYou should enter 1 or 0 to set register!\n")
-                    print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
             
@@ -316,7 +296,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If not int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter number of hidden LSTM layer neurons!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
             
@@ -331,7 +310,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter number of epochs!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, model)
                 return 
             
@@ -341,7 +319,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If intput is not int go to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter batch size!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
             
@@ -351,7 +328,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter number messeages per pack!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
             
@@ -361,7 +337,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter sequences length!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
 
@@ -372,7 +347,6 @@ async def models_handler(client, command = None):
 
             #Save model in .h5
             save_QA_model(train_victim[1:], model)
-            print(Style.RESET_ALL)
 
             #Save model configuration
             with open("Data/" + train_victim[1:] + "_model_configuration.txt", 'w') as f:
@@ -394,20 +368,17 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If input is not integer
                 print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client)
                 return
             
             #If index out of range back to models menu
             if model_id > len(models):
                 print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client)
                 return
 
             #Upload model & tokinazer
             print(Fore.LIGHTGREEN_EX + "\n" + str(models[int(model_id) - 1]) + " has been selected!\n")
-            print(Style.RESET_ALL)
             model = full_path_load_QA_model(models[int(model_id) - 1])
             tokenizer = full_path_load_tokinazer(get_Tokinazer_by_model(models[int(model_id) - 1]))
 
@@ -420,14 +391,12 @@ async def models_handler(client, command = None):
                 sequences_len = int(f.readline())
 
             print(Fore.YELLOW + "\nmaxWordsCount: " + str(maxWordsCount) + ", sequences_len: " + str(sequences_len) + "\n")
-            print(Style.RESET_ALL)
 
             #Select person to train more model base on prev conversation 
             train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_friend): ")
             if train_victim[0] != "@":
                 #Victim name should starts with '@'
                 print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, command, train_victim)
                 return 
 
@@ -439,7 +408,6 @@ async def models_handler(client, command = None):
                 print(Fore.YELLOW + "\nStart loading data. This can take a while!\n")
                 X, Y = await GetTrainDataByName(train_victim, client)
                 print(Fore.LIGHTGREEN_EX + "\nData has been loaded!\n")
-                print(Style.RESET_ALL)
             else :
                 try:
                     #Try to convert input into int
@@ -447,7 +415,6 @@ async def models_handler(client, command = None):
                 except (TypeError, ValueError):
                     #If cannot back to models menu
                     print(Fore.LIGHTRED_EX + "\nPlease enter number of messages!\n")
-                    print(Style.RESET_ALL)
                     await models_handler(client, command)
                     return 
                 
@@ -460,7 +427,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If cannot conver input in int, back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter number of epochs!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, model)
                 return 
             
@@ -470,7 +436,6 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If cannot convert input into int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter batch size!\n")
-                print(Style.RESET_ALL)
                 await models_handler(client, command)
                 return 
             
@@ -488,7 +453,6 @@ async def models_handler(client, command = None):
             print(Fore.LIGHTGREEN_EX + "\nStart training model!\n")
             model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
             print(Fore.LIGHTGREEN_EX + "\nModel has been traind!\n")
-            print(Style.RESET_ALL)
 
             #Save model
             save_QA_model(train_victim[1:], model)
@@ -512,8 +476,6 @@ async def models_handler(client, command = None):
 
 #Main handler - main users interface function to use application
 async def main_handler(client, command = None):
-    print(Style.RESET_ALL)
-
     if command == None:
         command = main_menu()
 
@@ -539,6 +501,5 @@ async def main_handler(client, command = None):
         #Leave the application 
         case "Exit":
             print(Fore.YELLOW + "\nHave a good day!\n")
-            print(Style.RESET_ALL)
             exit()
 

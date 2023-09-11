@@ -19,8 +19,6 @@ def first_launch():
         print(Fore.YELLOW + "\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
               "and get api hash & api id to continue using this application.\n")
         
-    print(Style.RESET_ALL)
-        
 
 #Main choise manu
 def main_menu():
@@ -32,8 +30,6 @@ def main_menu():
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable modul!\n")
         return main_menu()
-    
-    print(Style.RESET_ALL)
     
     match state:
         case 1:
@@ -65,8 +61,6 @@ def victim_menu():
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return victim_menu()
-    
-    print(Style.RESET_ALL)
     
     match state:
         case 1:
@@ -103,8 +97,6 @@ def selected_victim_menu():
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return selected_victim_menu()
     
-    print(Style.RESET_ALL)
-    
     match state:
         case 1:
             return "Selected victim set"
@@ -135,8 +127,6 @@ def models_menu():
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return models_menu()
-    
-    print(Style.RESET_ALL)
     
     match state:
         case 1: 
@@ -180,8 +170,6 @@ async def log_in(phone, apiid, apihash):
         return None
 
     print(Fore.LIGHTGREEN_EX + "\nConnected succsessfull!\n")
-
-    print(Style.RESET_ALL)
 
     return client
 

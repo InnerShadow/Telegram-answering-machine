@@ -7,7 +7,6 @@ def main_helper():
         "\n1) 'Victim menu', that has all manipulations with victims like create new victim or link model with victim and other;"
         "\n2) 'Model menu' that has all manipulations with models like creation, training models and other;"
         "\n3) 'Exit' option will close the application.\n")
-    print(Style.RESET_ALL)
     
 
 #Victim menu helper
@@ -19,7 +18,6 @@ def victim_helper():
         "\n3) 'Get new victim' options creates empty victim configuration, after filling that will be use in ignoring module;"
         "\n4) 'Start ignoring' option is a main application option that start ignoring person in telegram. You should select victim before start ignoring it;"
         "\n5) 'Back to main menu' simply returns you to main menu.\n")
-    print(Style.RESET_ALL)
     
 
 #Selected vicitm menu helper
@@ -28,7 +26,6 @@ def selected_victim_help():
           "\n1) 'Set model by id' will connect selected victim with model by id. This option will fill victim configuration, that need in ignoring option;"
           "\n2) 'Display info' will display all information about victim and model connection;"
           "\n3) 'Back to victim menu' simply returns you to victim menu.\n")
-    print(Style.RESET_ALL)
     
 
 #Models helper 
@@ -49,5 +46,4 @@ def models_helper():
           "\n     3.8) Sequences length - 20 - 50 [This parameter will cut long messages and fill with zeros short one. This need to standardize neural network neurons];"
           "\n4)'Learn more for model' will learn more for existtable model. It can helps for models that train well, but you set not enough epochs. Also you can try to learn more with other person conversation;"
           "\n5)'Back to main menu' simply returns you to main menu.\n")
-    print(Style.RESET_ALL)
 
