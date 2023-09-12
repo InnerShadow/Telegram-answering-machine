@@ -292,10 +292,10 @@ async def models_handler(client, command = None):
             
             #Get num of LSTM dims
             try:
-                latent_dim = int(input(Fore.LIGHTWHITE_EX + "\nEnter hidden LSTM layer neurons: "))
+                latent_dim = int(input(Fore.LIGHTWHITE_EX + "\nEnter hidden GRU layer neurons: "))
             except (TypeError, ValueError):
                 #If not int back to models menu
-                print(Fore.LIGHTRED_EX + "\nYou should enter number of hidden LSTM layer neurons!\n")
+                print(Fore.LIGHTRED_EX + "\nYou should enter number of hidden GRU layer neurons!\n")
                 await models_handler(client, command)
                 return 
             

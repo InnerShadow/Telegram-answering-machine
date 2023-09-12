@@ -93,23 +93,10 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256, sequences_len = 20):
     #Encoder embending
     encoder_embedding = Embedding(maxWordsCount, latent_dim)(encoder_inputs)
     
-    #LSTM layer for Encoder
-    encoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
-    encoder_outputs, state_h, state_c = encoder_lstm(encoder_embedding)
-    encoder_states = [state_h, state_c]
+    #GRU layer for Encoder
+    encoder_lstm = GRU(latent_dim, return_sequences = True, return_state = True)
+    encoder_outputs, encoder_state,  = encoder_lstm(encoder_embedding)
     
-    #Add BatchNormalization & Dropout for better training
-    encoder_outputs = BatchNormalization()(encoder_outputs)
-    encoder_outputs = Dropout(0.2)(encoder_outputs)
-
-    #Encoder GRU layer
-    encoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
-    encoder_outputs, encoder_state = encoder_gru(encoder_outputs)
-    
-    #Add BatchNormalization & Dropout for better training
-    encoder_outputs = BatchNormalization()(encoder_outputs)
-    encoder_outputs = Dropout(0.2)(encoder_outputs)
-
     #Input Decoder layer
     decoder_inputs = Input(shape=(sequences_len,))
     
@@ -117,20 +104,8 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256, sequences_len = 20):
     decoder_embedding = Embedding(maxWordsCount, latent_dim)(decoder_inputs)
     
     #LSTM Decoder Layer 
-    decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
-    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = encoder_states)
-    
-    #Add BatchNormalization & Dropout for better training
-    decoder_outputs = BatchNormalization()(decoder_outputs)
-    decoder_outputs = Dropout(0.2)(decoder_outputs)
-
-    #GRU Decoder Layer 
-    decoder_gru = GRU(int(latent_dim / 2), return_sequences = True, return_state = True)
-    decoder_outputs, _ = decoder_gru(decoder_outputs, initial_state = encoder_state)
-    
-    #Add BatchNormalization & Dropout for better training
-    decoder_outputs = BatchNormalization()(decoder_outputs)
-    decoder_outputs = Dropout(0.2)(decoder_outputs)
+    decoder_lstm = GRU(latent_dim, return_sequences = True, return_state = True)
+    decoder_outputs, _ = decoder_lstm(decoder_embedding, initial_state = encoder_state)
 
     #Decoder output
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')

@@ -33,3 +33,4 @@ if __name__ == '__main__':
 # TODO: Make ignoring in diffrent thread
 # TODO: Make auto-load ignoring 
 # TODO: Make better parametrs recomendation
+# TODO: Add image request 
