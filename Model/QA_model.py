@@ -58,8 +58,8 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 A.append(Y[k])
 
             #Convert messeges to numbers sequences
-            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len, padding = 'post')
-            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len, padding = 'post')
+            data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
+            data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
             
             #Get one-hot encoding vector to Y (Answer's) list
             Y_categorical = to_categorical(data_Y, num_classes = maxWordsCount)
@@ -103,7 +103,7 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256, sequences_len = 20):
     #Decodere embenging
     decoder_embedding = Embedding(maxWordsCount, latent_dim)(decoder_inputs)
     
-    #LSTM Decoder Layer 
+    #GRU Decoder Layer 
     decoder_lstm = GRU(latent_dim, return_sequences = True, return_state = True)
     decoder_outputs, _ = decoder_lstm(decoder_embedding, initial_state = encoder_state)
 
