@@ -419,7 +419,9 @@ async def models_handler(client, command = None):
                     return 
                 
                 #Upload data from conversation
+                print(Fore.YELLOW + "\nStart loading data. This can take a while!\n")
                 X, Y = await GetTrainDataByName(train_victim, client, num_messages)
+                print(Fore.LIGHTGREEN_EX + "\nData has been loaded!\n")
 
             #Try to get number of epochs
             try:

@@ -74,7 +74,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
             loss_values.append(history.history['loss'])
             accuracy_values.append(history.history['accuracy'])
 
-        print("Mean loss: " + str(np.sum(loss_values) / len(loss_values)) + " mean accuracy: " + str(np.sum(accuracy_values) / len(accuracy_values)) + str("\n"))
+        print("Mean loss: " + str(np.sum(loss_values) / len(loss_values)) + "; Mean accuracy: " + str(np.sum(accuracy_values) / len(accuracy_values)) + str("\n"))
         global_loss.append((np.sum(loss_values) / len(loss_values)))
 
     #Show graphs
@@ -95,7 +95,7 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256, sequences_len = 20):
     
     #GRU layer for Encoder
     encoder_lstm = GRU(latent_dim, return_sequences = True, return_state = True)
-    encoder_outputs, encoder_state,  = encoder_lstm(encoder_embedding)
+    encoder_outputs, encoder_state, = encoder_lstm(encoder_embedding)
     
     #Input Decoder layer
     decoder_inputs = Input(shape = (sequences_len, ))
