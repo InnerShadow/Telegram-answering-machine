@@ -18,20 +18,28 @@ def message_preprocessing(data):
         if isinstance(data.media, MessageMediaDocument):
             size = data.media.document.size
             if data.media.document.mime_type == "audio/ogg":
-                msg += "Audio " + str(size) 
-            if data.media.document.mime_type == "video/mp4":
-                msg += "Video " + str(size)
+                msg += "Audio " + str(size) + " "
+            elif data.media.document.mime_type == "video/mp4":
+                msg += "Video " + str(size) + " "
+            else:
+                msg += "File " + str(size) + " "
 
     #Else check if companion send some links:
     else:
         youtube_links_len = 0
         youtube_links = re.findall(youtube_pattern0, str(data.text))
         youtube_links_len += len(youtube_links)
+        re.sub(youtube_pattern0, "", str(data.text))
+
         youtube_links += re.findall(youtube_pattern1, str(data.text))
         youtube_links_len += len(youtube_links)
+        re.sub(youtube_pattern1, "", str(data.text))
 
         tiktok_links = re.findall(tiktok_pattern, str(data.text))
+        re.sub(tiktok_pattern, "", str(data.text))
+
         other_links = re.findall(other_links_patter, str(data.text))
+        re.sub(other_links_patter, "", str(data.text))
 
         if youtube_links_len > 0:
             msg += "Youtube link. "
@@ -62,7 +70,7 @@ def SaveConversationTXT(name, X, Y):
 
 #Get first request message index
 def GetFirstRequest(data, self_id):
-    for i in range(len(data) - 1, 0, -1):
+    for i in range(len(data) - 1, -1, -1):
         if data[i].sender_id != self_id:
             return i
 

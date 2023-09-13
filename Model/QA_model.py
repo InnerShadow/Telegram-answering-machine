@@ -98,7 +98,7 @@ def Get_RNN_QA(maxWordsCount = 5000, latent_dim = 256, sequences_len = 20):
     encoder_outputs, encoder_state,  = encoder_lstm(encoder_embedding)
     
     #Input Decoder layer
-    decoder_inputs = Input(shape=(sequences_len,))
+    decoder_inputs = Input(shape = (sequences_len, ))
     
     #Decodere embenging
     decoder_embedding = Embedding(maxWordsCount, latent_dim)(decoder_inputs)
