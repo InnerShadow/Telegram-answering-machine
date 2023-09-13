@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from keras.models import Model
-from keras.layers import Dense, Embedding, LSTM, Input, Dropout, BatchNormalization, GRU
+from keras.layers import Dense, Embedding, Input, GRU
 from keras.models import load_model
 from keras.utils import to_categorical
 

@@ -5,7 +5,7 @@ from Telegram.MonitoringByName import *
 from Data_manupulation.test_selection import *
 from Users_interfece.helpers import *
 
-from colorama import Fore, Style
+from colorama import Fore
 
 #Recurrent function that provide users interface in "Selected victim" menu
 def selected_victim_handler(victim, command = None):

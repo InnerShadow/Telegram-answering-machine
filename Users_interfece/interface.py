@@ -2,7 +2,7 @@ import os
 import glob
 
 from telethon.sync import TelegramClient
-from colorama import Fore, Style
+from colorama import Fore
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 

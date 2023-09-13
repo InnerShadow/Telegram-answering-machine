@@ -1,5 +1,5 @@
 
-from colorama import Fore, Style
+from colorama import Fore
 
 #Main menu helper
 def main_helper():
