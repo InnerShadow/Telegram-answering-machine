@@ -13,9 +13,14 @@ def Word_level_QA_answer(model, tokenizer, msg, sequences_len = 100):
     res = ""
 
     #Collect answer
+    #Get prev not to repeat words
+    prev = 0
     for i in predicted_probabilities[0]:
-        if np.argmax(i) != 0 and np.argmax(i) < len(tokenizer.index_word):
-            res += tokenizer.index_word[np.argmax(i)] + " "
+        if prev != np.argmax(i): 
+            if np.argmax(i) != 0 and np.argmax(i) < len(tokenizer.index_word):
+                res += tokenizer.index_word[np.argmax(i)] + " "
+
+        prev = np.argmax(i)
 
     return res
 
