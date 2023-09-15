@@ -88,40 +88,40 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 #Creates seq2seq NN
 def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
 
-    # Encoder input layer
+    #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len, ))
 
-    # Encoder embedding
+    #Encoder embedding
     encoder_embedding = Embedding(maxWordsCount, latent_dim)(encoder_inputs)
 
-    # LSTM layer for Encoder
+    #LSTM layer for Encoder
     encoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     encoder_outputs, encoder_state_h, encoder_state_c = encoder_lstm(encoder_embedding)
 
-    # Input Decoder layer
+    #Input Decoder layer
     decoder_inputs = Input(shape = (sequences_len, ))
 
-    # Decoder embedding
+    #Decoder embedding
     decoder_embedding = Embedding(maxWordsCount, latent_dim)(decoder_inputs)
 
-    # LSTM Decoder Layer
+    #LSTM Decoder Layer
     decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
-    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state=[encoder_state_h, encoder_state_c])
+    decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = [encoder_state_h, encoder_state_c])
 
-    # Attention layer
+    #Attention layer
     attention_layer = Attention()([decoder_outputs, encoder_outputs])
 
-    # Concatenate attention output with decoder outputs
+    #Concatenate attention output with decoder outputs
     decoder_combined_context = Concatenate(axis = -1)([decoder_outputs, attention_layer])
 
-    # Decoder output
-    decoder_dense = Dense(maxWordsCount, activation='softmax')
+    #Decoder output
+    decoder_dense = Dense(maxWordsCount, activation = 'softmax')
     decoder_outputs = decoder_dense(decoder_combined_context)
 
-    # Connect decoder & encoder
+    #Connect decoder & encoder
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
-    # Compile model
+    #Compile model
     model.compile(optimizer = Adadelta(), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
