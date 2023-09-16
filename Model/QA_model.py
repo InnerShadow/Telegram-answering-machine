@@ -88,59 +88,41 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 #Creates seq2seq NN
 def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
 
-    # Adjusted dimensions
-    half_dim = latent_dim // 2
-    quarter_dim = latent_dim // 4
-
-    # Encoder input layer
+    #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len, ))
 
-    # Encoder embedding
+    #Encoder embedding
     encoder_embedding = Embedding(maxWordsCount, latent_dim)(encoder_inputs)
 
-    # LSTM layer for Encoder
+    #LSTM layer for Encoder
     encoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     encoder_outputs, encoder_state_h, encoder_state_c = encoder_lstm(encoder_embedding)
 
-    # Additional LSTM and Dense layer
-    encoder_lstm2 = LSTM(half_dim, return_sequences = True, return_state = True)
-    encoder_outputs2, _, _ = encoder_lstm2(encoder_outputs)
-
-    dense_layer1 = Dense(quarter_dim, activation = 'relu')
-    encoder_outputs2 = dense_layer1(encoder_outputs2)
-
-    # Input Decoder layer
+    #Input Decoder layer
     decoder_inputs = Input(shape = (sequences_len, ))
 
-    # Decoder embedding
+    #Decoder embedding
     decoder_embedding = Embedding(maxWordsCount, latent_dim)(decoder_inputs)
 
-    # LSTM Decoder Layer
+    #LSTM Decoder Layer
     decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = [encoder_state_h, encoder_state_c])
 
-    # Additional LSTM and Dense layer
-    decoder_lstm2 = LSTM(half_dim, return_sequences = True, return_state = True)
-    decoder_outputs2, _, _ = decoder_lstm2(decoder_outputs)
+    #Attention layer
+    attention_layer = Attention()([decoder_outputs, encoder_outputs])
 
-    dense_layer2 = Dense(quarter_dim, activation = 'relu')
-    decoder_outputs2 = dense_layer2(decoder_outputs2)
+    #Concatenate attention output with decoder outputs
+    decoder_combined_context = Concatenate(axis = -1)([decoder_outputs, attention_layer])
 
-    # Attention layer
-    attention_layer = Attention()([decoder_outputs2, encoder_outputs2])
-
-    # Concatenate attention output with decoder outputs
-    decoder_combined_context = Concatenate(axis = -1)([decoder_outputs2, attention_layer])
-
-    # Decoder output
+    #Decoder output
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')
     decoder_outputs = decoder_dense(decoder_combined_context)
 
-    # Connect decoder & encoder
+    #Connect decoder & encoder
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
-    # Compile model
-    model.compile(optimizer=Adadelta(), loss = 'categorical_crossentropy', metrics = ['accuracy'])
+    #Compile model
+    model.compile(optimizer = Adadelta(), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
 
