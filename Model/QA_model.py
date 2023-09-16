@@ -5,7 +5,7 @@ from keras.models import Model
 from keras.layers import Dense, Embedding, Input, LSTM, Attention, Concatenate
 from keras.models import load_model
 from keras.utils import to_categorical
-from keras.optimizers import Adadelta
+from keras.optimizers import SGD
 
 from keras.preprocessing.sequence import pad_sequences
 
@@ -122,7 +122,7 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
     #Compile model
-    model.compile(optimizer = Adadelta(), loss = 'categorical_crossentropy', metrics = ['accuracy'])
+    model.compile(optimizer = SGD(learinig_rate = 0.01, nesterov = True), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
 
