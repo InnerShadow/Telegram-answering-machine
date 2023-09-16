@@ -114,9 +114,11 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
     #Concatenate attention output with decoder outputs
     decoder_combined_context = Concatenate(axis = -1)([decoder_outputs, attention_layer])
 
+    pre_output_dence = Dense(int(latent_dim / 8), activation = 'relu')(decoder_combined_context)
+
     #Decoder output
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')
-    decoder_outputs = decoder_dense(decoder_combined_context)
+    decoder_outputs = decoder_dense(pre_output_dence)
 
     #Connect decoder & encoder
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
