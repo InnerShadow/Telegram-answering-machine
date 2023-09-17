@@ -122,7 +122,7 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
     model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
     #Compile model
-    model.compile(optimizer = Adam(learinig_rate = 0.01), loss = 'categorical_crossentropy', metrics = ['accuracy'])
+    model.compile(optimizer = Adam(learinig_rate = 0.001), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
 
