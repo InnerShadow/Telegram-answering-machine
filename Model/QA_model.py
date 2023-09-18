@@ -27,7 +27,7 @@ def full_path_load_QA_model(name):
 
 
 #Train Qa model step by step
-def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack, context_len = 50):
+def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack):
     #Save loss for graphics
     global_loss = []
     #For by num of epochs
@@ -75,7 +75,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
             data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
 
             #Get cotext sequences
-            data_cotext = pad_sequences(tokenizer.texts_to_sequences(contects), maxlen = context_len)
+            data_cotext = pad_sequences(tokenizer.texts_to_sequences(contects), maxlen = sequences_len * 2)
             
             #Get one-hot encoding vector to Y (Answer's) list
             Y_categorical = to_categorical(data_Y, num_classes = maxWordsCount)
@@ -101,7 +101,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 #Creates seq2seq NN
-def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_len = 50):
+def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
 
     #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len, ))
@@ -130,7 +130,7 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     decoder_combined_context = Concatenate(axis = -1)([decoder_outputs, attention_layer])
 
     #Add context input
-    context_inputs = Input(shape = (context_len, ))
+    context_inputs = Input(shape = (sequences_len  * 2, ))
     context_embedding = Embedding(maxWordsCount, latent_dim)(context_inputs)
     context_lstm = LSTM(latent_dim // 16)(context_embedding)
 
