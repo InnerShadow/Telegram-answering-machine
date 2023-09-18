@@ -27,7 +27,7 @@ def full_path_load_QA_model(name):
 
 
 #Train Qa model step by step
-def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack, context_len = 256):
+def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack, context_len = 50):
     #Save loss for graphics
     global_loss = []
     #For by num of epochs
@@ -62,7 +62,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
                 #Fill context array
                 current_context = ""
-                for e in range(k - 20, k):
+                for e in range(k, k - 20, -1):
                     if e < 0:
                         continue
 
@@ -101,7 +101,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 #Creates seq2seq NN
-def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_len = 256):
+def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_len = 50):
 
     #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len, ))
