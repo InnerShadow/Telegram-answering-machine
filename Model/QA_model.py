@@ -66,7 +66,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                     if e < 0:
                         continue
 
-                    current_context += X[k] + ". " + Y[k] + ". "
+                    current_context += X[e] + ". " + Y[e] + ". "
 
                 contects.append(current_context)
 
