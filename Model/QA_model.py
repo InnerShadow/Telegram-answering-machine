@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from keras.models import Model
-from keras.layers import Dense, Embedding, Input, LSTM, Attention, Concatenate
+from keras.layers import Dense, Embedding, Input, LSTM, Attention, Concatenate, RepeatVector
 from keras.models import load_model
 from keras.utils import to_categorical
 from keras.optimizers import Adam
@@ -63,11 +63,13 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 #Fill context array
                 current_context = ""
                 for e in range(k - 20, k):
+                    if e < 0:
+                        continue
+
                     current_context += X[k] + ". " + Y[k] + ". "
 
                 contects.append(current_context)
 
-                
             #Convert messeges to numbers sequences
             data_X = pad_sequences(tokenizer.texts_to_sequences(Q), maxlen = sequences_len)
             data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
@@ -101,42 +103,42 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 #Creates seq2seq NN
 def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_len = 256):
 
-    # Encoder input layer
-    encoder_inputs = Input(shape=(sequences_len,))
+    #Encoder input layer
+    encoder_inputs = Input(shape = (sequences_len, ))
 
-    # Encoder embedding
+    #Encoder embedding
     encoder_embedding = Embedding(maxWordsCount, latent_dim)(encoder_inputs)
 
-    # LSTM layer for Encoder
-    encoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
+    #LSTM layer for Encoder
+    encoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
     encoder_outputs, encoder_state_h, encoder_state_c = encoder_lstm(encoder_embedding)
 
-    # Input Decoder layer
+    #Input Decoder layer
     decoder_inputs = Input(shape = (sequences_len, ))
 
-    # Decoder embedding
+    #Decoder embedding
     decoder_embedding = Embedding(maxWordsCount, latent_dim)(decoder_inputs)
 
-    # LSTM Decoder Layer
+    #LSTM Decoder Layer
     decoder_lstm = LSTM(latent_dim, return_sequences = True, return_state = True)
     decoder_outputs, _, _ = decoder_lstm(decoder_embedding, initial_state = [encoder_state_h, encoder_state_c])
 
-    # Attention layer
+    #Attention layer
     attention_layer = Attention()([decoder_outputs, encoder_outputs])
 
-    # Concatenate attention output with decoder outputs
+    #Concatenate attention output with decoder outputs
     decoder_combined_context = Concatenate(axis = -1)([decoder_outputs, attention_layer])
 
-    # Add context input
+    #Add context input
     context_inputs = Input(shape = (context_len, ))
     context_embedding = Embedding(maxWordsCount, latent_dim)(context_inputs)
+    context_lstm = LSTM(latent_dim // 16)(context_embedding)
 
-    # LSTM layer for context
-    context_lstm = LSTM(latent_dim)
-    context_outputs = context_lstm(context_embedding)
+    # Repeat the context vector to match sequences_len
+    repeated_context = RepeatVector(sequences_len)(context_lstm)
 
-    # Concatenate context output with attention output and decoder output
-    decoder_combined_context_context = Concatenate(axis = -1)([decoder_combined_context, context_outputs])
+    # Concatenate context vector with decoder outputs and attention
+    decoder_combined_context_context = Concatenate(axis = -1)([decoder_combined_context, repeated_context])
 
     # Decoder output
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')

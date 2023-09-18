@@ -3,12 +3,16 @@ import numpy as np
 from keras.preprocessing.sequence import pad_sequences
 
 #Generate answer from input string
-def Word_level_QA_answer(model, tokenizer, msg, sequences_len = 100):
+def Word_level_QA_answer(model, tokenizer, msg, contexts, sequences_len = 25, contexts_len = 256):
     #Reshape sentenses
     input_seq = tokenizer.texts_to_sequences([msg])
     input_seq = pad_sequences(input_seq, maxlen = sequences_len)
 
-    predicted_probabilities = model.predict([input_seq, input_seq])
+    #Reshape contexts
+    contexts_seq = tokenizer.texts_to_sequences([contexts])
+    contexts_seq = pad_sequences(contexts_seq, maxlen = contexts_len)
+
+    predicted_probabilities = model.predict([input_seq, input_seq, contexts_seq])
 
     res = ""
 

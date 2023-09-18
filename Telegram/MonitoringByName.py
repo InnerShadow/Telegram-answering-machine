@@ -8,13 +8,23 @@ from Data_manupulation.test_selection import message_preprocessing
 
 
 #Send message if it sends from a companion
-async def message_handler(event, model, tokinazer, sequences_len):
+async def message_handler(event, client, model, tokinazer, sequences_len, name):
     #Get sleep for 5 seconds to avoid requests spamming
     await asyncio.sleep(5)
     sender_id = event.sender_id
     self_id = await event.client.get_me()
     if sender_id != self_id.id:
-        await event.reply(Word_level_QA_answer(model, tokinazer, str(message_preprocessing(event)), sequences_len))
+
+        #Get contexts
+        user = await client.get_entity(name[5:len(name) - 4])
+        context = await client.get_messages(user, limit = 20)
+
+        cotexts_data = ""
+        for i in context:
+            cotexts_data += message_preprocessing(i)
+
+        #Generate answer
+        await event.reply(Word_level_QA_answer(model, tokinazer, str(message_preprocessing(event)), cotexts_data, sequences_len))
 
 
 #Function to monitor person's activity in Telegram by his name.
@@ -24,7 +34,7 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
 
     #Add message_handler to event_handler to track when you get new message
     eveny_handler = NewMessage(from_users = [user.id])
-    client.add_event_handler(lambda event : message_handler(event, model, tokenizer, sequences_len), eveny_handler)
+    client.add_event_handler(lambda event : message_handler(event, client, model, tokenizer, sequences_len, name), eveny_handler)
 
     print(Fore.LIGHTGREEN_EX + "\n" + name[5:len(name) - 4] + " ignoring succsefully!\n")
 
