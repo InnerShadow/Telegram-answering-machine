@@ -138,11 +138,11 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
     repeated_context = RepeatVector(sequences_len)(context_lstm)
 
     # Concatenate context vector with decoder outputs and attention
-    decoder_combined_context_context = Concatenate(axis = -1)([decoder_combined_context, repeated_context])
+    decoder_combined_context_repeat = Concatenate(axis = -1)([decoder_combined_context, repeated_context])
 
     # Decoder output
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')
-    decoder_outputs = decoder_dense(decoder_combined_context_context)
+    decoder_outputs = decoder_dense(decoder_combined_context_repeat)
 
     # Connect decoder, encoder, and context inputs
     model = Model([encoder_inputs, decoder_inputs, context_inputs], decoder_outputs)
