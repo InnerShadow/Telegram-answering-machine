@@ -74,7 +74,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
             data_Y = pad_sequences(tokenizer.texts_to_sequences(A), maxlen = sequences_len)
 
             #Get cotext sequences
-            data_cotext = pad_sequences(tokenizer.texts_to_sequences(contects), maxlen = sequences_len * 3)
+            data_cotext = pad_sequences(tokenizer.texts_to_sequences(contects), maxlen = sequences_len * 2)
             
             #Get one-hot encoding vector to Y (Answer's) list
             Y_categorical = to_categorical(data_Y, num_classes = maxWordsCount)
@@ -131,7 +131,7 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     #Add context input
     context_inputs = Input(shape = (sequences_len * 2, ))
     context_embedding = Embedding(maxWordsCount, latent_dim)(context_inputs)
-    context_lstm = LSTM(latent_dim)(context_embedding)
+    context_lstm = LSTM(latent_dim // 16)(context_embedding)
 
     #Multiply context representation by a weight
     weighted_context = Lambda(lambda x: x * context_weight)(context_lstm)
@@ -153,7 +153,5 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     model.compile(optimizer = Adam(learning_rate = 0.001), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
-
-    return model
 
     return model
