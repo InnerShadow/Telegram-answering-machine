@@ -64,7 +64,10 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
                 current_context = ""
                 offset = 0
                 while len(current_context.split(" ")) <= 2 * sequences_len:
-                    current_context += X[k - offset] + ". " + Y[k - offset] + ". "
+                    if k - offset < 0:
+                        break
+                    
+                    current_context = current_context + X[k - offset] + ". " + Y[k - offset] + ". "
                     offset += 1 
 
                 contects.append(current_context)
@@ -131,7 +134,7 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     #Add context input
     context_inputs = Input(shape = (sequences_len * 2, ))
     context_embedding = Embedding(maxWordsCount, latent_dim)(context_inputs)
-    context_lstm = LSTM(latent_dim // 16)(context_embedding)
+    context_lstm = LSTM(1 + latent_dim // 16)(context_embedding)
 
     #Multiply context representation by a weight
     weighted_context = Lambda(lambda x: x * context_weight)(context_lstm)
