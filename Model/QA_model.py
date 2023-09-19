@@ -143,7 +143,6 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     context_inputs = Input(shape = (sequences_len * 2, ))
     context_embedding = Embedding(maxWordsCount, context_lstm_dims)(context_inputs)
 
-    
     context_lstm = LSTM(context_lstm_dims)(context_embedding)
 
     #Multiply context representation by a weight

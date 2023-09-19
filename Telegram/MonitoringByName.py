@@ -20,7 +20,7 @@ async def message_handler(event, client, model, tokinazer, sequences_len, name):
         contexts = await client.get_messages(user, limit = 50)
 
         cotexts_data = ""
-        for i in range(len(contexts), -1, -1):
+        for i in range(len(contexts) - 1, -1, -1):
             cotexts_data += message_preprocessing(contexts[i])
 
         #Generate answer
