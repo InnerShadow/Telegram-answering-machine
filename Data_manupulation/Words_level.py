@@ -10,7 +10,7 @@ def Word_level_QA_answer(model, tokenizer, msg, contexts, sequences_len = 25):
 
     #Reshape contexts
     contexts_seq = tokenizer.texts_to_sequences([contexts])
-    contexts_seq = pad_sequences(contexts_seq, maxlen = sequences_len * 3)
+    contexts_seq = pad_sequences(contexts_seq, maxlen = sequences_len * 2)
 
     predicted_probabilities = model.predict([input_seq, input_seq, contexts_seq])
 

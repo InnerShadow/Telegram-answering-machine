@@ -17,7 +17,7 @@ async def message_handler(event, client, model, tokinazer, sequences_len, name):
 
         #Get contexts
         user = await client.get_entity(name[5:len(name) - 4])
-        contexts = await client.get_messages(user, limit = 20)
+        contexts = await client.get_messages(user, limit = 50)
 
         cotexts_data = ""
         for i in range(len(contexts), -1, -1):

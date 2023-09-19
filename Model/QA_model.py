@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from keras.models import Model
-from keras.layers import Dense, Embedding, Input, LSTM, Attention, Concatenate, RepeatVector
+from keras.layers import Dense, Embedding, Input, LSTM, Attention, Concatenate, RepeatVector, Lambda
 from keras.models import load_model
 from keras.utils import to_categorical
 from keras.optimizers import Adam
@@ -62,11 +62,10 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
                 #Fill context array
                 current_context = ""
-                for e in range(k, k - 20, -1):
-                    if e < 0:
-                        continue
-
-                    current_context += X[e] + ". " + Y[e] + ". "
+                offset = 0
+                while len(current_context.split(" ")) <= 2 * sequences_len:
+                    current_context += X[k - offset] + ". " + Y[k - offset] + ". "
+                    offset += 1 
 
                 contects.append(current_context)
 
@@ -101,7 +100,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 #Creates seq2seq NN
-def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
+def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_weight = 0.5):
 
     #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len, ))
@@ -130,26 +129,31 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20):
     decoder_combined_context = Concatenate(axis = -1)([decoder_outputs, attention_layer])
 
     #Add context input
-    context_inputs = Input(shape = (sequences_len  * 3, ))
+    context_inputs = Input(shape = (sequences_len * 2, ))
     context_embedding = Embedding(maxWordsCount, latent_dim)(context_inputs)
-    context_lstm = LSTM(latent_dim // 16)(context_embedding)
+    context_lstm = LSTM(latent_dim)(context_embedding)
 
-    # Repeat the context vector to match sequences_len
-    repeated_context = RepeatVector(sequences_len)(context_lstm)
+    #Multiply context representation by a weight
+    weighted_context = Lambda(lambda x: x * context_weight)(context_lstm)
 
-    # Concatenate context vector with decoder outputs and attention
-    decoder_combined_context_repeat = Concatenate(axis = -1)([decoder_combined_context, repeated_context])
+    #Repeat the context vector to match sequences_len
+    repeated_context = RepeatVector(sequences_len)(weighted_context)
 
-    # Decoder output
+    #Concatenate context vector with decoder outputs and attention
+    decoder_combined_context_context = Concatenate(axis = -1)([decoder_combined_context, repeated_context])
+
+    #Decoder output
     decoder_dense = Dense(maxWordsCount, activation = 'softmax')
-    decoder_outputs = decoder_dense(decoder_combined_context_repeat)
+    decoder_outputs = decoder_dense(decoder_combined_context_context)
 
-    # Connect decoder, encoder, and context inputs
+    #Connect decoder, encoder, and context inputs
     model = Model([encoder_inputs, decoder_inputs, context_inputs], decoder_outputs)
 
-    # Compile model
+    #Compile model
     model.compile(optimizer = Adam(learning_rate = 0.001), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
     model.summary()
+
+    return model
 
     return model
