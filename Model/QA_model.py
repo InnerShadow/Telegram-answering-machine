@@ -103,7 +103,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 #Creates seq2seq NN
-def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_weight = 0.25):
+def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_weight = 0.3):
 
     #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len, ))
