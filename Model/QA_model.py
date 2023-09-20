@@ -103,7 +103,7 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
 
 
 #Creates seq2seq NN
-def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_weight = 0.5):
+def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, context_weight = 0.25):
 
     #Encoder input layer
     encoder_inputs = Input(shape = (sequences_len, ))
@@ -134,10 +134,10 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     
     #Get count contest lstm dims
     context_lstm_dims = 0
-    if latent_dim < 10:
+    if latent_dim < 4:
         context_lstm_dims = 1
     else :
-        context_lstm_dims = latent_dim // 10
+        context_lstm_dims = latent_dim // 4
 
     #Add context input
     context_inputs = Input(shape = (sequences_len * 2, ))
