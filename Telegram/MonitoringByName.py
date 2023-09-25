@@ -6,6 +6,11 @@ from telethon.events import NewMessage
 from Data_manupulation.Words_level import Word_level_QA_answer
 from Data_manupulation.test_selection import message_preprocessing
 
+def start_monitoring(name, client, model, tokenizer, sequences_len):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(MonitoringByName(name, client, model, tokenizer, sequences_len))
+    
 
 #Send message if it sends from a companion
 async def message_handler(event, client, model, tokinazer, sequences_len, name):

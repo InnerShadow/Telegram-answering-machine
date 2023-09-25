@@ -23,7 +23,7 @@ async def __main__():
         return 
 
     #Go to console interface
-    await main_handler(client, main_menu())
+    asyncio.run(await main_handler(client, main_menu()))
     
 
 if __name__ == '__main__':
