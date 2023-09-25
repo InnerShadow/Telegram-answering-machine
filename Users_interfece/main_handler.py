@@ -22,8 +22,13 @@ def selected_victim_handler(victim, command = None):
         #Connect selected victim & model 
         case "Selected victim set":
             models = get_all_models()
-            model_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect model by id: "))
-
+            try:
+                model_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect model by id: "))
+            except (TypeError, ValueError):
+                print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
+                selected_victim_handler(victim)
+                return 
+            
             #Selected index out of range
             if model_id > len(models):
                 print(Fore.LIGHTRED_EX + "\nSelect existable model!\n")
@@ -89,7 +94,12 @@ async def victim_handler(client, command = None, victim = None):
             victims = get_all_victiums()
 
             #Try to choose victim 
-            victim_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect victim by id: "))
+            try:
+                victim_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect victim by id: "))
+            except (TypeError, ValueError):
+                print(Fore.LIGHTRED_EX + "\nYou should select existable victim!\n")
+                await victim_handler(client)
+                return 
 
             #Selected index out of range
             if victim_id > len(victims):
@@ -213,7 +223,12 @@ async def models_handler(client, command = None):
             models = get_all_models()
 
             #Try to get id from user
-            selected_model_id = int(input(Fore.LIGHTWHITE_EX + "\nEnter model id: "))
+            try:
+                selected_model_id = int(input(Fore.LIGHTWHITE_EX + "\nEnter model id: "))
+            except (TypeError, ValueError):
+                print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
+                await models_handler(client)
+                return 
 
             #Selected index out of range
             if selected_model_id > len(models):
@@ -248,7 +263,7 @@ async def models_handler(client, command = None):
                 print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
 
                 #Back to models_handler
-                await models_handler(client, command)
+                await models_handler(client)
                 return 
             
             #Get number of messages to upload from conversation
@@ -267,7 +282,7 @@ async def models_handler(client, command = None):
                 except (TypeError, ValueError):
                     #Catch exception if cannot convert and back to models_handler 
                     print(Fore.LIGHTRED_EX + "\nPlease enter number of messages!\n")
-                    await models_handler(client, command)
+                    await models_handler(client)
                     return 
                 
             #Upload num_messages messeges from conversation 
@@ -281,7 +296,7 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If cannot covert to int back to models_handler
                 print(Fore.LIGHTRED_EX + "\nYou should enter size of vocabulary!\n")
-                await models_handler(client, command)
+                await models_handler(client)
             
             #Get 'lower' param
             try:
@@ -293,12 +308,12 @@ async def models_handler(client, command = None):
                 else:
                     #If input not 0 or 1 back to models_handler
                     print(Fore.LIGHTRED_EX + "\nYou should enter 1 or 0 to set register!\n")
-                    await models_handler(client, command)
+                    await models_handler(client)
                     return 
             except (TypeError, ValueError):
                     #If input not int
                     print(Fore.LIGHTRED_EX + "\nYou should enter 1 or 0 to set register!\n")
-                    await models_handler(client, command)
+                    await models_handler(client)
                     return 
             
             #Get num of LSTM dims
@@ -307,7 +322,7 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If not int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter number of hidden LSTM layer neurons!\n")
-                await models_handler(client, command)
+                await models_handler(client)
                 return 
             
             #Try to get sequences_len 
@@ -316,7 +331,7 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter sequences length!\n")
-                await models_handler(client, command)
+                await models_handler(client)
                 return 
             
             #Create model & tokinazer
@@ -339,7 +354,7 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If intput is not int go to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter batch size!\n")
-                await models_handler(client, command)
+                await models_handler(client)
                 return 
             
             #Try to get messeges per pack
@@ -348,7 +363,7 @@ async def models_handler(client, command = None):
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + "\nYou should enter number messeages per pack!\n")
-                await models_handler(client, command)
+                await models_handler(client)
                 return 
 
             #Do train model 

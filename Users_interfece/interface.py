@@ -26,7 +26,11 @@ def main_menu():
           "\n2: Models."
           "\n3: Exit"
           "\n4: Help\n")
-    state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+    try:
+        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+    except (TypeError, ValueError):
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        return main_menu()
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable modul!\n")
         return main_menu()
