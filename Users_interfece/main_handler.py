@@ -1,5 +1,4 @@
 import asyncio
-import threading
 
 from Model.QA_model import *
 from Model.Tokenizer import *
@@ -7,7 +6,6 @@ from Users_interfece.interface import *
 from Telegram.MonitoringByName import *
 from Data_manupulation.test_selection import *
 from Users_interfece.helpers import *
-from concurrent.futures import ThreadPoolExecutor
 
 from colorama import Fore
 
@@ -167,8 +165,7 @@ async def victim_handler(client, command = None, victim = None):
                 await victim_handler(client)
                 return
             
-            executor = ThreadPoolExecutor()
-
+            #Get new Thread to ignore person
             loop = asyncio.get_event_loop()
             task = loop.create_task(MonitoringByName(victim, client, model, tokenizer, sequences_len))
             await asyncio.sleep(5)
