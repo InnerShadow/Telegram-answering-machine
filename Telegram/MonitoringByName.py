@@ -46,7 +46,10 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
 async def reIgnoreVictims(client): 
     with open("Data/log.txt", 'r') as f:
         names = [line.rstrip() for line in f]
-        
+
+    if len(names) > 0:
+        print(Fore.YELLOW + "\nStart ignoring previous victims!\n")
+    
     #If victim was selected try to upload params from victim configuration
     for victim in names:
         model_name = ""
