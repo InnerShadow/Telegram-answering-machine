@@ -176,9 +176,7 @@ async def victim_handler(client, command = None, victim = None):
                 return
             
             #Get new Thread to ignore person
-            loop = asyncio.get_event_loop()
-            task = loop.create_task(MonitoringByName(victim, client, model, tokenizer, sequences_len))
-            await asyncio.sleep(5)
+            await MonitoringByName(victim, client, model, tokenizer, sequences_len)
 
             #Save ignoring persion in log
             with open("Data/log.txt", 'a') as f:
@@ -527,6 +525,7 @@ async def main_handler(client, command = None):
 
         #Leave the application 
         case "Exit":
+            await client.run_until_disconnected()
             print(Fore.YELLOW + "\nHave a good day!\n")
             exit()
 

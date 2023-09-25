@@ -24,7 +24,7 @@ async def __main__():
         return 
     
     #Reload precious ignoring victims
-    await reIgnoreVictims(client)
+    #await reIgnoreVictims(client)
 
     #Go to console interface
     asyncio.run(await main_handler(client, main_menu()))

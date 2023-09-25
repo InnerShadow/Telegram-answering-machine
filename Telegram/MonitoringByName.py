@@ -39,7 +39,7 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
 
     print(Fore.LIGHTGREEN_EX + "\n" + name[5:len(name) - 4] + " ignoring succsefully!\n")
 
-    await client.run_until_disconnected()
+    client.run_until_disconnected()
 
 
 #Start ignoring victims from previous application run
@@ -68,6 +68,5 @@ async def reIgnoreVictims(client):
             sequences_len = int(f.readline())
         
         #Get new Thread to ignore person
-        loop = asyncio.get_event_loop()
-        task = loop.create_task(MonitoringByName(victim, client, model, tokenizer, sequences_len))
-        await asyncio.sleep(5)
+        await MonitoringByName(victim, client, model, tokenizer, sequences_len)
+        
