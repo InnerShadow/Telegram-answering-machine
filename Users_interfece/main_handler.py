@@ -154,7 +154,7 @@ async def victim_handler(client, command = None, victim = None):
             model = full_path_load_QA_model(model_name)
             tokenizer = full_path_load_tokinazer(tokinazer_name)
 
-            #Try yo load models configurations
+            #Try to load models configurations
             try:
                 with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
                     maxWordsCount = int(f.readline())
@@ -169,6 +169,10 @@ async def victim_handler(client, command = None, victim = None):
             loop = asyncio.get_event_loop()
             task = loop.create_task(MonitoringByName(victim, client, model, tokenizer, sequences_len))
             await asyncio.sleep(5)
+
+            #Save ignoring persion in log
+            with open("Data/log.txt", 'a') as f:
+                f.write(victim + "\n")
 
             #await MonitoringByName()
             await victim_handler(client)
@@ -456,7 +460,6 @@ async def models_handler(client, command = None):
                 print(Fore.LIGHTRED_EX + "\nYou should enter number messeages per pack!\n")
                 await models_handler(client, command)
                 return 
-            
             
             #Do train more model
             print(Fore.LIGHTGREEN_EX + "\nStart training model!\n")
