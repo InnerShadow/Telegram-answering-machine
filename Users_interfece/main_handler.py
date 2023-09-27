@@ -57,7 +57,7 @@ def selected_victim_handler(victim, command = None):
             with open(str(victim), 'r') as f:
                 model_name = f.readline()
                 tokinazer_name = f.readline()
-                print(Fore.LIGHTGREEN_EX + "\nModel: " + model_name[5:len(model_name) - 3] + "\nTokinazer: " + tokinazer_name[5:len(tokinazer_name) - 5] + "\n")
+                print(Fore.LIGHTGREEN_EX + "\nModel: " + model_name[5:len(model_name) - 4] + "\nTokinazer: " + tokinazer_name[5:len(tokinazer_name) - 5] + "\n")
 
             #Back to selected_victim_handler with no command
             selected_victim_handler(victim)
