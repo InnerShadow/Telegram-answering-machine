@@ -8,6 +8,14 @@ def Word_level_QA_answer(model, tokenizer, msg, contexts, sequences_len = 25):
     input_seq = tokenizer.texts_to_sequences([msg])
     input_seq = pad_sequences(input_seq, maxlen = sequences_len)
 
+    #Get default answer, answer if res is empty
+    existable_msg = (input_seq != 0).any()
+    if not existable_msg:
+        with open("Data/default_answer.txt", 'r') as f:
+            default_answer =  f.read()
+
+        return default_answer
+
     #Reshape contexts
     contexts_seq = tokenizer.texts_to_sequences([contexts])
     contexts_seq = pad_sequences(contexts_seq, maxlen = sequences_len * 2)

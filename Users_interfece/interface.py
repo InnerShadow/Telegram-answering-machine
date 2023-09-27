@@ -6,12 +6,22 @@ from colorama import Fore
 
 from Data.data import GETAPI_Hash, GetAPIID, GetPhoneNumber
 
+#Get default answer if answer hos no vocabulary recognazed words 
+def save_default_answer():
+    exist = os.path.exists("Data/default_answer.txt")
+    if exist == False:
+        with open("Data/default_answer.txt", 'w') as f:
+            f.write("👀?")
+
 #Gove helpul information to user
 def first_launch():
     #Hello message
     print(Fore.GREEN + "\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
           "\nThis mean that neural network that was train base your previous conversation will generate messengers to person you don't want to talk right now!"
           "\nEnjoy the calm!\n")
+    
+    #Save default answer
+    save_default_answer()
     
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
@@ -25,14 +35,15 @@ def main_menu():
     print(Fore.GREEN + "\n1: Victims."
           "\n2: Models."
           "\n3: Run igniging."
-          "\n4: Exit"
-          "\n5: Help\n")
+          "\n4: Default answer."
+          "\n5: Exit"
+          "\n6: Help\n")
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return main_menu()
-    if state > 5 or state == 0:
+    if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable modul!\n")
         return main_menu()
     
@@ -47,9 +58,12 @@ def main_menu():
             return "Run"
         
         case 4:
+            return "Default"
+
+        case 5:
             return "Exit"
         
-        case 5:
+        case 6:
             return "Main help"
     
 
@@ -154,6 +168,36 @@ def models_menu():
         
         case 6: 
             return "Models help"
+        
+
+#Default answer choise menu
+def default_answer_menu():
+    print(Fore.GREEN + "\n1: Show default answer"
+          "\n2: Set default answer"
+          "\n3: Back to main menu"
+          "\n4: Help.")
+    
+    try:
+        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+    except (TypeError, ValueError):
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        return victim_menu()
+    if state > 4 or state == 0:
+        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        return models_menu()
+    
+    match state:
+        case 1:
+            return "Default show"
+        
+        case 2:
+            return "Default set"
+        
+        case 3:
+            return "Default back"
+        
+        case 4:
+            return "Default help"
 
 
 #Do log in telegram

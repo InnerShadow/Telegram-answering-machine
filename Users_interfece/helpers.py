@@ -49,3 +49,11 @@ def models_helper():
           "\n4)'Learn more for model' will learn more for existtable model. It can helps for models that train well, but you set not enough epochs. Also you can try to learn more with other person conversation;"
           "\n5)'Back to main menu' simply returns you to main menu.\n")
 
+
+#Default answer helper
+def default_answer_helper():
+    print(Fore.YELLOW + "\nThis is default answer menu. It contains next options:"
+          "\n1) 'Show default answer' simply shows pre_loaded default answer. This is answer That will be send if you're vocabulary do not contains words of current message;"
+          "\n2) 'Set default answer' allows you to set you're own default answer;"
+          "\n3) 'Back to main menu' simply returns you to main menu.\n")
+    
