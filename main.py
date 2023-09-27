@@ -6,6 +6,7 @@ import asyncio
 from Users_interfece.interface import first_launch, application_api, main_menu, log_in
 from Users_interfece.main_handler import main_handler
 from colorama import init, Fore
+import matplotlib.pyplot as plt
 
 #Main function that provides to console interface
 async def __main__():

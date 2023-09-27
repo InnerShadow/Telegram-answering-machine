@@ -1,4 +1,6 @@
-import asyncio
+from PIL import Image
+
+from colorama import Fore
 
 from Model.QA_model import *
 from Model.Tokenizer import *
@@ -7,7 +9,7 @@ from Telegram.MonitoringByName import *
 from Data_manupulation.test_selection import *
 from Users_interfece.helpers import *
 
-from colorama import Fore
+
 
 #Recurrent function that provide users interface in "Selected victim" menu
 def selected_victim_handler(victim, command = None):
@@ -421,6 +423,19 @@ async def models_handler(client, command = None):
                 print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
                 await models_handler(client)
                 return
+            
+            model_name = models[int(model_id) - 1]
+
+            #Show previous model traing graphics
+            print(Fore.YELLOW + "\nPrevious learing resualt at the screen!\n")
+
+            #Try to open graphics
+            try:
+                image = Image.open(model_name[:len(model_name) - 3] + "_graph.png")
+                image.show()
+            except Exception:
+                #Just say that graphics do not exist and continue working!
+                print(Fore.LIGHTRED_EX + "\nFor some reason cannot open graphics!\n")
 
             #Upload model & tokinazer
             print(Fore.LIGHTGREEN_EX + "\n" + str(models[int(model_id) - 1]) + " has been selected!\n")
@@ -430,7 +445,6 @@ async def models_handler(client, command = None):
             model.summary()
 
             #Get data from model configuration
-            model_name = models[int(model_id) - 1]
             with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
                 maxWordsCount = int(f.readline())
                 sequences_len = int(f.readline())

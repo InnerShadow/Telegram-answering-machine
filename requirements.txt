@@ -4,4 +4,5 @@ telethon
 keras
 tensorflow
 tf-nightly
+Pillow
 colorama
