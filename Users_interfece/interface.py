@@ -58,7 +58,7 @@ def victim_menu():
     print(Fore.GREEN + "\n1: Show all victims." 
           "\n2: Select victim by id."
           "\n3: Get new victim."
-          "\n4: Start ignoring."
+          "\n4: Add to ignoring list."
           "\n5: Back to main menu"
           "\n6: Help\n")
     try:
@@ -81,7 +81,7 @@ def victim_menu():
             return "Victim new"
         
         case 4:
-            return "Victim do ignore"
+            return "Victim ignore"
         
         case 5:
             return "Victim back"
@@ -196,7 +196,7 @@ def get_all_victiums(Show = True):
     victiums = glob.glob(os.path.join("Data/", "@*.txt"))
     if(Show):
         for i in range(len(victiums)):
-            print(str(i + 1) + " : " + str(victiums[i])[5:len(victiums[i]) - 4])
+            print(Fore.YELLOW + str(i + 1) + " : " + str(victiums[i])[5:len(victiums[i]) - 4])
         print("\n")
 
     return victiums
@@ -207,8 +207,17 @@ def get_all_models(Show = True):
     models = glob.glob(os.path.join("Data/", "*.h5"))
     if(Show):
         for i in range(len(models)):
-            print(str(i + 1) + " : " + str(models[i])[5:len(models[i]) - 3])
+            print(Fore.YELLOW + str(i + 1) + " : " + str(models[i])[5:len(models[i]) - 3])
         print("\n")
 
     return models
+
+
+#Show all selected victims in do_ignore.txt
+def show_ignoring_victims():
+    with open("Data/do_ignore.txt", 'r') as f:
+        for line in f:
+            name = line.strip()
+            print(Fore.YELLOW + name[6:len(name) - 4] + " is ignoring now!")
+        print(Fore.LIGHTGREEN_EX + "\nEnjoy the calm!")
 

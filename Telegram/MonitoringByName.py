@@ -41,4 +41,3 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
 
     print(Fore.LIGHTGREEN_EX + "\n" + name[5:len(name) - 4] + " has been added to ignoging list!\n")
 
-        

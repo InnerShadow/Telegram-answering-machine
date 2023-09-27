@@ -139,8 +139,8 @@ async def victim_handler(client, command = None, victim = None):
             await victim_handler(client, victim = victim)
             return 
         
-        #Start ingroning victim 
-        case "Victim do ignore":
+        #Add victim to ingroning list 
+        case "Victim ignore":
             #If victim do not selected back to victim_handler
             if victim == None:
                 print(Fore.LIGHTRED_EX + "\nPlease, select the victim!\n")
@@ -178,8 +178,8 @@ async def victim_handler(client, command = None, victim = None):
             #Get new Thread to ignore person
             await MonitoringByName(victim, client, model, tokenizer, sequences_len)
 
-            #Save ignoring persion in log
-            with open("Data/log.txt", 'a') as f:
+            #Save ignoring persion in do_ignore .txt file
+            with open("Data/do_ignore.txt", 'a') as f:
                 f.write(victim + "\n")
 
             #await MonitoringByName()
@@ -519,6 +519,7 @@ async def main_handler(client, command = None):
         
         #Start ignoging all victims
         case "Run":
+            show_ignoring_victims()
             await client.run_until_disconnected()
 
         #Get help abut main menu, than back to main menu with no command

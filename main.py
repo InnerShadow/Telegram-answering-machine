@@ -11,6 +11,10 @@ from colorama import init
 async def __main__():
     init()
 
+    #Reset do_ignore file
+    with open("Data/do_ignore.txt", 'w') as f:
+        f.truncate(0)
+
     #Get hello message & info about telegram application
     first_launch()
 
@@ -21,18 +25,11 @@ async def __main__():
     client = await log_in(phone, apiid, apihash)
     if client == None:
         return 
-    
-    #Reload precious ignoring victims
-    #await reIgnoreVictims(client)
 
     #Go to console interface
-    asyncio.run(await main_handler(client, main_menu()))
+    await main_handler(client, main_menu())
     
 
 if __name__ == '__main__':
     asyncio.run(__main__())
 
-
-# TODO: Make ignoring in diffrent thread
-# TODO: Make auto-load ignoring 
-# TODO: Make better parametrs recomendation

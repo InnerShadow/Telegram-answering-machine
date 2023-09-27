@@ -17,7 +17,8 @@ def victim_helper():
         "\n2) 'Select victim by id' provides you to 'selected victim menu' this option helps you to connect victim and model. "
         "You should select victim before start ignoring it;"
         "\n3) 'Get new victim' options creates empty victim configuration, after filling that will be use in ignoring module;"
-        "\n4) 'Start ignoring' option is a main application option that start ignoring person in telegram. You should select victim before start ignoring it;"
+        "\n4) 'Add to ignoring list' option will add victim to ignoring list. Then you can use 'Run igniging' option of main menu to start igrnoring all victims."
+        "\nYou should select victim before start ignoring it;"
         "\n5) 'Back to main menu' simply returns you to main menu.\n")
     
 
