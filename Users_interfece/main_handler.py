@@ -519,8 +519,16 @@ async def main_handler(client, command = None):
         
         #Start ignoging all victims
         case "Run":
-            show_ignoring_victims()
+            #Try to load victims, if empty say it to user
+            try:
+                show_ignoring_victims()
+            except Exception:
+                await main_handler(client)
+                return
+            
             await client.run_until_disconnected()
+            await main_handler(client)
+            return
 
         #Get help abut main menu, than back to main menu with no command
         case "Main help":
