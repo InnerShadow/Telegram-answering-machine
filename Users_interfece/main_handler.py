@@ -23,6 +23,7 @@ def selected_victim_handler(victim, command = None):
         case "Selected victim set":
             models = get_all_models()
 
+            #Back to selected_victim_handler if there is no avaible models
             if len(models) == 0:
                 print(Fore.LIGHTRED_EX + "\nYou should has at least one model to select it!\n")
                 selected_victim_handler(victim)
