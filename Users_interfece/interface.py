@@ -215,7 +215,7 @@ def get_all_models(Show = True):
 
 #Show all selected victims in do_ignore.txt
 def show_ignoring_victims():
-    size = os.path.getsize()
+    size = os.path.getsize("Data/do_ignore.txt")
     if size == 0:
         print(Fore.LIGHTRED_EX + "\nYou should Select at least one victim!\n")
         raise Exception("Empty do_ignore file")

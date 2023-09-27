@@ -38,3 +38,7 @@ async def __main__():
 if __name__ == '__main__':
     asyncio.run(__main__())
 
+
+#TODO: Make progress bar on training
+#TODO: MAke deffolt answer
+#TODO: Save in .keras
