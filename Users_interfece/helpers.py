@@ -39,7 +39,7 @@ def models_helper():
           "\n3) 'Train new model' provides opportunity to train new model. You can choose train conversation, number of hidden layer neurons, batch size and other parameters."
           "\nMy recommendation about model parameters: "
           "\n     3.1) Number of messages - 40k or None (full conversation);"
-          "\n     3.2) Size of vocabulary - 15k-20k [This is max number of unic most common words from you're conversion];"
+          "\n     3.2) Size of vocabulary - 15k-20k or more [This is max number of unic most common words from you're conversion];"
           "\n     3.3) Lower - True or '1' [This means that all words will have only low register characters. This is better for training];"
           "\n     3.4) Number of hidden LSTM layer neurons - 512 or more [This parameter that determ neural network complexity. This doesn't means that more neurons = more flexible neural network];"
           "\n     3.5) Number of epochs - 200 or more [This parameter means number of times that you're conversation will pass through neural network];"
