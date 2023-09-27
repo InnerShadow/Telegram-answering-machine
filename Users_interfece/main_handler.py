@@ -516,6 +516,10 @@ async def main_handler(client, command = None):
             await models_handler(client, models_menu())
             await main_handler(client)
             return
+        
+        #Start ignoging all victims
+        case "Run":
+            await client.run_until_disconnected()
 
         #Get help abut main menu, than back to main menu with no command
         case "Main help":
@@ -525,7 +529,6 @@ async def main_handler(client, command = None):
 
         #Leave the application 
         case "Exit":
-            await client.run_until_disconnected()
             print(Fore.YELLOW + "\nHave a good day!\n")
             exit()
 

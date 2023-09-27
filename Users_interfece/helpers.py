@@ -6,7 +6,8 @@ def main_helper():
     print(Fore.YELLOW + "\nThis is main menu. This has 2 main modules:"
         "\n1) 'Victim menu', that has all manipulations with victims like create new victim or link model with victim and other;"
         "\n2) 'Model menu' that has all manipulations with models like creation, training models and other;"
-        "\n3) 'Exit' option will close the application.\n")
+        "\n3) 'Run igniging' willignoge all victims with their parameters;"
+        "\n4) 'Exit' option will close the application.\n")
     
 
 #Victim menu helper

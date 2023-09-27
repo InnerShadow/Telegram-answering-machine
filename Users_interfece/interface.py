@@ -24,8 +24,9 @@ def first_launch():
 def main_menu():
     print(Fore.GREEN + "\n1: Victims."
           "\n2: Models."
-          "\n3: Exit"
-          "\n4: Help\n")
+          "\n3: Run igniging."
+          "\n4: Exit"
+          "\n5: Help\n")
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
@@ -43,9 +44,12 @@ def main_menu():
             return "Models menu"
         
         case 3:
-            return "Exit"
+            return "Run"
         
         case 4:
+            return "Exit"
+        
+        case 5:
             return "Main help"
     
 

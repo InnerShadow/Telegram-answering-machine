@@ -5,7 +5,6 @@ import asyncio
 
 from Users_interfece.interface import first_launch, application_api, main_menu, log_in
 from Users_interfece.main_handler import main_handler
-from Telegram.MonitoringByName import reIgnoreVictims
 from colorama import init
 
 #Main function that provides to console interface

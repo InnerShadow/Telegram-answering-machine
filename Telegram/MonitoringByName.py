@@ -18,11 +18,13 @@ async def message_handler(event, client, model, tokinazer, sequences_len, name):
 
         #Get contexts
         user = await client.get_entity(name[5:len(name) - 4])
-        contexts = await client.get_messages(user, limit = 50)
+        contexts = await client.get_messages(user, limit = sequences_len * 2)
 
         cotexts_data = ""
-        for i in range(len(contexts) - 1, -1, -1):
+        i = 0
+        while len(cotexts_data.split(" ")) <= 2 * sequences_len:
             cotexts_data += message_preprocessing(contexts[i])
+            i += 1
 
         #Generate answer
         await event.reply(Word_level_QA_answer(model, tokinazer, str(message_preprocessing(event)), cotexts_data, sequences_len))
@@ -37,36 +39,6 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
     eveny_handler = NewMessage(from_users = [user.id])
     client.add_event_handler(lambda event : message_handler(event, client, model, tokenizer, sequences_len, name), eveny_handler)
 
-    print(Fore.LIGHTGREEN_EX + "\n" + name[5:len(name) - 4] + " ignoring succsefully!\n")
+    print(Fore.LIGHTGREEN_EX + "\n" + name[5:len(name) - 4] + " has been added to ignoging list!\n")
 
-    client.run_until_disconnected()
-
-
-#Start ignoring victims from previous application run
-async def reIgnoreVictims(client): 
-    with open("Data/log.txt", 'r') as f:
-        names = [line.rstrip() for line in f]
-
-    if len(names) > 0:
-        print(Fore.YELLOW + "\nStart ignoring previous victims!\n")
-    
-    #If victim was selected try to upload params from victim configuration
-    for victim in names:
-        model_name = ""
-        tokinazer_name = ""
-        with open(str(victim), 'r') as f:
-            model_name = f.readline()[:len(model_name) - 1]
-            tokinazer_name = f.readline()
-        
-        #If victim configuration is not empty load models & tokinazer names
-        model = full_path_load_QA_model(model_name)
-        tokenizer = full_path_load_tokinazer(tokinazer_name)
-
-        #Load models configurations
-        with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
-            maxWordsCount = int(f.readline())
-            sequences_len = int(f.readline())
-        
-        #Get new Thread to ignore person
-        await MonitoringByName(victim, client, model, tokenizer, sequences_len)
         
