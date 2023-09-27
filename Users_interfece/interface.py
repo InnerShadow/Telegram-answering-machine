@@ -20,14 +20,14 @@ def first_launch():
           "\nThis mean that neural network that was train base your previous conversation will generate messengers to person you don't want to talk right now!"
           "\nEnjoy the calm!\n")
     
-    #Save default answer
-    save_default_answer()
-    
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
         #Firts launch helper
         print(Fore.YELLOW + "\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
               "and get api hash & api id to continue using this application.\n")
+        
+    #Save default answer
+    save_default_answer()
         
 
 #Main choise manu
