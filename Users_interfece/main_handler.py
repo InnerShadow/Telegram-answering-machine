@@ -379,7 +379,7 @@ async def models_handler(client, command = None):
 
             #Do train model 
             print(Fore.LIGHTGREEN_EX + "\nStart training model!\n")
-            model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
+            model = QA_model_train(train_victim[1:], model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
             print(Fore.LIGHTGREEN_EX + "\nModel has been traind!\n")
 
             #Save model in .h5
@@ -489,7 +489,7 @@ async def models_handler(client, command = None):
             
             #Do train more model
             print(Fore.LIGHTGREEN_EX + "\nStart training model!\n")
-            model = QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
+            model = QA_model_train(train_victim[1:], model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
             print(Fore.LIGHTGREEN_EX + "\nModel has been traind!\n")
 
             #Save model

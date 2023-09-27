@@ -27,7 +27,7 @@ def full_path_load_QA_model(name):
 
 
 #Train Qa model step by step
-def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack):
+def QA_model_train(name, model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack):
     #Save loss for graphics
     global_loss = []
     #For by num of epochs
@@ -95,9 +95,10 @@ def QA_model_train(model, X, Y, tokenizer, batch_size, epochs, sequences_len, ma
         print("Mean loss: " + str(np.sum(loss_values) / len(loss_values)) + "; Mean accuracy: " + str(np.sum(accuracy_values) / len(accuracy_values)) + str("\n"))
         global_loss.append((np.sum(loss_values) / len(loss_values)))
 
-    #Show graphs
+    #Show & save graphs
     plt.plot(global_loss)
-    plt.show()
+    plt.show(block = False)
+    plt.savefig("Data/" + name + "graph.png")
 
     return model
 
