@@ -32,7 +32,7 @@ def main_menu():
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return main_menu()
-    if state > 4 or state == 0:
+    if state > 5 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable modul!\n")
         return main_menu()
     
