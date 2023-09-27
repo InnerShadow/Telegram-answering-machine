@@ -93,6 +93,12 @@ async def victim_handler(client, command = None, victim = None):
             #Show all victims
             victims = get_all_victiums()
 
+            #If there is no avaible victims, back to victim menu
+            if len(victim) == 0:
+                print(Fore.LIGHTRED_EX + "\nYou should has at least one victim to select it!\n")
+                await victim_handler(client)
+                return 
+
             #Try to choose victim 
             try:
                 victim_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect victim by id: "))
