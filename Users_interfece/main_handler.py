@@ -22,6 +22,12 @@ def selected_victim_handler(victim, command = None):
         #Connect selected victim & model 
         case "Selected victim set":
             models = get_all_models()
+
+            if len(models) == 0:
+                print(Fore.LIGHTRED_EX + "\nYou should has at least one model to select it!\n")
+                selected_victim_handler(victim)
+                return
+
             try:
                 model_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect model by id: "))
             except (TypeError, ValueError):
