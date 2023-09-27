@@ -101,7 +101,7 @@ async def victim_handler(client, command = None, victim = None):
             victims = get_all_victiums()
 
             #If there is no avaible victims, back to victim menu
-            if len(victim) == 0:
+            if len(victims) == 0:
                 print(Fore.LIGHTRED_EX + "\nYou should has at least one victim to select it!\n")
                 await victim_handler(client)
                 return 
@@ -232,6 +232,10 @@ async def models_handler(client, command = None):
         case "Models info":
             #Show all models
             models = get_all_models()
+
+            if len(models) == 0:
+                print(Fore.LIGHTRED_EX + "\nYou should have at least one model to get information about it!\n")
+                await models_handler(client)
 
             #Try to get id from user
             try:
@@ -398,6 +402,10 @@ async def models_handler(client, command = None):
         case "Models learn more":
             #Show all models
             models = get_all_models()
+
+            if len(models) == 0:
+                print(Fore.LIGHTRED_EX + "\nYou should have at least one model to up train it!\n")
+                await models_handler(client)
 
             #Try to get get model by id
             try:
