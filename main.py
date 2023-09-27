@@ -5,7 +5,7 @@ import asyncio
 
 from Users_interfece.interface import first_launch, application_api, main_menu, log_in
 from Users_interfece.main_handler import main_handler
-from colorama import init
+from colorama import init, Fore
 
 #Main function that provides to console interface
 async def __main__():
@@ -22,7 +22,12 @@ async def __main__():
     phone, apiid, apihash = application_api()
 
     #Try to log in Telegram
-    client = await log_in(phone, apiid, apihash)
+    try :
+        client = await log_in(phone, apiid, apihash)
+    except Exception:
+        print(Fore.LIGHTRED_EX + "Cannot log in telegram!")
+        return
+    
     if client == None:
         return 
 
