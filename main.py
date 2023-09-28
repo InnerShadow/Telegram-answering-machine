@@ -12,10 +12,6 @@ import matplotlib.pyplot as plt
 async def __main__():
     init()
 
-    #Reset do_ignore file
-    with open("Data/do_ignore.txt", 'w') as f:
-        f.truncate(0)
-
     #Get hello message & info about telegram application
     first_launch()
 
@@ -31,6 +27,10 @@ async def __main__():
     
     if client == None:
         return 
+    
+    #Reset do_ignore file
+    with open("Data/do_ignore.txt", 'w') as f:
+        f.truncate(0)
 
     #Go to console interface
     await main_handler(client, main_menu())

@@ -168,3 +168,4 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     model.summary()
 
     return model
+

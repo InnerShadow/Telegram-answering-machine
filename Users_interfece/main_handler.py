@@ -27,20 +27,20 @@ def selected_victim_handler(victim, command = None):
 
             #Back to selected_victim_handler if there is no avaible models
             if len(models) == 0:
-                print(Fore.LIGHTRED_EX + "\nYou should has at least one model to select it!\n")
+                print(Fore.LIGHTRED_EX + "\nCreate a model first!\n")
                 selected_victim_handler(victim)
                 return
 
             try:
                 model_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect model by id: "))
             except (TypeError, ValueError):
-                print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
+                print(Fore.LIGHTRED_EX + "\nThis module does not exist!\n") #You should select existable model!
                 selected_victim_handler(victim)
                 return 
             
             #Selected index out of range
             if model_id > len(models):
-                print(Fore.LIGHTRED_EX + "\nSelect existable model!\n")
+                print(Fore.LIGHTRED_EX + "\nThis module does not exist!\n")
                 selected_victim_handler(victim)
                 return 
             
@@ -104,7 +104,7 @@ async def victim_handler(client, command = None, victim = None):
 
             #If there is no avaible victims, back to victim menu
             if len(victims) == 0:
-                print(Fore.LIGHTRED_EX + "\nYou should has at least one victim to select it!\n")
+                print(Fore.LIGHTRED_EX + "\nCreate a victim first!\n")
                 await victim_handler(client)
                 return 
 
@@ -112,13 +112,13 @@ async def victim_handler(client, command = None, victim = None):
             try:
                 victim_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect victim by id: "))
             except (TypeError, ValueError):
-                print(Fore.LIGHTRED_EX + "\nYou should select existable victim!\n")
+                print(Fore.LIGHTRED_EX + "\nThis victim does not exist!\n")
                 await victim_handler(client)
                 return 
 
             #Selected index out of range
             if victim_id > len(victims):
-                print(Fore.LIGHTRED_EX + "\nYou should select existable victim\n")
+                print(Fore.LIGHTRED_EX + "\nThis victim does not exist!\n")
                 await victim_handler(client)
                 return 
             
@@ -141,7 +141,7 @@ async def victim_handler(client, command = None, victim = None):
             #Victims name should starts with '@'
             if victim[0] != "@":
                 #If not back to victim_handler
-                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
+                print(Fore.LIGHTRED_EX + "\nError! Correct form: @My_friend\n")
                 await victim_handler(command)
                 return 
 
@@ -171,7 +171,7 @@ async def victim_handler(client, command = None, victim = None):
             
             #Check if victim configuration if empty
             if model_name == "" or tokinazer_name == "":
-                print(Fore.LIGHTRED_EX + "\nVictim configuration should not be empty! Set the model to ignore victim!\n")
+                print(Fore.LIGHTRED_EX + "\nError! Set a model to ignore the victim!\n")
                 await victim_handler(client)
                 return 
             
@@ -186,7 +186,7 @@ async def victim_handler(client, command = None, victim = None):
                     sequences_len = int(f.readline())
             except Exception:
                 #If model confuguration empty - back to victim_handler
-                print(Fore.LIGHTRED_EX + "\nModel configuration cannot be empty!\n")
+                print(Fore.LIGHTRED_EX + "\nWrog parameters of model training. Retrain the model!\n")
                 await victim_handler(client)
                 return
             
@@ -236,14 +236,14 @@ async def models_handler(client, command = None):
             models = get_all_models()
 
             if len(models) == 0:
-                print(Fore.LIGHTRED_EX + "\nYou should have at least one model to get information about it!\n")
+                print(Fore.LIGHTRED_EX + "\nCreate a model first!!\n")
                 await models_handler(client)
 
             #Try to get id from user
             try:
                 selected_model_id = int(input(Fore.LIGHTWHITE_EX + "\nEnter model id: "))
             except (TypeError, ValueError):
-                print(Fore.LIGHTRED_EX + "\nYou should select existable model!\n")
+                print(Fore.LIGHTRED_EX + "\nThis model does not exist!\n")
                 await models_handler(client)
                 return 
 
@@ -274,10 +274,10 @@ async def models_handler(client, command = None):
         #Train new model option
         case "Models train":
             #Try to find conversation with person by name
-            train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter person and model will train base on your conversation (like @My_friend): ")
+            train_victim = input(Fore.LIGHTWHITE_EX + "\nEnter victim to train the model (correct form: @My_friend): ")
             if train_victim[0] != "@":
                 #Victims name should starts with '@'
-                print(Fore.LIGHTRED_EX + "\nYou should enter link like @My_friend\n")
+                print(Fore.LIGHTRED_EX + "\nError! Correct form: @My_friend\n")
 
                 #Back to models_handler
                 await models_handler(client)
@@ -288,9 +288,9 @@ async def models_handler(client, command = None):
                         "or enter 'None' to use all conversation as training data: ")
             if num_messages == "None":
                 #If 'None' upload full conversation
-                print(Fore.YELLOW + "\nStart loading data. This can take a while!\n")
+                print(Fore.YELLOW + "\nData is loading...\n")
                 X, Y = await GetTrainDataByName(train_victim, client)
-                print(Fore.LIGHTGREEN_EX + "\nData has been loaded!\n")
+                print(Fore.LIGHTGREEN_EX + "\nData is loaded!\n")
 
             else :
                 try:
@@ -298,26 +298,26 @@ async def models_handler(client, command = None):
                     num_messages = int(num_messages)
                 except (TypeError, ValueError):
                     #Catch exception if cannot convert and back to models_handler 
-                    print(Fore.LIGHTRED_EX + "\nPlease enter number of messages!\n")
+                    print(Fore.LIGHTRED_EX + "\nNot a number! \n")
                     await models_handler(client)
                     return 
                 
             #Upload num_messages messeges from conversation 
-            print(Fore.YELLOW + "\nStart loading data. This can take a while!\n") 
+            print(Fore.YELLOW + "\nData is loading...\n") 
             X, Y = await GetTrainDataByName(train_victim, client, num_messages)
-            print(Fore.LIGHTGREEN_EX + "\nData has been loaded!\n")
+            print(Fore.LIGHTGREEN_EX + "\nData is loaded!\n")
 
             #Try to get vocabulary size
             try:
                 maxWordsCount = int(input(Fore.LIGHTWHITE_EX + "\nEnter size of vocabulary: "))
             except (TypeError, ValueError):
                 #If cannot covert to int back to models_handler
-                print(Fore.LIGHTRED_EX + "\nYou should enter size of vocabulary!\n")
+                print(Fore.LIGHTRED_EX + "\nNot a number!\n")
                 await models_handler(client)
             
             #Get 'lower' param
             try:
-                lower = int(input(Fore.LIGHTWHITE_EX + "\nEnter 1 if you want only low register messeges, 0 for high & low register messages: "))
+                lower = int(input(Fore.LIGHTWHITE_EX + "\nEnter 1 if you want only low register messages, 0 for high & low register messages: ")) # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
                 if lower == 1:
                     lower = True
                 elif lower == 0:
