@@ -11,7 +11,8 @@ def main_helper():
         "\n4) 'Exit' option will close the application.\n")
     
     #How to use it message
-    print(Fore.GREEN + "\n How to use it:"
+    print(Fore.GREEN + 
+        "\n How to use it:"
         "\nTo start ignoring some one you should go Models -> Train new model -> Set up parametrs on you wish. After this you will have ready to use model."
         "\nNext you should go to Victims -> Get new victim -> Selcet victim by id -> Select some one -> Set model by id -> Select some model -> Back to victim menu -> Add to ignoring list."
         "\nNow you can add as may victims as you want. After that you should back to main menu and use 'Run ignoring' option. All selected victims will be ignored!"
