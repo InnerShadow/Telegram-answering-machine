@@ -32,15 +32,18 @@ async def models_handler(client, command = None):
             if len(models) == 0:
                 print(Fore.LIGHTRED_EX + 
                       "\nCreate a model first!!\n")
+                
                 await models_handler(client)
 
             #Try to get id from user
             try:
                 selected_model_id = int(input(Fore.LIGHTWHITE_EX + 
                                               "\nEnter model id: "))
+                
             except (TypeError, ValueError):
                 print(Fore.LIGHTRED_EX + 
                       "\nThis model does not exist!\n")
+                
                 await models_handler(client)
                 return 
 
@@ -64,10 +67,8 @@ async def models_handler(client, command = None):
                 sequences_len = int(f.readline())
 
             print(Fore.YELLOW + 
-                  "\nmaxWordsCount: " + 
-                  str(maxWordsCount) + 
-                  ", sequences_len: " + 
-                  str(sequences_len) + "\n")
+                  "\nmaxWordsCount: " + str(maxWordsCount) + 
+                  ", sequences_len: " + str(sequences_len) + "\n")
             
             #Back to models_menu_handler
             await models_handler(client)
@@ -78,6 +79,7 @@ async def models_handler(client, command = None):
             #Try to find conversation with person by name
             train_victim = input(Fore.LIGHTWHITE_EX + 
                                  "\nEnter victim to train the model (correct form: @My_friend): ")
+            
             if train_victim[0] != "@":
                 #Victims name should starts with '@'
                 print(Fore.LIGHTRED_EX + 
@@ -91,6 +93,7 @@ async def models_handler(client, command = None):
             num_messages = input(Fore.LIGHTWHITE_EX + 
                                 "\nEnter number of messages that model will use as train data \n"
                                 "or enter 'None' to use all conversation as training data: ")
+            
             if num_messages == "None":
                 #If 'None' upload full conversation
                 print(Fore.YELLOW + "\nData is loading...\n")
@@ -100,6 +103,7 @@ async def models_handler(client, command = None):
                 except Exception:
                     print(Fore.LIGHTRED_EX + 
                           "\nCannot find conversation with " + train_victim[1:] + "\n")
+                    
                     await models_handler(client)
                     return
             
@@ -110,10 +114,12 @@ async def models_handler(client, command = None):
                 try:
                     #Try to convert num_messages into int
                     num_messages = int(num_messages)
+
                 except (TypeError, ValueError):
                     #Catch exception if cannot convert and back to models_handler 
                     print(Fore.LIGHTRED_EX + 
                           "\nNot a number! \n")
+                    
                     await models_handler(client)
                     return 
                 
@@ -126,6 +132,7 @@ async def models_handler(client, command = None):
             except Exception:
                 print(Fore.LIGHTRED_EX + 
                       "\nCannot find conversation with " + train_victim[1:] + "\n")
+                
                 await models_handler(client)
                 return
 
@@ -136,15 +143,19 @@ async def models_handler(client, command = None):
             try:
                 maxWordsCount = int(input(Fore.LIGHTWHITE_EX + 
                                           "\nEnter size of vocabulary: "))
+                
             except (TypeError, ValueError):
                 #If cannot covert to int back to models_handler
-                print(Fore.LIGHTRED_EX + "\nNot a number!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nNot a number!\n")
+                
                 await models_handler(client)
             
             #Get 'lower' param
             try:
                 lower = int(input(Fore.LIGHTWHITE_EX + 
                                   "\nEnter 1 if you want only low register messages, 0 for high & low register messages: ")) # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
+                
                 if lower == 1:
                     lower = True
                 elif lower == 0:
@@ -153,12 +164,14 @@ async def models_handler(client, command = None):
                     #If input not 0 or 1 back to models_handler
                     print(Fore.LIGHTRED_EX + 
                           "\nYou should enter 1 or 0 to set register!\n")
+                    
                     await models_handler(client)
                     return 
             except (TypeError, ValueError):
                     #If input not int
                     print(Fore.LIGHTRED_EX + 
                           "\nYou should enter 1 or 0 to set register!\n")
+                    
                     await models_handler(client)
                     return 
             
@@ -166,10 +179,12 @@ async def models_handler(client, command = None):
             try:
                 latent_dim = int(input(Fore.LIGHTWHITE_EX + 
                                        "\nEnter hidden LSTM layer neurons: "))
+                
             except (TypeError, ValueError):
                 #If not int back to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter number of hidden LSTM layer neurons!\n")
+                
                 await models_handler(client)
                 return 
             
@@ -177,10 +192,12 @@ async def models_handler(client, command = None):
             try:
                 sequences_len = int(input(Fore.LIGHTWHITE_EX + 
                                           "\nEnter sequences length: "))
+                
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter sequences length!\n")
+                
                 await models_handler(client)
                 return 
             
@@ -193,10 +210,12 @@ async def models_handler(client, command = None):
             try:
                 epochs = int(input(Fore.LIGHTWHITE_EX + 
                                    "\nEnter number of epochs: "))
+                
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter number of epochs!\n")
+                
                 await models_handler(client, model)
                 return 
             
@@ -204,10 +223,12 @@ async def models_handler(client, command = None):
             try:
                 batch_size = int(input(Fore.LIGHTWHITE_EX + 
                                        "\nEnter batch size: "))
+                
             except (TypeError, ValueError):
                 #If intput is not int go to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter batch size!\n")
+                
                 await models_handler(client)
                 return 
             
@@ -215,10 +236,12 @@ async def models_handler(client, command = None):
             try:
                 messages_per_pack = int(input(Fore.LIGHTWHITE_EX + 
                                               "\nEnter messages per pack: "))
+                
             except (TypeError, ValueError):
                 #If input is not int back to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter number messeages per pack!\n")
+                
                 await models_handler(client)
                 return 
 
@@ -251,16 +274,19 @@ async def models_handler(client, command = None):
             if len(models) == 0:
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should have at least one model to up train it!\n")
+                
                 await models_handler(client)
 
             #Try to get get model by id
             try:
                 model_id = int(input(Fore.LIGHTWHITE_EX + 
                                      "\nSelect model by id acording the list: "))
+                
             except (TypeError, ValueError):
                 #If input is not integer
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should select existable model!\n")
+                
                 await models_handler(client)
                 return
             
@@ -268,6 +294,7 @@ async def models_handler(client, command = None):
             if model_id > len(models):
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should select existable model!\n")
+                
                 await models_handler(client)
                 return
             
@@ -281,6 +308,7 @@ async def models_handler(client, command = None):
             try:
                 image = Image.open(model_name[:len(model_name) - 6] + "_graph.png")
                 image.show()
+
             except Exception:
                 #Just say that graphics do not exist and continue working!
                 print(Fore.LIGHTRED_EX + 
@@ -304,10 +332,12 @@ async def models_handler(client, command = None):
             #Select person to train more model base on prev conversation 
             train_victim = input(Fore.LIGHTWHITE_EX + 
                                  "\nEnter person and model will train base on your conversation (like @My_friend): ")
+            
             if train_victim[0] != "@":
                 #Victim name should starts with '@'
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter link like @My_friend\n")
+                
                 await models_handler(client, command, train_victim)
                 return 
 
@@ -315,6 +345,7 @@ async def models_handler(client, command = None):
             num_messages = input(Fore.LIGHTWHITE_EX + 
                                 "\nEnter number of messages that model will use as train data \n"
                                 "or enter 'None' to use all conversation as training data: ")
+            
             if num_messages == "None":
                 #Upload full conversation
                 print(Fore.YELLOW + 
@@ -325,6 +356,7 @@ async def models_handler(client, command = None):
                 except Exception:
                     print(Fore.LIGHTRED_EX + 
                           "\nCannot find conversation with " + train_victim[1:] + "\n")
+                    
                     await models_handler(client)
                     return
                 
@@ -339,6 +371,7 @@ async def models_handler(client, command = None):
                     #If cannot back to models menu
                     print(Fore.LIGHTRED_EX + 
                           "\nPlease enter number of messages!\n")
+                    
                     await models_handler(client, command)
                     return 
                 
@@ -351,6 +384,7 @@ async def models_handler(client, command = None):
                 except Exception:
                     print(Fore.LIGHTRED_EX + 
                           "\nCannot find conversation with " + train_victim[1:] + "\n")
+                    
                     await models_handler(client)
                     return
                 
@@ -366,6 +400,7 @@ async def models_handler(client, command = None):
                 #If cannot conver input in int, back to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter number of epochs!\n")
+                
                 await models_handler(client, model)
                 return 
             
@@ -377,6 +412,7 @@ async def models_handler(client, command = None):
                 #If cannot convert input into int back to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter batch size!\n")
+                
                 await models_handler(client, command)
                 return 
             
@@ -388,6 +424,7 @@ async def models_handler(client, command = None):
                 #If cannot convert input into int back to models menu
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter number messeages per pack!\n")
+                
                 await models_handler(client, command)
                 return 
 
@@ -396,7 +433,7 @@ async def models_handler(client, command = None):
                   "\nStart training model!\n")
             
             model = QA_model_train(train_victim[1:], model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
-            
+
             print(Fore.LIGHTGREEN_EX + 
                   "\nModel has been traind!\n")
 

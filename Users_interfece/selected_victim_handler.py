@@ -21,15 +21,18 @@ def selected_victim_handler(victim, command = None):
             if len(models) == 0:
                 print(Fore.LIGHTRED_EX + 
                       "\nCreate a model first!\n")
+                
                 selected_victim_handler(victim)
                 return
 
             try:
                 model_id = int(input(Fore.LIGHTWHITE_EX + 
                                      "\nSelect model by id: "))
+                
             except (TypeError, ValueError):
                 print(Fore.LIGHTRED_EX + 
                       "\nThis module does not exist!\n") #You should select existable model!
+                
                 selected_victim_handler(victim)
                 return 
             
@@ -37,6 +40,7 @@ def selected_victim_handler(victim, command = None):
             if model_id > len(models):
                 print(Fore.LIGHTRED_EX + 
                       "\nThis module does not exist!\n")
+                
                 selected_victim_handler(victim)
                 return 
             
@@ -55,7 +59,9 @@ def selected_victim_handler(victim, command = None):
             with open(str(victim), 'r') as f:
                 model_name = f.readline()
                 tokinazer_name = f.readline()
-                print(Fore.LIGHTGREEN_EX + "\nModel: " + model_name[5:len(model_name) - 6] + 
+                
+                print(Fore.LIGHTGREEN_EX + 
+                      "\nModel: " + model_name[5:len(model_name) - 6] + 
                       "\nTokinazer: " + tokinazer_name[5:len(tokinazer_name) - 5] + "\n")
 
             #Back to selected_victim_handler with no command

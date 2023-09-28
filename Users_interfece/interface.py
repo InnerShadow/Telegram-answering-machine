@@ -44,15 +44,19 @@ def main_menu():
           "\n6: Help\n")
     
     try:
-        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+        state = int(input(Fore.LIGHTWHITE_EX + 
+                          "\nSelect modul: "))
+
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
               "\nNot a number!\n")
+        
         return main_menu()
     
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + 
               "\nYou should select existable modul!\n")
+        
         return main_menu()
     
     match state:
@@ -86,14 +90,17 @@ def victim_menu():
           "\n6: Help\n")
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
               "\nNot a number!!\n")
+        
         return victim_menu()
     
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + 
               "\nYou should select existable action!\n")
+        
         return victim_menu()
     
     match state:
@@ -123,16 +130,20 @@ def selected_victim_menu():
           "\n2: Display info"
           "\n3: Back to victim menu"
           "\n4: Help\n")
+    
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
               "\nNot a number!\n")
+        
         return victim_menu()
     
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + 
               "\nYou should select existable action!\n")
+        
         return selected_victim_menu()
     
     match state:
@@ -160,14 +171,17 @@ def models_menu():
           "\n6: Help")
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
               "\nNot a number!!\n")
+        
         return victim_menu()
     
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + 
               "\nYou should select existable action!\n")
+        
         return models_menu()
     
     match state:
@@ -201,14 +215,17 @@ def default_answer_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + 
                           "\nSelect modul: "))
+        
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
               "\nNot a number!!\n")
+        
         return victim_menu()
     
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + 
               "\nYou should select existable action!\n")
+        
         return models_menu()
     
     match state:
@@ -229,6 +246,7 @@ def default_answer_menu():
 async def log_in(phone, apiid, apihash):
     print(Fore.YELLOW + 
           "\nTry to connect to telegram: \n")
+    
     #Try to connect to telegram base on prev session
     client = TelegramClient(phone, apiid, apihash)
     await client.connect()
@@ -238,17 +256,22 @@ async def log_in(phone, apiid, apihash):
         if not await client.is_user_authorized():
             print(Fore.YELLOW + 
                   "\nCannot find previous session, enter following data: \n")
+            
             await client.send_code_request(phone)
+
             try :
                 await client.sign_in(GetPhoneNumber(), code = input(Fore.LIGHTWHITE_EX + 
                                                                     '\nEnter the code: \n'))
+                
             except Exception:
                 password = input(Fore.LIGHTWHITE_EX + 
                                  "\nEnter password: \n")
                 client = await client.sign_in(password = password)
+
     except Exception:
         print(Fore.LIGHTRED_EX + 
               "\nCannot login Telegram!\n")
+        
         return None
 
     print(Fore.LIGHTGREEN_EX + 
@@ -277,6 +300,7 @@ def get_all_victiums(Show = True):
     if(Show):
         for i in range(len(victiums)):
             print(Fore.YELLOW + str(i + 1) + " : " + str(victiums[i])[5:len(victiums[i]) - 4])
+
         print("\n")
 
     return victiums
@@ -293,6 +317,7 @@ def get_all_models(Show = True):
     if(Show):
         for i in range(len(models)):
             print(Fore.YELLOW + str(i + 1) + " : " + str(models[i])[5:len(models[i]) - 6])
+
         print("\n")
 
     return models
@@ -304,6 +329,7 @@ def show_ignoring_victims():
     if size == 0:
         print(Fore.LIGHTRED_EX + 
               "\nYou should Select at least one victim!\n")
+        
         raise Exception("Empty do_ignore file")
         
     with open("Data/do_ignore.txt", 'r') as f:

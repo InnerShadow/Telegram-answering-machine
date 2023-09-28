@@ -15,6 +15,7 @@ def default_answer_handler(command = None):
                 default_answer = f.read()
                 print(Fore.LIGHTGREEN_EX + 
                       "\nDefault answer: " + default_answer + "\n")
+                
             default_answer_handler()
             return
         
@@ -28,6 +29,7 @@ def default_answer_handler(command = None):
             if len(default_answer) == 0:
                 print(Fore.LIGHTRED_EX + 
                       "\nYou should enter some default answer!\n")
+                
                 default_answer_handler()
                 return
 

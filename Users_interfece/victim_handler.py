@@ -32,6 +32,7 @@ async def victim_handler(client, command = None, victim = None):
             if len(victims) == 0:
                 print(Fore.LIGHTRED_EX + 
                       "\nCreate a victim first!\n")
+                
                 await victim_handler(client)
                 return 
 
@@ -43,6 +44,7 @@ async def victim_handler(client, command = None, victim = None):
             except (TypeError, ValueError):
                 print(Fore.LIGHTRED_EX + 
                       "\nThis victim does not exist!\n")
+                
                 await victim_handler(client)
                 return 
 
@@ -50,6 +52,7 @@ async def victim_handler(client, command = None, victim = None):
             if victim_id > len(victims):
                 print(Fore.LIGHTRED_EX + 
                       "\nThis victim does not exist!\n")
+                
                 await victim_handler(client)
                 return 
             
@@ -76,6 +79,7 @@ async def victim_handler(client, command = None, victim = None):
                 #If not back to victim_handler
                 print(Fore.LIGHTRED_EX + 
                       "\nError! Correct form: @My_friend\n")
+                
                 await victim_handler(command)
                 return 
 
@@ -94,6 +98,7 @@ async def victim_handler(client, command = None, victim = None):
             if victim == None:
                 print(Fore.LIGHTRED_EX + 
                       "\nPlease, select the victim!\n")
+                
                 await victim_handler(client)
                 return 
             
@@ -108,6 +113,7 @@ async def victim_handler(client, command = None, victim = None):
             if model_name == "" or tokinazer_name == "":
                 print(Fore.LIGHTRED_EX + 
                       "\nError! Set a model to ignore the victim!\n")
+                
                 await victim_handler(client)
                 return 
             
@@ -120,10 +126,12 @@ async def victim_handler(client, command = None, victim = None):
                 with open(model_name[:len(model_name) - 6] + "_model_configuration.txt", 'r') as f:
                     maxWordsCount = int(f.readline())
                     sequences_len = int(f.readline())
+
             except Exception:
                 #If model confuguration empty - back to victim_handler
                 print(Fore.LIGHTRED_EX + 
                       "\nWrog parameters of model training. Retrain the model!\n")
+                
                 await victim_handler(client)
                 return
             
