@@ -3,11 +3,17 @@ from colorama import Fore
 
 #Main menu helper
 def main_helper():
-    print(Fore.YELLOW + "\nThis is main menu. This has 2 main modules:"
+    print(Fore.YELLOW +
+        "\nThis is main menu. This has next options:"
         "\n1) 'Victim menu', that has all manipulations with victims like create new victim or link model with victim and other;"
         "\n2) 'Model menu' that has all manipulations with models like creation, training models and other;"
         "\n3) 'Run igniging' willignoge all victims with their parameters;"
         "\n4) 'Exit' option will close the application.\n")
+    print(Fore.GREEN + "\n How to use it:"
+        "\nTo start ignoring some one you should go Models -> Train new model. After this you will have ready to use model."
+        "\nNext you should go to Victims -> Get new victim -> Selcet victim by id -> Select some one -> Set model by id -> Select some model -> Back to victim menu -> Add to ignoring list."
+        "\nNow that you can add as may victims as you want. After that you should back to main menu and use 'Run ignoring' option. All selected victims will be ignored!"
+        "\nThere are also some other features. You can read about them using 'Help' option in each modul.\n")
     
 
 #Victim menu helper
