@@ -13,6 +13,7 @@ def save_default_answer():
         with open("Data/default_answer.txt", 'w') as f:
             f.write("👀?")
 
+
 #Gove helpul information to user
 def first_launch():
     #Hello message
@@ -41,8 +42,9 @@ def main_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nNot a number!\n")
         return main_menu()
+    
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable modul!\n")
         return main_menu()
@@ -78,8 +80,9 @@ def victim_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nNot a number!!\n")
         return victim_menu()
+    
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return victim_menu()
@@ -113,8 +116,9 @@ def selected_victim_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nNot a number!\n")
         return victim_menu()
+    
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return selected_victim_menu()
@@ -138,14 +142,15 @@ def models_menu():
     print(Fore.GREEN + "\n1: Show all models"
           "\n2: Get model info by id"
           "\n3: Train new model"
-          "\n4: Learn more for model"
+          "\n4: Train more for model"
           "\n5: Back to main menu"
           "\n6: Help")
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nNot a number!!\n")
         return victim_menu()
+    
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return models_menu()
@@ -161,7 +166,7 @@ def models_menu():
             return "Models train"
         
         case 4: 
-            return "Models learn more"
+            return "Models train more"
         
         case 5:
             return "Models back"
@@ -180,8 +185,9 @@ def default_answer_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + "\nNot a number!!\n")
         return victim_menu()
+    
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
         return models_menu()
@@ -238,6 +244,10 @@ def application_api():
 #Shows all victims
 def get_all_victiums(Show = True):
     victiums = glob.glob(os.path.join("Data/", "@*.txt"))
+
+    if len(victiums) == 0:
+        print(Fore.YELLOW + "\nThere is no victims! Create one!\n")
+
     if(Show):
         for i in range(len(victiums)):
             print(Fore.YELLOW + str(i + 1) + " : " + str(victiums[i])[5:len(victiums[i]) - 4])
@@ -249,6 +259,10 @@ def get_all_victiums(Show = True):
 #Show all models
 def get_all_models(Show = True):
     models = glob.glob(os.path.join("Data/", "*.h5"))
+
+    if len(models) == 0:
+        print(Fore.YELLOW + "\nThere is no trained models! Train some one!\n")
+
     if(Show):
         for i in range(len(models)):
             print(Fore.YELLOW + str(i + 1) + " : " + str(models[i])[5:len(models[i]) - 3])
@@ -263,7 +277,7 @@ def show_ignoring_victims():
     if size == 0:
         print(Fore.LIGHTRED_EX + "\nYou should Select at least one victim!\n")
         raise Exception("Empty do_ignore file")
-    
+        
     with open("Data/do_ignore.txt", 'r') as f:
         for line in f:
             name = line.strip()
