@@ -41,4 +41,3 @@ if __name__ == '__main__':
 
 
 #TODO: Make progress bar on training
-#TODO: Try fit again tokinazer
