@@ -29,7 +29,8 @@ async def main_handler(client, command = None):
             try:
                 show_ignoring_victims()
             except Exception:
-                print(Fore.LIGHTRED_EX + "\nThere is no selected vicmims! Select one or more!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nThere is no selected vicmims! Select one or more!\n")
                 await main_handler(client)
                 return
             

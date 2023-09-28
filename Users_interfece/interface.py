@@ -17,14 +17,16 @@ def save_default_answer():
 #Gove helpul information to user
 def first_launch():
     #Hello message
-    print(Fore.GREEN + "\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
+    print(Fore.GREEN + 
+          "\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
           "\nThis mean that neural network that was train base your previous conversation will generate messengers to person you don't want to talk right now!"
           "\nEnjoy the calm!\n")
     
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
         #Firts launch helper
-        print(Fore.YELLOW + "\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
+        print(Fore.YELLOW + 
+              "\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
               "and get api hash & api id to continue using this application.\n")
         
     #Save default answer
@@ -44,11 +46,13 @@ def main_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nNot a number!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nNot a number!\n")
         return main_menu()
     
     if state > 6 or state == 0:
-        print(Fore.LIGHTRED_EX + "\nYou should select existable modul!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nYou should select existable modul!\n")
         return main_menu()
     
     match state:
@@ -73,7 +77,8 @@ def main_menu():
 
 #Victim choise menu
 def victim_menu():
-    print(Fore.GREEN + "\n1: Show all victims." 
+    print(Fore.GREEN + 
+          "\n1: Show all victims." 
           "\n2: Select victim by id."
           "\n3: Get new victim."
           "\n4: Add to ignoring list."
@@ -82,11 +87,13 @@ def victim_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nNot a number!!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nNot a number!!\n")
         return victim_menu()
     
     if state > 6 or state == 0:
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nYou should select existable action!\n")
         return victim_menu()
     
     match state:
@@ -111,18 +118,21 @@ def victim_menu():
 
 #Selected victim choise menu
 def selected_victim_menu():
-    print(Fore.GREEN + "\n1: Set model by id."
+    print(Fore.GREEN + 
+          "\n1: Set model by id."
           "\n2: Display info"
           "\n3: Back to victim menu"
           "\n4: Help\n")
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nNot a number!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nNot a number!\n")
         return victim_menu()
     
     if state > 4 or state == 0:
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nYou should select existable action!\n")
         return selected_victim_menu()
     
     match state:
@@ -141,7 +151,8 @@ def selected_victim_menu():
 
 #Model choise menu
 def models_menu():
-    print(Fore.GREEN + "\n1: Show all models"
+    print(Fore.GREEN + 
+          "\n1: Show all models"
           "\n2: Get model info by id"
           "\n3: Train new model"
           "\n4: Train more for model"
@@ -150,11 +161,13 @@ def models_menu():
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nNot a number!!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nNot a number!!\n")
         return victim_menu()
     
     if state > 6 or state == 0:
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nYou should select existable action!\n")
         return models_menu()
     
     match state:
@@ -179,19 +192,23 @@ def models_menu():
 
 #Default answer choise menu
 def default_answer_menu():
-    print(Fore.GREEN + "\n1: Show default answer"
+    print(Fore.GREEN + 
+          "\n1: Show default answer"
           "\n2: Set default answer"
           "\n3: Back to main menu"
           "\n4: Help.")
     
     try:
-        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+        state = int(input(Fore.LIGHTWHITE_EX + 
+                          "\nSelect modul: "))
     except (TypeError, ValueError):
-        print(Fore.LIGHTRED_EX + "\nNot a number!!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nNot a number!!\n")
         return victim_menu()
     
     if state > 4 or state == 0:
-        print(Fore.LIGHTRED_EX + "\nYou should select existable action!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nYou should select existable action!\n")
         return models_menu()
     
     match state:
@@ -210,7 +227,8 @@ def default_answer_menu():
 
 #Do log in telegram
 async def log_in(phone, apiid, apihash):
-    print(Fore.YELLOW + "\nTry to connect to telegram: \n")
+    print(Fore.YELLOW + 
+          "\nTry to connect to telegram: \n")
     #Try to connect to telegram base on prev session
     client = TelegramClient(phone, apiid, apihash)
     await client.connect()
@@ -218,18 +236,23 @@ async def log_in(phone, apiid, apihash):
     #If cannot connect ask users telegram data 
     try:
         if not await client.is_user_authorized():
-            print(Fore.YELLOW + "\nCannot find previous session, enter following data: \n")
+            print(Fore.YELLOW + 
+                  "\nCannot find previous session, enter following data: \n")
             await client.send_code_request(phone)
             try :
-                await client.sign_in(GetPhoneNumber(), code = input(Fore.LIGHTWHITE_EX + '\nEnter the code: \n'))
+                await client.sign_in(GetPhoneNumber(), code = input(Fore.LIGHTWHITE_EX + 
+                                                                    '\nEnter the code: \n'))
             except Exception:
-                password = input(Fore.LIGHTWHITE_EX + "\nEnter password: \n")
+                password = input(Fore.LIGHTWHITE_EX + 
+                                 "\nEnter password: \n")
                 client = await client.sign_in(password = password)
     except Exception:
-        print(Fore.LIGHTRED_EX + "\nCannot login Telegram!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nCannot login Telegram!\n")
         return None
 
-    print(Fore.LIGHTGREEN_EX + "\nConnected succsessfull!\n")
+    print(Fore.LIGHTGREEN_EX + 
+          "\nConnected succsessfull!\n")
 
     return client
 
@@ -248,7 +271,8 @@ def get_all_victiums(Show = True):
     victiums = glob.glob(os.path.join("Data/", "@*.txt"))
 
     if len(victiums) == 0:
-        print(Fore.YELLOW + "\nThere is no victims! Create one!\n")
+        print(Fore.YELLOW + 
+              "\nThere is no victims! Create one!\n")
 
     if(Show):
         for i in range(len(victiums)):
@@ -263,7 +287,8 @@ def get_all_models(Show = True):
     models = glob.glob(os.path.join("Data/", "*.keras"))
 
     if len(models) == 0:
-        print(Fore.YELLOW + "\nThere is no trained models! Train some one!\n")
+        print(Fore.YELLOW + 
+              "\nThere is no trained models! Train some one!\n")
 
     if(Show):
         for i in range(len(models)):
@@ -277,12 +302,16 @@ def get_all_models(Show = True):
 def show_ignoring_victims():
     size = os.path.getsize("Data/do_ignore.txt")
     if size == 0:
-        print(Fore.LIGHTRED_EX + "\nYou should Select at least one victim!\n")
+        print(Fore.LIGHTRED_EX + 
+              "\nYou should Select at least one victim!\n")
         raise Exception("Empty do_ignore file")
         
     with open("Data/do_ignore.txt", 'r') as f:
         for line in f:
             name = line.strip()
-            print(Fore.YELLOW + name[6:len(name) - 4] + " is ignoring now!")
-        print(Fore.LIGHTGREEN_EX + "\nEnjoy the calm!")
+            print(Fore.YELLOW + name[6:len(name) - 4] + 
+                  " is ignoring now!")
+            
+        print(Fore.LIGHTGREEN_EX + 
+              "\nEnjoy the calm!")
 

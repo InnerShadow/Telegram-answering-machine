@@ -30,27 +30,33 @@ async def victim_handler(client, command = None, victim = None):
 
             #If there is no avaible victims, back to victim menu
             if len(victims) == 0:
-                print(Fore.LIGHTRED_EX + "\nCreate a victim first!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nCreate a victim first!\n")
                 await victim_handler(client)
                 return 
 
             #Try to choose victim 
             try:
-                victim_id = int(input(Fore.LIGHTWHITE_EX + "\nSelect victim by id: "))
+                victim_id = int(input(Fore.LIGHTWHITE_EX + 
+                                      "\nSelect victim by id: "))
+                
             except (TypeError, ValueError):
-                print(Fore.LIGHTRED_EX + "\nThis victim does not exist!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nThis victim does not exist!\n")
                 await victim_handler(client)
                 return 
 
             #Selected index out of range
             if victim_id > len(victims):
-                print(Fore.LIGHTRED_EX + "\nThis victim does not exist!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nThis victim does not exist!\n")
                 await victim_handler(client)
                 return 
             
             #Successful selection
             victim = victims[victim_id - 1]
-            print(Fore.LIGHTGREEN_EX + "\n" + victim[5:len(victim) - 4] + " has been selected as victim!\n")
+            print(Fore.LIGHTGREEN_EX + 
+                  "\n" + victim[5:len(victim) - 4] + " has been selected as victim!\n")
 
             #Go to selected_victim_handler
             selected_victim_handler(victim)
@@ -62,12 +68,14 @@ async def victim_handler(client, command = None, victim = None):
         #Create new victim handler
         case "Victim new":
             #Try to find telegram accaunt
-            victim = input(Fore.LIGHTWHITE_EX + "\nEnter telegram link of victim as @My_friend: ")
+            victim = input(Fore.LIGHTWHITE_EX + 
+                           "\nEnter telegram link of victim as @My_friend: ")
 
             #Victims name should starts with '@'
             if victim[0] != "@":
                 #If not back to victim_handler
-                print(Fore.LIGHTRED_EX + "\nError! Correct form: @My_friend\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nError! Correct form: @My_friend\n")
                 await victim_handler(command)
                 return 
 
@@ -84,7 +92,8 @@ async def victim_handler(client, command = None, victim = None):
         case "Victim ignore":
             #If victim do not selected back to victim_handler
             if victim == None:
-                print(Fore.LIGHTRED_EX + "\nPlease, select the victim!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nPlease, select the victim!\n")
                 await victim_handler(client)
                 return 
             
@@ -97,7 +106,8 @@ async def victim_handler(client, command = None, victim = None):
             
             #Check if victim configuration if empty
             if model_name == "" or tokinazer_name == "":
-                print(Fore.LIGHTRED_EX + "\nError! Set a model to ignore the victim!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nError! Set a model to ignore the victim!\n")
                 await victim_handler(client)
                 return 
             
@@ -112,7 +122,8 @@ async def victim_handler(client, command = None, victim = None):
                     sequences_len = int(f.readline())
             except Exception:
                 #If model confuguration empty - back to victim_handler
-                print(Fore.LIGHTRED_EX + "\nWrog parameters of model training. Retrain the model!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nWrog parameters of model training. Retrain the model!\n")
                 await victim_handler(client)
                 return
             

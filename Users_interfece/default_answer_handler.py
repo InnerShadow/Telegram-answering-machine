@@ -13,18 +13,21 @@ def default_answer_handler(command = None):
         case "Default show":
             with open("Data/default_answer.txt", 'r') as f:
                 default_answer = f.read()
-                print(Fore.LIGHTGREEN_EX + "\nDefault answer: " + default_answer + "\n")
+                print(Fore.LIGHTGREEN_EX + 
+                      "\nDefault answer: " + default_answer + "\n")
             default_answer_handler()
             return
         
         #Set Default answer
         case "Default set":
             #Get default answer from user
-            default_answer = input(Fore.WHITE + "\nEnter default answer: ")
+            default_answer = input(Fore.WHITE + 
+                                   "\nEnter default answer: ")
 
             #If user do nothing
             if len(default_answer) == 0:
-                print(Fore.LIGHTRED_EX + "\nYou should enter some default answer!\n")
+                print(Fore.LIGHTRED_EX + 
+                      "\nYou should enter some default answer!\n")
                 default_answer_handler()
                 return
 

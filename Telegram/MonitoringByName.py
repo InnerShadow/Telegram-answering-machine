@@ -39,5 +39,6 @@ async def MonitoringByName(name, client, model, tokenizer, sequences_len):
     eveny_handler = NewMessage(from_users = [user.id])
     client.add_event_handler(lambda event : message_handler(event, client, model, tokenizer, sequences_len, name), eveny_handler)
 
-    print(Fore.LIGHTGREEN_EX + "\n" + name[6:len(name) - 4] + " has been added to ignoging list!\n")
+    print(Fore.LIGHTGREEN_EX + 
+          "\n" + name[6:len(name) - 4] + " has been added to ignoging list!\n")
 
