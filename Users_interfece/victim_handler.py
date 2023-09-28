@@ -107,7 +107,7 @@ async def victim_handler(client, command = None, victim = None):
 
             #Try to load models configurations
             try:
-                with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
+                with open(model_name[:len(model_name) - 6] + "_model_configuration.txt", 'r') as f:
                     maxWordsCount = int(f.readline())
                     sequences_len = int(f.readline())
             except Exception:

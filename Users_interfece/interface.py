@@ -33,12 +33,14 @@ def first_launch():
 
 #Main choise manu
 def main_menu():
-    print(Fore.GREEN + "\n1: Victims."
+    print(Fore.GREEN + 
+          "\n1: Victims."
           "\n2: Models."
-          "\n3: Run igniging."
+          "\n3: Run ignoring."
           "\n4: Default answer."
           "\n5: Exit"
           "\n6: Help\n")
+    
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
     except (TypeError, ValueError):
@@ -258,14 +260,14 @@ def get_all_victiums(Show = True):
 
 #Show all models
 def get_all_models(Show = True):
-    models = glob.glob(os.path.join("Data/", "*.h5"))
+    models = glob.glob(os.path.join("Data/", "*.keras"))
 
     if len(models) == 0:
         print(Fore.YELLOW + "\nThere is no trained models! Train some one!\n")
 
     if(Show):
         for i in range(len(models)):
-            print(Fore.YELLOW + str(i + 1) + " : " + str(models[i])[5:len(models[i]) - 3])
+            print(Fore.YELLOW + str(i + 1) + " : " + str(models[i])[5:len(models[i]) - 6])
         print("\n")
 
     return models

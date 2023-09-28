@@ -55,7 +55,7 @@ async def models_handler(client, command = None):
 
             #Show hiddent params that store in model configuration
             model_name = models[int(selected_model_id) - 1]
-            with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
+            with open(model_name[:len(model_name) - 6] + "_model_configuration.txt", 'r') as f:
                 maxWordsCount = int(f.readline())
                 sequences_len = int(f.readline())
 
@@ -196,7 +196,7 @@ async def models_handler(client, command = None):
             model = QA_model_train(train_victim[1:], model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
             print(Fore.LIGHTGREEN_EX + "\nModel has been traind!\n")
 
-            #Save model in .h5
+            #Save model in .keras
             save_QA_model(train_victim[1:], model)
 
             #Save model configuration
@@ -239,7 +239,7 @@ async def models_handler(client, command = None):
 
             #Try to open graphics
             try:
-                image = Image.open(model_name[:len(model_name) - 3] + "_graph.png")
+                image = Image.open(model_name[:len(model_name) - 6] + "_graph.png")
                 image.show()
             except Exception:
                 #Just say that graphics do not exist and continue working!
@@ -253,7 +253,7 @@ async def models_handler(client, command = None):
             model.summary()
 
             #Get data from model configuration
-            with open(model_name[:len(model_name) - 3] + "_model_configuration.txt", 'r') as f:
+            with open(model_name[:len(model_name) - 6] + "_model_configuration.txt", 'r') as f:
                 maxWordsCount = int(f.readline())
                 sequences_len = int(f.readline())
 

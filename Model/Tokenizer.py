@@ -30,7 +30,7 @@ def full_path_load_tokinazer(name):
 
 #Get Tokinazer by models name
 def get_Tokinazer_by_model(model_name):
-    return model_name[:len(model_name) - 3] + "_tokenizer.json"
+    return model_name[:len(model_name) - 6] + "_tokenizer.json"
 
 
 #Create & get new tokinazer

@@ -37,10 +37,10 @@ def selected_victim_handler(victim, command = None):
                 return 
             
             #Successful selection 
-            print(Fore.LIGHTGREEN_EX + "\n" + models[model_id - 1][5:len(models[model_id - 1]) - 3] + " model has been selected!\n")
+            print(Fore.LIGHTGREEN_EX + "\n" + models[model_id - 1][5:len(models[model_id - 1]) - 6] + " model has been selected!\n")
             with open(str(victim), 'w') as f:
                 f.write(str(models[int(model_id) - 1]) + "\n")
-                f.write(str(models[int(model_id) - 1])[:len(str(models[int(model_id) - 1])) - 3] + "_tokenizer.json")
+                f.write(str(models[int(model_id) - 1])[:len(str(models[int(model_id) - 1])) - 6] + "_tokenizer.json")
 
             #Back to selected_victim_handler with no command
             selected_victim_handler(victim)
@@ -51,7 +51,7 @@ def selected_victim_handler(victim, command = None):
             with open(str(victim), 'r') as f:
                 model_name = f.readline()
                 tokinazer_name = f.readline()
-                print(Fore.LIGHTGREEN_EX + "\nModel: " + model_name[5:len(model_name) - 4] + "\nTokinazer: " + tokinazer_name[5:len(tokinazer_name) - 5] + "\n")
+                print(Fore.LIGHTGREEN_EX + "\nModel: " + model_name[5:len(model_name) - 6] + "\nTokinazer: " + tokinazer_name[5:len(tokinazer_name) - 5] + "\n")
 
             #Back to selected_victim_handler with no command
             selected_victim_handler(victim)

@@ -41,5 +41,4 @@ if __name__ == '__main__':
 
 
 #TODO: Make progress bar on training
-#TODO: Save in .keras
 #TODO: Try fit again tokinazer

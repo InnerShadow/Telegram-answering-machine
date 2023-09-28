@@ -11,18 +11,18 @@ from keras.preprocessing.sequence import pad_sequences
 
 #Save QA model
 def save_QA_model(name, model):
-    model.save("Data/" + str(name) + ".h5")
+    model.save("Data/" + str(name) + ".keras")
 
 
 #Load QA model by name of victim
 def load_QA_model(name):
-    model = load_model("Data/" + str(name) + ".h5")
+    model = load_model("Data/" + str(name) + ".keras")
     return model
 
 
 #Get QA model by full path
 def full_path_load_QA_model(name):
-    model = load_model(name)
+    model = load_model(name, safe_mode = False)
     return model
 
 
