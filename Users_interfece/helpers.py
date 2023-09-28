@@ -9,16 +9,19 @@ def main_helper():
         "\n2) 'Model menu' that has all manipulations with models like creation, training models and other;"
         "\n3) 'Run igniging' willignoge all victims with their parameters;"
         "\n4) 'Exit' option will close the application.\n")
+    
+    #How to use it message
     print(Fore.GREEN + "\n How to use it:"
-        "\nTo start ignoring some one you should go Models -> Train new model. After this you will have ready to use model."
+        "\nTo start ignoring some one you should go Models -> Train new model -> Set up parametrs on you wish. After this you will have ready to use model."
         "\nNext you should go to Victims -> Get new victim -> Selcet victim by id -> Select some one -> Set model by id -> Select some model -> Back to victim menu -> Add to ignoring list."
-        "\nNow that you can add as may victims as you want. After that you should back to main menu and use 'Run ignoring' option. All selected victims will be ignored!"
+        "\nNow you can add as may victims as you want. After that you should back to main menu and use 'Run ignoring' option. All selected victims will be ignored!"
         "\nThere are also some other features. You can read about them using 'Help' option in each modul.\n")
     
 
 #Victim menu helper
 def victim_helper():
-    print(Fore.YELLOW + "\nThis is victim menu. It contains next options:"
+    print(Fore.YELLOW + 
+        "\nThis is victim menu. It contains next options:"
         "\n1) 'Show all victims' simply shows all possible victims. It includes victims with empty configuration!"
         "\n2) 'Select victim by id' provides you to 'selected victim menu' this option helps you to connect victim and model. "
         "You should select victim before start ignoring it;"
@@ -30,7 +33,8 @@ def victim_helper():
 
 #Selected vicitm menu helper
 def selected_victim_help():
-    print(Fore.YELLOW + "\nThis is 'selected victim' menu. It provides:"
+    print(Fore.YELLOW + 
+          "\nThis is 'selected victim' menu. It provides:"
           "\n1) 'Set model by id' will connect selected victim with model by id. This option will fill victim configuration, that need in ignoring option;"
           "\n2) 'Display info' will display all information about victim and model connection;"
           "\n3) 'Back to victim menu' simply returns you to victim menu.\n")
@@ -38,7 +42,8 @@ def selected_victim_help():
 
 #Models helper 
 def models_helper():
-    print(Fore.YELLOW + "\nThis is models menu. It contains next options:"
+    print(Fore.YELLOW + 
+          "\nThis is models menu. It contains next options:"
           "\n1) 'Show all models' option simply show all trained models;"
           "\n2) 'Get model info by id' option shows all models and provides information about selected model. "
           "It includes model configuration parameters and model architecture;"
@@ -58,7 +63,8 @@ def models_helper():
 
 #Default answer helper
 def default_answer_helper():
-    print(Fore.YELLOW + "\nThis is default answer menu. It contains next options:"
+    print(Fore.YELLOW + 
+          "\nThis is default answer menu. It contains next options:"
           "\n1) 'Show default answer' simply shows pre_loaded default answer. This is answer That will be send if you're vocabulary do not contains words of current message;"
           "\n2) 'Set default answer' allows you to set you're own default answer;"
           "\n3) 'Back to main menu' simply returns you to main menu.\n")
