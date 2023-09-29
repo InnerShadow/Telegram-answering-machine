@@ -20,7 +20,7 @@ async def __main__():
     #Try to log in Telegram
     try :
         client = await log_in(phone, apiid, apihash)
-        
+
     except Exception:
         print(Fore.LIGHTRED_EX + 
               "Cannot log in telegram!")
@@ -41,5 +41,3 @@ async def __main__():
 if __name__ == '__main__':
     asyncio.run(__main__())
 
-
-#TODO: Make progress bar on training

@@ -6,3 +6,4 @@ tensorflow
 tf-nightly
 Pillow
 colorama
+tqdm
