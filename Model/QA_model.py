@@ -145,7 +145,6 @@ def Get_RNN_QA(maxWordsCount = 10000, latent_dim = 200, sequences_len = 20, cont
     #Concatenate attention output with decoder outputs
     decoder_combined_context = Concatenate(axis = -1)([decoder_outputs, attention_layer])
 
-    
     #Get count contest lstm dims
     context_lstm_dims = 0
     if latent_dim < 4:
