@@ -21,6 +21,12 @@ def default_answer_handler(command = None):
         
         #Set Default answer
         case "Default set":
+            #Show current default answer
+            with open("Data/default_answer.txt", 'r') as f:
+                default_answer = f.read()
+                print(Fore.LIGHTGREEN_EX + 
+                      "\nCurrent default answer: " + default_answer + "\n")
+
             #Get default answer from user
             default_answer = input(Fore.WHITE + 
                                    "\nEnter default answer: ")

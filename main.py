@@ -20,10 +20,13 @@ async def __main__():
     #Try to log in Telegram
     try :
         client = await log_in(phone, apiid, apihash)
+        
     except Exception:
-        print(Fore.LIGHTRED_EX + "Cannot log in telegram!")
+        print(Fore.LIGHTRED_EX + 
+              "Cannot log in telegram!")
+        
         return
-    
+        
     if client == None:
         return 
     
