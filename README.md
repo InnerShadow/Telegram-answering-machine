@@ -49,12 +49,6 @@ Follow these steps and secure the credentials needed for a seamless experience w
 - Python 3.x
 - Required Python libraries (install using pip):
 
-To run the application, execute the following command:
-
-```bash
-python3 main.py
-```
-
 ### Installation
 
 1. Clone the repository:
@@ -68,6 +62,12 @@ cd telegram-answering-machine
 
 ```bash
 pip install -r requirements.txt
+```
+
+3. To run the application, execute the following command:
+
+```bash
+python3 main.py
 ```
 
 ## Usage
