@@ -1,5 +1,3 @@
-
-```markdown
 # Telegram Answering Machine
 
 **Welcome to Telegram Answering Machine!**
