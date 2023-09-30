@@ -30,7 +30,7 @@ async def main_handler(client, command = None):
                 show_ignoring_victims()
             except Exception:
                 print(Fore.LIGHTRED_EX + 
-                      "\nThere is no selected vicmims! Select one or more!\n")
+                      "\nEmpty list!\n")
                 await main_handler(client)
                 return
             

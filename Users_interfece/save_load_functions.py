@@ -32,12 +32,13 @@ async def log_in(phone, apiid, apihash):
             await client.send_code_request(phone)
 
             try :
-                await client.sign_in(GetPhoneNumber(), code = input(Fore.LIGHTWHITE_EX + 
-                                                                    '\nEnter the code: \n'))
+                await client.sign_in(GetPhoneNumber(), 
+                                     code = input(Fore.LIGHTWHITE_EX + '\nEnter the code: \n'))
                 
             except Exception:
                 password = input(Fore.LIGHTWHITE_EX + 
                                  "\nEnter password: \n")
+                
                 client = await client.sign_in(password = password)
 
     except Exception:
@@ -84,7 +85,7 @@ def get_all_models(Show = True):
 
     if len(models) == 0:
         print(Fore.YELLOW + 
-              "\nThere is no trained models! Train some one!\n")
+              "\nNo trained models! Train some!\n")
 
     if(Show):
         for i in range(len(models)):
@@ -111,5 +112,5 @@ def show_ignoring_victims():
                   " is ignoring now!")
             
         print(Fore.LIGHTGREEN_EX + 
-              "\nEnjoy the calm!")
+              "\nEnjoy the calmness!")
 

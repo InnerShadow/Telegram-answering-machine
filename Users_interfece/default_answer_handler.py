@@ -34,7 +34,7 @@ def default_answer_handler(command = None):
             #If user do nothing
             if len(default_answer) == 0:
                 print(Fore.LIGHTRED_EX + 
-                      "\nYou should enter some default answer!\n")
+                      "\nInvalid value!\n")
                 
                 default_answer_handler()
                 return

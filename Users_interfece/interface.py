@@ -9,16 +9,16 @@ from Users_interfece.save_load_functions import *
 def first_launch():
     #Hello message
     print(Fore.GREEN + 
-          "\nWelcome to telegram answering machine. This application will helps you to ignore annoying people in telegram."
-          "\nThis mean that neural network that was train base your previous conversation will generate messengers to person you don't want to talk right now!"
-          "\nEnjoy the calm!\n")
+          "\nWelcome to Telegram Answering Machine! This application will help you to ignore people in Telegram!"
+          "\nThis means that neural network will generate messages to people you don't want to talk right now based on your previous conversations!"
+          "\nEnjoy the calmness!\n")
     
     data = glob.glob(os.path.join("Data/", '*.txt'))
     if len(data) == 0:
         #Firts launch helper
         print(Fore.YELLOW + 
               "\nIf it is your first launch you should go to https://my.telegram.org/auth \n"
-              "and get api hash & api id to continue using this application.\n")
+              "and get 'api hash' & 'api id' to continue using this application.\n")
         
     #Save default answer
     save_default_answer()
@@ -27,26 +27,26 @@ def first_launch():
 #Main choise manu
 def main_menu():
     print(Fore.GREEN + 
-          "\n1: Victims."
-          "\n2: Models."
-          "\n3: Run ignoring."
-          "\n4: Default answer."
-          "\n5: Exit"
-          "\n6: Help\n")
+          "\n1: Victims;"
+          "\n2: Models;"
+          "\n3: Run ignoring;"
+          "\n4: Default answer;"
+          "\n5: Exit;"
+          "\n6: Help.\n")
     
     try:
         state = int(input(Fore.LIGHTWHITE_EX + 
-                          "\nSelect modul: "))
+                          "\nSelect module: "))
 
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
-              "\nNot a number!\n")
+              "\nInvalid value!\n")
         
         return main_menu()
     
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + 
-              "\nYou should select existable modul!\n")
+              "\nThis module does not exist!\n")
         
         return main_menu()
     
@@ -73,24 +73,24 @@ def main_menu():
 #Victim choise menu
 def victim_menu():
     print(Fore.GREEN + 
-          "\n1: Show all victims." 
-          "\n2: Select victim by id."
-          "\n3: Get new victim."
-          "\n4: Add to ignoring list."
-          "\n5: Back to main menu"
-          "\n6: Help\n")
+          "\n1: Show all victims;" 
+          "\n2: Select victim by id;"
+          "\n3: Get new victim;"
+          "\n4: Add to ignoring list;"
+          "\n5: Back to MAIN MENU;"
+          "\n6: Help.\n")
     try:
-        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
+        state = int(input(Fore.LIGHTWHITE_EX + "\nSelect module: "))
 
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
-              "\nNot a number!!\n")
+              "\nInvalid value!\n")
         
         return victim_menu()
     
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + 
-              "\nYou should select existable action!\n")
+              "\nThis action does not exist!\n")
         
         return victim_menu()
     
@@ -117,23 +117,23 @@ def victim_menu():
 #Selected victim choise menu
 def selected_victim_menu():
     print(Fore.GREEN + 
-          "\n1: Set model by id."
-          "\n2: Display info"
-          "\n3: Back to victim menu"
-          "\n4: Help\n")
+          "\n1: Set model by id;"
+          "\n2: Display info;"
+          "\n3: Back to VICTIM MENU;"
+          "\n4: Help.\n")
     
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
 
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
-              "\nNot a number!\n")
+              "\nInvalid value!\n")
         
         return victim_menu()
     
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + 
-              "\nYou should select existable action!\n")
+              "\nThis action does not exist!\n")
         
         return selected_victim_menu()
     
@@ -154,24 +154,24 @@ def selected_victim_menu():
 #Model choise menu
 def models_menu():
     print(Fore.GREEN + 
-          "\n1: Show all models"
-          "\n2: Get model info by id"
-          "\n3: Train new model"
-          "\n4: Train more for model"
-          "\n5: Back to main menu"
-          "\n6: Help")
+          "\n1: Show all models;"
+          "\n2: Get model info by id;"
+          "\n3: Train new model;"
+          "\n4: Train more for model;"
+          "\n5: Back to main menu;"
+          "\n6: Help.")
     try:
         state = int(input(Fore.LIGHTWHITE_EX + "\nSelect modul: "))
 
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
-              "\nNot a number!!\n")
+              "\nInvalid value!\n")
         
         return victim_menu()
     
     if state > 6 or state == 0:
         print(Fore.LIGHTRED_EX + 
-              "\nYou should select existable action!\n")
+              "\nThis action does not exist!\n")
         
         return models_menu()
     
@@ -198,9 +198,9 @@ def models_menu():
 #Default answer choise menu
 def default_answer_menu():
     print(Fore.GREEN + 
-          "\n1: Show default answer"
-          "\n2: Set default answer"
-          "\n3: Back to main menu"
+          "\n1: Show default answer;"
+          "\n2: Set default answer;"
+          "\n3: Back to main menu;"
           "\n4: Help.")
     
     try:
@@ -209,13 +209,13 @@ def default_answer_menu():
         
     except (TypeError, ValueError):
         print(Fore.LIGHTRED_EX + 
-              "\nNot a number!!\n")
+              "\nInvalid value!\n")
         
         return victim_menu()
     
     if state > 4 or state == 0:
         print(Fore.LIGHTRED_EX + 
-              "\nYou should select existable action!\n")
+              "\nThis action does not exist!\n")
         
         return models_menu()
     
