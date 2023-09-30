@@ -89,7 +89,7 @@ async def models_handler(client, command = None):
             
             #Get number of messages to upload from conversation
             num_messages = input(Fore.LIGHTWHITE_EX + 
-                                "\nEnter number of messages that model will use as train data \n"
+                                "\nEnter number of messages that model will use as train data "
                                 "or enter 'None' to use all conversation as training data: ")
             
             if num_messages == "None":
@@ -152,7 +152,8 @@ async def models_handler(client, command = None):
             #Get 'lower' param
             try:
                 lower = int(input(Fore.LIGHTWHITE_EX + 
-                                  "\nEnter 1 if you want only low register messages, 0 for high & low register messages: ")) # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
+                                  "\nEnter 1 if you want only low register messages, "
+                                    "0 for high & low register messages: ")) # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
                 
                 if lower == 1:
                     lower = True
@@ -247,7 +248,8 @@ async def models_handler(client, command = None):
             print(Fore.LIGHTGREEN_EX + 
                   "\nStart training model!\n")
             
-            model = QA_model_train(train_victim[1:], model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
+            model = QA_model_train(train_victim[1:], model, X, Y, tokenizer,
+                                    batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
 
             print(Fore.LIGHTGREEN_EX + 
                   "\nModel has been traind!\n")
@@ -303,7 +305,9 @@ async def models_handler(client, command = None):
                   "\nPrevious learing resualt at the screen!\n")
 
             #Upload model & tokinazer
-            print(Fore.LIGHTGREEN_EX + "\n" + str(models[int(model_id) - 1]) + " has been selected!\n")
+            print(Fore.LIGHTGREEN_EX + 
+                  "\n" + str(models[int(model_id) - 1]) + " has been selected!\n")
+            
             model = full_path_load_QA_model(models[int(model_id) - 1])
             tokenizer = full_path_load_tokinazer(get_Tokinazer_by_model(models[int(model_id) - 1]))
 
@@ -331,7 +335,7 @@ async def models_handler(client, command = None):
 
             #Choose number of messeges
             num_messages = input(Fore.LIGHTWHITE_EX + 
-                                "\nEnter number of messages that model will use as train data \n"
+                                "\nEnter number of messages that model will use as train data "
                                 "or enter 'None' to use all conversation as training data: ")
             
             if num_messages == "None":
@@ -420,7 +424,8 @@ async def models_handler(client, command = None):
             print(Fore.LIGHTGREEN_EX + 
                   "\nStart training model!\n")
             
-            model = QA_model_train(train_victim[1:], model, X, Y, tokenizer, batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
+            model = QA_model_train(train_victim[1:], model, X, Y, tokenizer,
+                                    batch_size, epochs, sequences_len, maxWordsCount, messages_per_pack)
 
             print(Fore.LIGHTGREEN_EX + 
                   "\nModel has been traind!\n")
