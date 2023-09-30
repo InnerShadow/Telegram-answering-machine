@@ -9,7 +9,7 @@ from Users_interfece.save_load_functions import *
 def first_launch():
     #Hello message
     print(Fore.GREEN + 
-          "\nWelcome to Telegram Answering Machine! This application will help you to ignore people in Telegram!"
+          "\nWelcome to Telegram Answering Machine! This application will help you to ignore annoying people in Telegram!"
           "\nThis means that neural network will generate messages to people you don't want to talk right now based on your previous conversations!"
           "\nEnjoy the calmness!\n")
     

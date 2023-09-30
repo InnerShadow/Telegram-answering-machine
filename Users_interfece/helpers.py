@@ -13,7 +13,7 @@ def main_helper():
     
     #How to use it message
     print(Fore.GREEN + 
-        "\nINSTRUCTION FOR USE:"
+        "\HOW TO USE IT:"
         "\nTo start ignoring someone you should go Models -> Train new mode, than set up parametrs. After these steps the model will be ready for expluatation;"
         "\nNext step is creating a victim and connecting a model to it." 
         "Go Victim menu -> Get new victim -> Selcet victim by id -> Select a victim -> Set model by id -> Select a model -> Back to victim menu -> Add to ignoring list;"
