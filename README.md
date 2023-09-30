@@ -53,6 +53,12 @@ Follow these steps and secure the credentials needed for a seamless experience w
 pip install -r requirements.txt
 ```
 
+To run the application, execute the following command:
+
+```bash
+python3 main.py
+```
+
 ### Installation
 
 1. Clone the repository:
@@ -137,4 +143,3 @@ Users can connect distinct models to each victim, providing the ability to utili
 #### Asynchronous Python
 
 The Telegram Answering Machine utilizes asynchronous programming in Python to handle concurrent operations efficiently.  Key components and functionalities within the application are designed to leverage the asynchronous nature of Python, enabling smooth execution and effective handling of tasks such as message monitoring victims.
-
