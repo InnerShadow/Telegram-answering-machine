@@ -49,10 +49,6 @@ Follow these steps and secure the credentials needed for a seamless experience w
 - Python 3.x
 - Required Python libraries (install using pip):
 
-```bash
-pip install -r requirements.txt
-```
-
 To run the application, execute the following command:
 
 ```bash
