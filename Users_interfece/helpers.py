@@ -59,7 +59,7 @@ def models_helper():
           "\n     3.6) Batch size - 8 - 32 [This parameter sets after what number of messages model will try to correct parameters. Bigger batch size = faster learning = more vague answers];"
           "\n     3.7) Number messages per pack - 64 - 256 [Basicly algorith need many RAM to process data. This parameter will cut conversation by parts and train neural network step by step to avoid lack of memory];"
           "\n     3.8) Sequences length - 20 - 50 [This parameter will cut long messages and fill with zeros short one. This need to standardize neural network neurons];"
-          "\n4)'Train more for model' will train more for existtable model. It can helps for models that train well, but you set not enough epochs. Also you can try to learn more with other person conversation;"
+          "\n4)'Train more for model' will train more for existtable model. It can helps for models that train well, but you set not enough epochs. Also you can try to train more with other person conversation;"
           "\n5)'Back to main menu' simply returns you to main menu.\n")
 
 

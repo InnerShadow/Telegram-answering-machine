@@ -111,7 +111,6 @@ def QA_model_train(name, model, X, Y, tokenizer, batch_size, epochs, sequences_l
     #Show & save graphs
     plt.plot(global_loss)
     plt.show()
-    plt.savefig("Data/" + name + "_graph.png")
 
     return model
 

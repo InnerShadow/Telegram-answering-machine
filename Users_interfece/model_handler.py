@@ -1,5 +1,3 @@
-from PIL import Image
-
 from colorama import Fore
 
 from Model.QA_model import *
@@ -303,16 +301,6 @@ async def models_handler(client, command = None):
             #Show previous model traing graphics
             print(Fore.YELLOW + 
                   "\nPrevious learing resualt at the screen!\n")
-
-            #Try to open graphics
-            try:
-                image = Image.open(model_name[:len(model_name) - 6] + "_graph.png")
-                image.show()
-
-            except Exception:
-                #Just say that graphics do not exist and continue working!
-                print(Fore.LIGHTRED_EX + 
-                      "\nFor some reason cannot open graphics!\n")
 
             #Upload model & tokinazer
             print(Fore.LIGHTGREEN_EX + "\n" + str(models[int(model_id) - 1]) + " has been selected!\n")

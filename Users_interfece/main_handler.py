@@ -52,6 +52,8 @@ async def main_handler(client, command = None):
 
         #Leave the application 
         case "Exit":
-            print(Fore.YELLOW + "\nHave a good day!\n")
+            print(Fore.YELLOW + 
+                  "\nHave a good day!\n")
+            
             exit()
 

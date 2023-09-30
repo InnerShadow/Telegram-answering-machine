@@ -135,7 +135,7 @@ async def victim_handler(client, command = None, victim = None):
                 await victim_handler(client)
                 return
             
-            #Get new Thread to ignore person
+            #Add victim cinfiguration to ignoting list
             await MonitoringByName(victim, client, model, tokenizer, sequences_len)
 
             #Save ignoring persion in do_ignore .txt file
@@ -157,3 +157,4 @@ async def victim_handler(client, command = None, victim = None):
             return
 
     return 
+
