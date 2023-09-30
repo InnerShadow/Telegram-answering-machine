@@ -4,7 +4,7 @@
 
 Get ready to embrace tranquility with my powerful application!
 
-🤫 Let the neural network work its magic, generating responses to those you'd rather avoid on Telegram. Your peace, our priority!
+🤫 Let the neural network work its magic, generating responses to those you'd rather avoid on Telegram. Your peace, my priority!
 
 💬 _Shhh..._ Enjoy the serene quietude and let the machine handle the chatter! 💤
 
