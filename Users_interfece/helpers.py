@@ -15,7 +15,8 @@ def main_helper():
     print(Fore.GREEN + 
         "\nINSTRUCTION FOR USE:"
         "\nTo start ignoring someone you should go Models -> Train new mode, than set up parametrs. After these steps the model will be ready for expluatation;"
-        "\nNext step is creating a victim and connecting a model to it. Go Victim menu -> Get new victim -> Selcet victim by id -> Select a victim -> Set model by id -> Select a model -> Back to victim menu -> Add to ignoring list;"
+        "\nNext step is creating a victim and connecting a model to it." 
+        "Go Victim menu -> Get new victim -> Selcet victim by id -> Select a victim -> Set model by id -> Select a model -> Back to victim menu -> Add to ignoring list;"
         "\nThan you can add as may victims as you want. After that go back to 'MAIN MENU' and choose 'Run ignoring' option. All selected victims will be ignored;"
         "\nThere are also some other features. You can learn more about them using 'help' option in each modul.\n")
     
@@ -58,9 +59,10 @@ def models_helper():
           "\n     3.5) Number of hidden LSTM layer neurons - 512 or more [This parameter determs neural network complexity. (More neurons != more flexible neural network)];"
           "\n     3.6) Number of epochs - 200 or more [This parameter determs a number of times that neural network will pass through your conversation];"
           "\n     3.7) Batch size - 8 - 32 [Bigger batch size = faster learning = more vague answers];"
-          "\n     3.8) Number of messages per pack - 64 - 256 [Algorithm needs many RAM to process data. This option will cut the conversation into pieces and train the neural network step by step to avoid running out of memory];"
+          "\n     3.8) Number of messages per pack - 64 - 256 [Algorithm needs many RAM to process data."
+          "       This option will cut the conversation into pieces and train the neural network step by step to avoid running out of memory];"
           "\n     3.9) Sequence length - 20 - 50 [This parameter defines the length to which all messages will be shortened/expanded during processing];"
-          "\n4)'Train model further' will train existting model further. It can help the trained model to develop. (You can use different training data to train the model);" #AAAAAAAAAAAAAAAAAAAAAA
+          "\n4)'Train model further' will train existting model further. It can help the trained model to develop. (You can use different training data to train the model);"
           "\n5)'Back to MAIN MENU' redirects you to 'MAIN MENU'.\n")
 
 
