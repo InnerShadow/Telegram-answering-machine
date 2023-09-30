@@ -47,7 +47,7 @@ Follow these steps and secure the credentials needed for a seamless experience w
 ### Prerequisites
 
 - Python 3.x
-- Required Python libraries (install using pip):
+- Required Python libraries (install using pip)
 
 ### Installation
 
